@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JARVIS — Monsef OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #e8e4db; --surface: #f0ece3; --card: #f5f2ec; --card-hover: #faf8f4; --white: #fdfcf9;
+  --border: rgba(80,65,40,0.1); --text: #1a1814; --muted: #8a8278; --faint: #b8b2a8;
+  --accent: #2d6a4a; --accent-bg: #e8f2ec;
+  --yellow: #d4a017; --yellow-bg: #fdf5dc;
+  --font: 'Geist', -apple-system, sans-serif; --mono: 'Geist Mono', monospace;
+  --r-pill: 100px; --r-card: 20px; --r-sm: 12px;
+}
+body { background:var(--bg); font-family:var(--font); color:var(--text); height:100vh; overflow:hidden; display:flex; flex-direction:column; }
+
+/* NAV */
+.topnav { display:flex; align-items:center; padding:14px 28px; gap:8px; background:var(--bg); }
+.app-name { font-size:18px; font-weight:600; color:var(--text); margin-right:10px; letter-spacing:-0.03em; }
+.nav-pills { display:flex; gap:5px; flex:1; }
+.pill { display:flex; align-items:center; gap:7px; padding:8px 18px; border-radius:var(--r-pill); font-size:13px; font-weight:400; color:var(--muted); cursor:pointer; transition:all 0.18s; background:transparent; border:none; font-family:var(--font); }
+.pill:hover { background:var(--card); color:var(--text); }
+.pill.active { background:var(--white); color:var(--text); font-weight:500; box-shadow:0 1px 4px rgba(0,0,0,0.07); }
+.topnav-right { display:flex; align-items:center; gap:10px; margin-left:auto; }
+.date-chip { padding:7px 14px; border-radius:var(--r-pill); background:var(--card); font-size:11px; font-family:var(--mono); color:var(--muted); }
+.avatar { width:34px; height:34px; border-radius:50%; background:var(--text); color:var(--card); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:500; cursor:pointer; }
+.fs-btn { width:34px; height:34px; border-radius:10px; background:var(--card); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:14px; color:var(--muted); transition:all 0.15s; }
+.fs-btn:hover { background:var(--white); color:var(--text); }
+
+/* SUBNAV */
+.subnav { display:flex; align-items:center; gap:4px; padding:0 28px 14px; background:var(--bg); }
+.stab { padding:6px 15px; border-radius:var(--r-pill); font-size:12px; color:var(--muted); cursor:pointer; transition:all 0.15s; background:transparent; border:none; font-family:var(--font); }
+.stab:hover { background:var(--card); color:var(--text); }
+.stab.active { background:var(--card); color:var(--text); font-weight:500; }
+.sdiv { width:1px; height:14px; background:var(--border); margin:0 3px; }
+
+/* BODY */
+.body { flex:1; overflow-y:auto; padding:0 28px 36px; scrollbar-width:thin; scrollbar-color:var(--border) transparent; }
+.page { display:none; }
+.page.active { display:block; }
+.card { background:var(--card); border-radius:var(--r-card); padding:22px; }
+.card-w { background:var(--white); border-radius:var(--r-card); padding:22px; }
+
+/* DASHBOARD */
+.hero { margin-bottom:20px; }
+.hero-lbl { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--faint); font-family:var(--mono); margin-bottom:4px; }
+.hero-name { font-size:30px; font-weight:300; letter-spacing:-0.04em; line-height:1.1; }
+.hero-name strong { font-weight:600; }
+.hero-sub { font-size:13px; color:var(--muted); margin-top:5px; }
+.metrics { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:16px; }
+.m-card { background:var(--card); border-radius:var(--r-card); padding:16px 18px; }
+.m-lbl { font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--faint); font-family:var(--mono); margin-bottom:6px; }
+.m-val { font-size:26px; font-weight:500; letter-spacing:-0.03em; line-height:1; }
+.m-val .u { font-size:13px; font-weight:400; color:var(--muted); margin-left:2px; }
+.m-sub { font-size:11px; color:var(--muted); margin-top:4px; }
+.phase-row { display:flex; align-items:center; gap:16px; background:var(--card); border-radius:var(--r-card); padding:16px 22px; margin-bottom:16px; }
+.pdot { width:11px; height:11px; border-radius:50%; background:var(--yellow); flex-shrink:0; }
+.p-info { flex:1; }
+.p-tag { display:inline-block; padding:3px 10px; border-radius:var(--r-pill); font-size:10px; font-family:var(--mono); background:var(--yellow-bg); color:#7a5c00; margin-bottom:3px; }
+.p-title { font-size:14px; font-weight:500; }
+.p-dates { font-size:11px; color:var(--muted); margin-top:1px; }
+.p-pct { font-size:28px; font-weight:500; font-family:var(--mono); letter-spacing:-0.04em; }
+.p-bar { width:120px; height:4px; background:var(--border); border-radius:2px; overflow:hidden; margin-top:5px; }
+.p-fill { height:100%; background:var(--yellow); border-radius:2px; }
+.tri { display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:14px; }
+.p-lbl { font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--faint); font-family:var(--mono); margin-bottom:14px; }
+.h-mini { display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border); }
+.h-mini:last-child { border-bottom:none; }
+.h-n { font-size:13px; }
+.h-s { font-size:10px; color:var(--muted); font-family:var(--mono); margin-top:1px; }
+.dots { display:flex; gap:4px; }
+.dot { width:10px; height:10px; border-radius:50%; background:var(--bg); border:1.5px solid var(--border); cursor:pointer; transition:all 0.12s; }
+.dot.on { background:var(--text); border-color:var(--text); }
+.okr-m { margin-bottom:12px; }
+.okr-m:last-child { margin-bottom:0; }
+.okr-mh { display:flex; justify-content:space-between; margin-bottom:5px; }
+.okr-mn { font-size:12px; color:var(--text); flex:1; padding-right:8px; line-height:1.4; }
+.okr-mp { font-size:12px; font-family:var(--mono); color:var(--muted); }
+.bar { height:4px; background:var(--bg); border-radius:2px; overflow:hidden; }
+.bf { height:100%; background:var(--text); border-radius:2px; transition:width 0.5s; }
+.note-box { background:var(--yellow-bg); border-radius:12px; padding:14px 16px; font-size:13px; line-height:1.65; font-style:italic; }
+.note-d { font-size:10px; font-family:var(--mono); color:var(--muted); font-style:normal; margin-bottom:6px; }
+
+/* HABITS */
+.hdr-row { display:flex; align-items:center; gap:14px; padding:0 0 8px; border-bottom:1px solid var(--border); }
+.day-lbls { display:flex; gap:4px; }
+.dlbl { width:32px; text-align:center; font-size:10px; font-family:var(--mono); color:var(--faint); text-transform:uppercase; }
+.h-row { display:flex; align-items:center; gap:14px; padding:11px 0; border-bottom:1px solid var(--border); }
+.h-row:last-child { border-bottom:none; }
+.h-ico { width:36px; height:36px; border-radius:10px; background:var(--bg); display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0; }
+.h-col { flex:1; }
+.h-nm { font-size:14px; font-weight:500; }
+.h-dc { font-size:11px; color:var(--muted); margin-top:1px; }
+.dcells { display:flex; gap:4px; }
+.dc { width:32px; height:32px; border-radius:8px; background:var(--bg); border:1.5px solid var(--border); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:12px; color:transparent; transition:all 0.12s; }
+.dc:hover { border-color:var(--muted); }
+.dc.on { background:var(--text); color:var(--white); border-color:var(--text); }
+.dc.today { border-color:var(--accent); border-width:2px; }
+.streak { padding:4px 10px; border-radius:var(--r-pill); font-size:11px; font-family:var(--mono); background:var(--bg); color:var(--muted); white-space:nowrap; }
+
+/* OKRs */
+.okr-blk { background:var(--card); border-radius:var(--r-card); padding:22px; margin-bottom:12px; }
+.okr-blk:last-child { margin-bottom:0; }
+.okr-top { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:12px; }
+.okr-obj { font-size:16px; font-weight:500; letter-spacing:-0.02em; line-height:1.3; flex:1; }
+.okr-pct { font-size:30px; font-weight:500; font-family:var(--mono); letter-spacing:-0.04em; flex-shrink:0; }
+.okr-bar { height:5px; background:var(--bg); border-radius:3px; overflow:hidden; margin-bottom:16px; }
+.okr-bf { height:100%; background:var(--text); border-radius:3px; transition:width 0.5s; }
+.kr { display:flex; align-items:center; gap:12px; padding:9px 0; border-bottom:1px solid var(--border); cursor:pointer; }
+.kr:last-child { border-bottom:none; }
+.kr-box { width:18px; height:18px; border-radius:5px; border:1.5px solid var(--border); flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:all 0.12s; }
+.kr.done .kr-box { background:var(--text); border-color:var(--text); }
+.kr.done .kr-box::after { content:'✓'; font-size:10px; color:var(--white); }
+.kr-t { font-size:13px; flex:1; }
+.kr.done .kr-t { text-decoration:line-through; color:var(--muted); }
+.kr-tag { padding:3px 9px; border-radius:var(--r-pill); font-size:10px; font-family:var(--mono); background:var(--bg); color:var(--muted); }
+
+/* ─── MIND DUMP ─── */
+.mind-chips { display:flex; gap:7px; flex-wrap:wrap; margin-bottom:16px; }
+.chip { padding:8px 18px; border-radius:var(--r-pill); font-size:12px; background:var(--card); color:var(--muted); cursor:pointer; transition:all 0.15s; border:none; font-family:var(--font); }
+.chip:hover { background:var(--white); color:var(--text); box-shadow:0 1px 4px rgba(0,0,0,0.07); }
+
+.mind-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; height:calc(100vh - 300px); }
+
+.chat-crd { background:var(--card); border-radius:var(--r-card); display:flex; flex-direction:column; overflow:hidden; }
+.chat-hd { display:flex; align-items:center; gap:8px; padding:14px 18px; border-bottom:1px solid var(--border); }
+.chat-dot { width:8px; height:8px; border-radius:50%; background:var(--accent); }
+.chat-lbl { font-size:12px; font-weight:500; }
+.chat-msgs { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:10px; scrollbar-width:thin; scrollbar-color:var(--border) transparent; }
+.cmsg { max-width:90%; padding:10px 14px; border-radius:14px; font-size:13px; line-height:1.6; animation:fu 0.2s ease; }
+@keyframes fu { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:none} }
+.cmsg.user { background:var(--text); color:var(--white); align-self:flex-end; border-bottom-right-radius:4px; }
+.cmsg.ai { background:var(--white); color:var(--text); align-self:flex-start; border-bottom-left-radius:4px; }
+.cmsg.typing { background:var(--white); color:var(--faint); align-self:flex-start; font-style:italic; font-size:12px; }
+.chat-ft { padding:12px; border-top:1px solid var(--border); display:flex; gap:8px; }
+.chat-in { flex:1; background:var(--white); border:none; border-radius:var(--r-pill); padding:10px 16px; font-family:var(--font); font-size:13px; color:var(--text); outline:none; resize:none; min-height:40px; max-height:80px; }
+.chat-in::placeholder { color:var(--faint); }
+.chat-send { width:40px; height:40px; border-radius:50%; background:var(--text); border:none; color:var(--white); font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:opacity 0.15s; }
+.chat-send:hover { opacity:0.8; }
+
+.write-crd { background:var(--card); border-radius:var(--r-card); display:flex; flex-direction:column; overflow:hidden; }
+.write-hd { padding:14px 18px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+.write-lbl { font-size:12px; font-weight:500; }
+.wc { font-size:11px; font-family:var(--mono); color:var(--faint); }
+.write-ta { flex:1; border:none; background:transparent; padding:18px; font-family:var(--font); font-size:14px; color:var(--text); resize:none; outline:none; line-height:1.8; min-height:0; }
+.write-ta::placeholder { color:var(--faint); font-style:italic; }
+.write-ft { padding:10px 18px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; gap:8px; }
+
+/* MOOD SELECTOR */
+.mood-row { display:flex; align-items:center; gap:8px; }
+.mood-lbl { font-size:11px; color:var(--muted); font-family:var(--mono); }
+.mood-btns { display:flex; gap:4px; }
+.mood-btn { width:28px; height:28px; border-radius:8px; border:1.5px solid var(--border); background:var(--bg); font-size:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.12s; color:var(--muted); font-family:var(--mono); font-weight:500; }
+.mood-btn:hover { border-color:var(--muted); background:var(--white); }
+.mood-btn.sel { background:var(--text); color:var(--white); border-color:var(--text); }
+
+/* ─── HISTORY PAGE ─── */
+.hist-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.hist-title { font-size:20px; font-weight:500; letter-spacing:-0.02em; }
+.hist-sub { font-size:13px; color:var(--muted); margin-top:2px; }
+
+/* MOOD STRIP */
+.mood-strip { display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap; }
+.mood-day-pill { display:flex; align-items:center; gap:6px; background:var(--card); border-radius:var(--r-pill); padding:6px 14px; font-size:12px; }
+.mood-day-label { color:var(--muted); font-family:var(--mono); font-size:10px; }
+.mood-day-emoji { font-size:16px; }
+.mood-day-score { font-family:var(--mono); font-size:12px; color:var(--text); font-weight:500; }
+
+/* BILAN CARD */
+.bilan-card { background:var(--yellow-bg); border-radius:var(--r-card); padding:20px 22px; margin-bottom:20px; border-left:3px solid var(--yellow); }
+.bilan-lbl { font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--yellow); font-family:var(--mono); margin-bottom:8px; }
+.bilan-text { font-size:14px; line-height:1.75; color:var(--text); }
+.bilan-loading { color:var(--muted); font-style:italic; font-size:13px; }
+
+/* ENTRY CARD */
+.entry-card { background:var(--card); border-radius:var(--r-card); padding:20px; margin-bottom:12px; }
+.entry-card:last-child { margin-bottom:0; }
+.entry-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:12px; gap:12px; }
+.entry-date-big { font-size:14px; font-weight:500; color:var(--text); }
+.entry-date-sub { font-size:11px; color:var(--muted); font-family:var(--mono); margin-top:1px; }
+.entry-mood-badge { display:flex; align-items:center; gap:6px; background:var(--white); border-radius:var(--r-pill); padding:6px 14px; flex-shrink:0; }
+.entry-mood-emoji { font-size:18px; }
+.entry-mood-score { font-family:var(--mono); font-size:13px; font-weight:500; color:var(--text); }
+.entry-body { font-size:13px; line-height:1.75; color:var(--text); margin-bottom:14px; white-space:pre-wrap; }
+.entry-summary { background:var(--white); border-radius:var(--r-sm); padding:12px 16px; font-size:12px; line-height:1.65; color:var(--muted); border-left:2px solid var(--accent); font-style:italic; }
+.entry-summary-lbl { font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); font-family:var(--mono); margin-bottom:5px; font-style:normal; }
+
+/* BTN */
+.btn { padding:8px 18px; border-radius:var(--r-pill); font-size:13px; font-family:var(--font); cursor:pointer; transition:all 0.15s; border:none; }
+.btn-g { background:transparent; color:var(--muted); border:1.5px solid var(--border); }
+.btn-g:hover { background:var(--bg); color:var(--text); }
+.btn-s { background:var(--text); color:var(--card); }
+.btn-s:hover { opacity:0.85; }
+
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+
+/* CALENDAR */
+.cal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.cal-title { font-size:20px; font-weight:500; letter-spacing:-0.02em; }
+.cal-nav { display:flex; gap:6px; align-items:center; }
+.cal-nav-btn { width:32px; height:32px; border-radius:50%; border:none; background:var(--card); cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; color:var(--muted); transition:all 0.15s; }
+.cal-nav-btn:hover { background:var(--white); color:var(--text); }
+.cal-month-lbl { font-size:14px; font-weight:500; min-width:130px; text-align:center; }
+
+.gcal-status { display:flex; align-items:center; gap:10px; background:var(--card); border-radius:var(--r-pill); padding:8px 18px; margin-bottom:16px; width:fit-content; }
+.gcal-dot { width:8px; height:8px; border-radius:50%; background:var(--faint); }
+.gcal-dot.connected { background:#4caf50; }
+.gcal-lbl { font-size:12px; color:var(--muted); font-family:var(--mono); }
+
+.cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; }
+.cal-day-lbl { text-align:center; font-size:10px; font-family:var(--mono); color:var(--faint); text-transform:uppercase; padding:6px 0; }
+.cal-cell { min-height:80px; background:var(--card); border-radius:10px; padding:8px; cursor:pointer; transition:background 0.12s; position:relative; }
+.cal-cell:hover { background:var(--card-hover); }
+.cal-cell.today { background:var(--white); border:2px solid var(--accent); }
+.cal-cell.other-month { opacity:0.4; }
+.cal-date { font-size:12px; font-family:var(--mono); font-weight:500; color:var(--text); margin-bottom:4px; }
+.cal-cell.today .cal-date { color:var(--accent); }
+.cal-events { display:flex; flex-direction:column; gap:2px; }
+.cal-ev { font-size:10px; padding:2px 6px; border-radius:4px; background:var(--accent-bg); color:var(--accent); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.cal-ev.gcal { background:#e8f0fe; color:#1a56db; }
+
+.cal-add-row { display:flex; gap:10px; margin-top:16px; align-items:center; }
+.cal-input { flex:1; background:var(--white); border:1.5px solid var(--border); border-radius:var(--r-pill); padding:10px 18px; font-family:var(--font); font-size:13px; color:var(--text); outline:none; transition:border-color 0.15s; }
+.cal-input:focus { border-color:var(--accent); }
+.cal-input::placeholder { color:var(--faint); }
+
+.upcoming { margin-top:20px; }
+.upcoming-lbl { font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--faint); font-family:var(--mono); margin-bottom:12px; }
+.ev-item { display:flex; align-items:center; gap:14px; padding:12px 16px; background:var(--card); border-radius:12px; margin-bottom:8px; }
+.ev-dot { width:10px; height:10px; border-radius:50%; background:var(--accent); flex-shrink:0; }
+.ev-dot.gcal { background:#1a56db; }
+.ev-info { flex:1; }
+.ev-name { font-size:13px; font-weight:500; color:var(--text); }
+.ev-time { font-size:11px; color:var(--muted); font-family:var(--mono); margin-top:2px; }
+.ev-del { width:26px; height:26px; border-radius:50%; border:none; background:transparent; cursor:pointer; color:var(--faint); font-size:14px; display:flex; align-items:center; justify-content:center; transition:all 0.12s; }
+.ev-del:hover { background:var(--red-bg); color:var(--red); }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="app-name">JARVIS</div>
+  <div class="nav-pills">
+    <button class="pill active" onclick="goTo('dashboard',this)">⌂ Dashboard</button>
+    <button class="pill" onclick="goTo('habits',this)">◎ Habitudes</button>
+    <button class="pill" onclick="goTo('okrs',this)">◈ OKRs</button>
+    <button class="pill" onclick="goTo('mind',this)">◉ Mind Dump</button>
+    <button class="pill" onclick="goTo('calendar',this)" id="pill-cal">📅 Calendrier</button>
+  </div>
+  <div class="topnav-right">
+    <div class="date-chip" id="datechip">—</div>
+    <button class="fs-btn" onclick="toggleFS()" id="fs-btn" title="Plein écran">⛶</button>
+    <div class="avatar">M</div>
+  </div>
+</nav>
+
+<div class="subnav" id="subnav-main">
+  <button class="stab active" id="stab-phase">Phase 1 · Reset</button>
+  <div class="sdiv"></div>
+  <button class="stab" onclick="openHist('week')">Cette semaine</button>
+  <button class="stab" onclick="openHist('month')">Ce mois</button>
+  <div class="sdiv"></div>
+  <button class="stab">Démarre: 21 mars</button>
+</div>
+
+<div class="body">
+
+  <!-- DASHBOARD -->
+  <div class="page active" id="page-dashboard">
+    <div class="hero">
+      <div class="hero-lbl">Tableau de bord · Monsef OS</div>
+      <div class="hero-name">Bonjour, <strong>Monsef.</strong></div>
+      <div class="hero-sub">Dernier jour du Ramadan · Phase 1 dans 2 jours</div>
+    </div>
+    <div class="metrics">
+      <div class="m-card"><div class="m-lbl">Habitudes</div><div class="m-val">4<span class="u">/7</span></div><div class="m-sub">cette semaine</div></div>
+      <div class="m-card"><div class="m-lbl">OKRs</div><div class="m-val">28<span class="u">%</span></div><div class="m-sub">avancement global</div></div>
+      <div class="m-card"><div class="m-lbl">Streak</div><div class="m-val">3<span class="u">j</span></div><div class="m-sub">lecture consécutive</div></div>
+      <div class="m-card"><div class="m-lbl">Trading</div><div class="m-val" style="font-size:16px;color:var(--muted);padding-top:6px">Pause</div><div class="m-sub">reprend Phase 2</div></div>
+      <div class="m-card"><div class="m-lbl">Humeur moy.</div><div class="m-val" id="dash-mood-avg" style="font-size:22px;padding-top:2px">—</div><div class="m-sub">cette semaine</div></div>
+    </div>
+    <div class="phase-row">
+      <div class="pdot"></div>
+      <div class="p-info">
+        <div class="p-tag">EN PRÉPARATION</div>
+        <div class="p-title">Phase 1 — Reset physique & mental</div>
+        <div class="p-dates">21 mars → 16 mai · 8 semaines</div>
+      </div>
+      <div style="text-align:right">
+        <div class="p-pct">0%</div>
+        <div class="p-bar"><div class="p-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="tri">
+      <div class="card"><div class="p-lbl">Habitudes · semaine</div><div id="dh"></div></div>
+      <div class="card"><div class="p-lbl">OKRs · Q2 2025</div><div id="do"></div></div>
+      <div class="card"><div class="p-lbl">Dernière note</div><div class="note-box" id="lastnote"><div class="note-d">—</div>Rien encore. Le mental attend.</div></div>
+    </div>
+  </div>
+
+  <!-- HABITS -->
+  <div class="page" id="page-habits">
+    <div class="card-w">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div class="p-lbl" style="margin:0">Suivi des habitudes · semaine en cours</div>
+        <button class="btn btn-g" onclick="addH()">+ Ajouter</button>
+      </div>
+      <div class="hdr-row">
+        <div style="width:36px;flex-shrink:0"></div>
+        <div style="flex:1"></div>
+        <div class="day-lbls"><div class="dlbl">L</div><div class="dlbl">M</div><div class="dlbl">M</div><div class="dlbl">J</div><div class="dlbl">V</div><div class="dlbl">S</div><div class="dlbl">D</div></div>
+        <div style="width:56px"></div>
+      </div>
+      <div id="hfull"></div>
+    </div>
+  </div>
+
+  <!-- OKRs -->
+  <div class="page" id="page-okrs">
+    <div id="ofull"></div>
+  </div>
+
+  <!-- MIND DUMP -->
+  <div class="page" id="page-mind">
+    <div class="mind-chips" id="chips"></div>
+    <div class="mind-grid">
+      <div class="chat-crd">
+        <div class="chat-hd"><div class="chat-dot"></div><div class="chat-lbl">JARVIS · Réflexion guidée</div></div>
+        <div class="chat-msgs" id="msgs"><div class="cmsg ai">Bonsoir Monsef. Qu'est-ce qui pèse ce soir ?</div></div>
+        <div class="chat-ft">
+          <textarea class="chat-in" id="cin" placeholder="Tape ce qui te traverse..." rows="1" onkeydown="onK(event)"></textarea>
+          <button class="chat-send" onclick="send()">↑</button>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+        <div class="write-crd" style="flex:1;min-height:0">
+          <div class="write-hd"><div class="write-lbl">Journal libre</div><div class="wc" id="wc">0 mots</div></div>
+          <textarea class="write-ta" id="wta" placeholder="Écris sans filtre. Personne ne lit. Laisse sortir ce qui bloque..."></textarea>
+          <div class="write-ft">
+            <div class="mood-row">
+              <span class="mood-lbl">Humeur</span>
+              <div class="mood-btns" id="mood-btns"></div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-g" onclick="clrW()">Effacer</button>
+              <button class="btn btn-s" onclick="saveE()">Sauvegarder</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CALENDAR -->
+  <div class="page" id="page-calendar">
+    <div class="cal-header">
+      <div>
+        <div class="p-lbl" style="margin-bottom:4px">Google Calendar · Synchronisé</div>
+        <div class="cal-title" id="cal-month-title">—</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="gcal-status">
+          <div class="gcal-dot" id="gcal-dot"></div>
+          <div class="gcal-lbl" id="gcal-lbl">Non connecté</div>
+        </div>
+        <button class="btn btn-s" id="gcal-btn" onclick="handleGcalAuth()">Connecter Google</button>
+        <div class="cal-nav">
+          <button class="cal-nav-btn" onclick="changeMonth(-1)">‹</button>
+          <div class="cal-month-lbl" id="cal-month-lbl">—</div>
+          <button class="cal-nav-btn" onclick="changeMonth(1)">›</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cal-grid" id="cal-grid"></div>
+
+    <div class="cal-add-row">
+      <input class="cal-input" id="ev-title" placeholder="Nom de l'événement...">
+      <input class="cal-input" id="ev-date" type="date" style="max-width:160px">
+      <input class="cal-input" id="ev-time" type="time" style="max-width:120px">
+      <button class="btn btn-s" onclick="addEvent()">+ Ajouter</button>
+    </div>
+
+    <div class="upcoming">
+      <div class="upcoming-lbl">Événements à venir</div>
+      <div id="upcoming-list"></div>
+    </div>
+  </div>
+
+  <!-- HISTORY PAGE -->
+  <div class="page" id="page-hist">
+    <div class="hist-header">
+      <div>
+        <div class="hist-title" id="hist-title">Cette semaine</div>
+        <div class="hist-sub" id="hist-sub">—</div>
+      </div>
+      <button class="btn btn-g" onclick="goTo('mind', document.querySelectorAll('.pill')[3])">← Mind Dump</button>
+    </div>
+
+    <!-- MOOD STRIP -->
+    <div class="mood-strip" id="mood-strip"></div>
+
+    <!-- BILAN HEBDO / MENSUEL -->
+    <div class="bilan-card" id="bilan-card">
+      <div class="bilan-lbl" id="bilan-lbl">Bilan · Cette semaine</div>
+      <div class="bilan-text" id="bilan-text"><span class="bilan-loading">Génération du bilan en cours...</span></div>
+    </div>
+
+    <!-- ENTRIES LIST -->
+    <div id="hist-entries"></div>
+  </div>
+
+</div>
+
+<script>
+// ─── DATA ───
+let habits=[
+  {id:1,name:'Sport · mouvement',icon:'🏃',desc:'30 min minimum',w:[1,1,0,0,0,0,0]},
+  {id:2,name:'Méditation',icon:'🧘',desc:'10 min matin',w:[1,0,1,0,0,0,0]},
+  {id:3,name:'Lecture',icon:'📖',desc:'20 pages',w:[1,1,1,1,0,0,0]},
+  {id:4,name:'Sans écrans inutiles',icon:'📵',desc:'Pas de Shorts/Reels',w:[0,1,0,1,0,0,0]},
+  {id:5,name:'Hydratation',icon:'💧',desc:'2L eau',w:[1,1,0,1,0,0,0]},
+  {id:6,name:'Sommeil avant minuit',icon:'🌙',desc:'Coucher avant 00h',w:[0,0,0,1,0,0,0]},
+  {id:7,name:'Journal du soir',icon:'✏️',desc:'5 min réflexion',w:[1,0,0,0,0,0,0]},
+];
+
+let okrs=[
+  {id:1,obj:'Restaurer mon énergie et ma clarté mentale',pct:15,ph:'Phase 1',
+   krs:[{t:'Dormir 7h+ pendant 30 jours consécutifs',d:false},{t:'Sport 4x/semaine pendant 8 semaines',d:false},{t:'Zéro cannabis pendant Phase 1',d:false},{t:'Méditation quotidienne 21 jours',d:false}]},
+  {id:2,obj:'Construire un système de trading solide',pct:35,ph:'Phase 2',
+   krs:[{t:'Règles SMC écrites et non-négociables',d:true},{t:'Journal de trading tenu 30 jours',d:false},{t:'Valider 1 compte prop firm $50k',d:false},{t:'Max 3 trades/semaine respecté',d:false}]},
+  {id:3,obj:'Lancer Candela — première collection',pct:10,ph:'Phase 3',
+   krs:[{t:'Identité visuelle complète',d:false},{t:'5 produits photographiés',d:false},{t:'Boutique en ligne live',d:false}]},
+];
+
+// entries: { id, date (Date), dateStr, text, mood (1-10), moodEmoji, summary }
+let entries = [];
+let selectedMood = 0;
+let hist = [{role:'assistant',content:"Bonsoir Monsef. Qu'est-ce qui pèse ce soir ?"}];
+
+const PROMPTS = ["Ce qui m'a pesé aujourd'hui","Ce dont je suis fier","Ce que je veux lâcher","Ce que je veux demain","Une vérité que j'évite"];
+
+const MOOD_MAP = {
+  1:'⛈', 2:'🌩', 3:'🌧', 4:'🌦', 5:'☁️', 6:'🌤', 7:'⛅', 8:'🌥', 9:'🌤', 10:'☀️'
+};
+
+const SYS_CHAT = `Tu es JARVIS, l'assistant personnel de Monsef. Sobre, direct, bienveillant sans complaisance. Tu poses des questions qui font réfléchir. Contexte: sortie période difficile (2 prop firms perdues), Phase 1 Reset commence 21 mars après Ramadan. Il pense en systèmes. Français, phrases courtes. Quand l'utilisateur finit d'écrire ou dit qu'il a terminé, demande-lui son humeur de 1 à 10.`;
+
+const SYS_SUMMARY = `Tu es JARVIS, l'assistant de Monsef. À partir du texte de journal qu'il a écrit, génère un court résumé analytique de 2-3 phrases maximum. Identifie l'état émotionnel principal, ce qui ressort de positif ou difficile, et une piste de réflexion. Ton sobre, direct, sans flatterie. Français.`;
+
+const SYS_BILAN = `Tu es JARVIS, l'assistant de Monsef. À partir des entrées de journal fournies, génère un bilan synthétique de la période. 3-4 phrases. Observe les patterns émotionnels, les thèmes récurrents, ce qui semble s'améliorer ou peser. Une question de fond en fin. Ton sobre et direct. Français.`;
+
+// ─── INIT ───
+// ─── GOOGLE CALENDAR ───
+const CLIENT_ID = '412205079062-8bss52a9pdi11l212g1prmic1p8q32gs.apps.googleusercontent.com';
+const SCOPES = 'https://www.googleapis.com/auth/calendar';
+let gToken = null;
+let localEvents = [];
+let gcalEvents = [];
+let calDate = new Date();
+
+function handleGcalAuth(){
+  const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(location.href)}&response_type=token&scope=${encodeURIComponent(SCOPES)}&prompt=consent`;
+  window.location.href = authUrl;
+}
+
+function checkToken(){
+  const hash = window.location.hash;
+  if(hash && hash.includes('access_token')){
+    const params = new URLSearchParams(hash.substring(1));
+    gToken = params.get('access_token');
+    window.location.hash = '';
+    updateGcalStatus(true);
+    fetchGcalEvents();
+  }
+}
+
+function updateGcalStatus(connected){
+  document.getElementById('gcal-dot').className = 'gcal-dot' + (connected?' connected':'');
+  document.getElementById('gcal-lbl').textContent = connected ? 'Google Calendar connecté' : 'Non connecté';
+  document.getElementById('gcal-btn').textContent = connected ? 'Synchroniser' : 'Connecter Google';
+  document.getElementById('gcal-btn').onclick = connected ? fetchGcalEvents : handleGcalAuth;
+}
+
+async function fetchGcalEvents(){
+  if(!gToken) return;
+  try{
+    const now = new Date(); now.setMonth(now.getMonth()-1);
+    const future = new Date(); future.setMonth(future.getMonth()+3);
+    const r = await fetch(`https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${now.toISOString()}&timeMax=${future.toISOString()}&singleEvents=true&orderBy=startTime&maxResults=100`,{
+      headers:{Authorization:'Bearer '+gToken}
+    });
+    const data = await r.json();
+    if(data.items){
+      gcalEvents = data.items.map(e=>({
+        id: e.id,
+        title: e.summary || '(Sans titre)',
+        date: (e.start.dateTime||e.start.date).substring(0,10),
+        time: e.start.dateTime ? e.start.dateTime.substring(11,16) : '',
+        source: 'gcal'
+      }));
+      renderCal();
+      renderUpcoming();
+    }
+  } catch(e){ console.log('GCal fetch error',e); }
+}
+
+async function addEventToGcal(ev){
+  if(!gToken) return;
+  try{
+    const start = ev.time ? {dateTime: ev.date+'T'+ev.time+':00', timeZone:'Europe/Paris'} : {date: ev.date};
+    const end = ev.time ? {dateTime: ev.date+'T'+(String(parseInt(ev.time.split(':')[0])+1).padStart(2,'0'))+':'+ev.time.split(':')[1]+':00', timeZone:'Europe/Paris'} : {date: ev.date};
+    await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events',{
+      method:'POST',
+      headers:{Authorization:'Bearer '+gToken,'Content-Type':'application/json'},
+      body: JSON.stringify({summary:ev.title, start, end})
+    });
+    fetchGcalEvents();
+  } catch(e){ console.log('GCal add error',e); }
+}
+
+function addEvent(){
+  const title = document.getElementById('ev-title').value.trim();
+  const date = document.getElementById('ev-date').value;
+  const time = document.getElementById('ev-time').value;
+  if(!title||!date){ alert('Titre et date requis.'); return; }
+  const ev = { id: Date.now(), title, date, time, source:'local' };
+  localEvents.unshift(ev);
+  document.getElementById('ev-title').value='';
+  document.getElementById('ev-date').value='';
+  document.getElementById('ev-time').value='';
+  if(gToken) addEventToGcal(ev);
+  renderCal();
+  renderUpcoming();
+}
+
+function allEvents(){
+  return [...localEvents, ...gcalEvents].sort((a,b)=>a.date.localeCompare(b.date));
+}
+
+function changeMonth(d){
+  calDate.setMonth(calDate.getMonth()+d);
+  renderCal();
+}
+
+function renderCal(){
+  const y = calDate.getFullYear(), m = calDate.getMonth();
+  const monthNames = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  document.getElementById('cal-month-lbl').textContent = monthNames[m]+' '+y;
+  document.getElementById('cal-month-title').textContent = monthNames[m]+' '+y;
+
+  const first = new Date(y,m,1);
+  const last = new Date(y,m+1,0);
+  let startDay = first.getDay(); if(startDay===0) startDay=7;
+  const today = new Date().toISOString().substring(0,10);
+  const evts = allEvents();
+
+  let html = ['L','M','M','J','V','S','D'].map(d=>`<div class="cal-day-lbl">${d}</div>`).join('');
+
+  for(let i=1;i<startDay;i++) html+=`<div class="cal-cell other-month"></div>`;
+
+  for(let d=1;d<=last.getDate();d++){
+    const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday = dateStr===today;
+    const dayEvts = evts.filter(e=>e.date===dateStr);
+    const evHtml = dayEvts.slice(0,3).map(e=>`<div class="cal-ev ${e.source==='gcal'?'gcal':''}">${e.title}</div>`).join('');
+    html += `<div class="cal-cell ${isToday?'today':''}" onclick="setEventDate('${dateStr}')">
+      <div class="cal-date">${d}</div>
+      <div class="cal-events">${evHtml}</div>
+    </div>`;
+  }
+
+  document.getElementById('cal-grid').innerHTML = html;
+}
+
+function setEventDate(d){
+  document.getElementById('ev-date').value = d;
+  document.getElementById('ev-title').focus();
+}
+
+function renderUpcoming(){
+  const today = new Date().toISOString().substring(0,10);
+  const upcoming = allEvents().filter(e=>e.date>=today).slice(0,10);
+  const el = document.getElementById('upcoming-list');
+  if(!upcoming.length){ el.innerHTML='<div style="font-size:13px;color:var(--muted)">Aucun événement à venir.</div>'; return; }
+  el.innerHTML = upcoming.map(e=>`
+    <div class="ev-item">
+      <div class="ev-dot ${e.source==='gcal'?'gcal':''}"></div>
+      <div class="ev-info">
+        <div class="ev-name">${e.title}</div>
+        <div class="ev-time">${e.date}${e.time?' · '+e.time:''} ${e.source==='gcal'?'· Google Calendar':''}</div>
+      </div>
+      ${e.source==='local'?`<button class="ev-del" onclick="delEvent(${e.id})">×</button>`:''}
+    </div>`).join('');
+}
+
+function delEvent(id){
+  localEvents = localEvents.filter(e=>e.id!==id);
+  renderCal(); renderUpcoming();
+}
+
+function toggleFS(){
+  if(!document.fullscreenElement){
+    document.documentElement.requestFullscreen();
+    document.getElementById('fs-btn').textContent='✕';
+    document.getElementById('fs-btn').title='Quitter le plein écran';
+  } else {
+    document.exitFullscreen();
+    document.getElementById('fs-btn').textContent='⛶';
+    document.getElementById('fs-btn').title='Plein écran';
+  }
+}
+document.addEventListener('fullscreenchange',()=>{
+  if(!document.fullscreenElement){
+    document.getElementById('fs-btn').textContent='⛶';
+  }
+});
+
+function init(){
+  const d = new Date();
+  document.getElementById('datechip').textContent = d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  renderMoodBtns();
+  rdh(); rdo(); rhf(); rof(); rchips();
+  checkToken();
+  renderCal();
+  renderUpcoming();
+  document.getElementById('wta').addEventListener('input', function(){
+    const n = this.value.trim().split(/\s+/).filter(w=>w).length;
+    document.getElementById('wc').textContent = n + ' mot' + (n>1?'s':'');
+  });
+}
+
+// ─── NAV ───
+function goTo(p, el){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  if(el) el.classList.add('active');
+}
+
+// ─── MOOD BUTTONS ───
+function renderMoodBtns(){
+  const c = document.getElementById('mood-btns');
+  c.innerHTML = [1,2,3,4,5,6,7,8,9,10].map(n => `
+    <button class="mood-btn ${selectedMood===n?'sel':''}" onclick="selectMood(${n})" title="${MOOD_MAP[n]}">${n}</button>
+  `).join('');
+}
+
+function selectMood(n){
+  selectedMood = n;
+  renderMoodBtns();
+}
+
+function moodEmoji(score){
+  return MOOD_MAP[score] || '—';
+}
+
+// ─── DASHBOARD ───
+function rdh(){
+  document.getElementById('dh').innerHTML = habits.slice(0,5).map(h=>{
+    const n = h.w.filter(d=>d).length;
+    const dots = h.w.map((d,i)=>`<div class="dot ${d?'on':''}" onclick="tdash(${h.id},${i})"></div>`).join('');
+    return `<div class="h-mini"><div><div class="h-n">${h.name}</div><div class="h-s">${n}/7</div></div><div class="dots">${dots}</div></div>`;
+  }).join('');
+
+  // mood avg on dashboard
+  const recent = entries.slice(0,7).filter(e=>e.mood>0);
+  if(recent.length){
+    const avg = Math.round(recent.reduce((a,e)=>a+e.mood,0)/recent.length);
+    document.getElementById('dash-mood-avg').textContent = moodEmoji(avg) + ' ' + avg;
+  }
+}
+
+function tdash(id,i){ const h=habits.find(h=>h.id===id); if(h){h.w[i]=h.w[i]?0:1; rdh(); rhf();} }
+
+function rdo(){
+  document.getElementById('do').innerHTML = okrs.map(o=>`
+    <div class="okr-m">
+      <div class="okr-mh"><span class="okr-mn">${o.obj}</span><span class="okr-mp">${o.pct}%</span></div>
+      <div class="bar"><div class="bf" style="width:${o.pct}%"></div></div>
+    </div>`).join('');
+}
+
+// ─── HABITS ───
+function rhf(){
+  document.getElementById('hfull').innerHTML = habits.map(h=>{
+    const n = h.w.filter(d=>d).length;
+    const cells = h.w.map((d,i)=>`<div class="dc ${d?'on':''} ${i===new Date().getDay()-1?'today':''}" onclick="th(${h.id},${i})">${d?'✓':''}</div>`).join('');
+    return `<div class="h-row">
+      <div class="h-ico">${h.icon}</div>
+      <div class="h-col"><div class="h-nm">${h.name}</div><div class="h-dc">${h.desc}</div></div>
+      <div class="dcells">${cells}</div>
+      <div class="streak">${n} j</div>
+    </div>`;
+  }).join('');
+}
+
+function th(id,i){ const h=habits.find(h=>h.id===id); if(h){h.w[i]=h.w[i]?0:1; rhf(); rdh();} }
+
+function addH(){
+  const n = prompt("Nom de l'habitude:");
+  if(n&&n.trim()){ habits.push({id:Date.now(),name:n.trim(),icon:'⭐',desc:'Nouvelle habitude',w:[0,0,0,0,0,0,0]}); rhf(); rdh(); }
+}
+
+// ─── OKRs ───
+function rof(){
+  document.getElementById('ofull').innerHTML = okrs.map(o=>{
+    const krs = o.krs.map((k,i)=>`
+      <div class="kr ${k.d?'done':''}" onclick="tkr(${o.id},${i})">
+        <div class="kr-box"></div>
+        <span class="kr-t">${k.t}</span>
+        <span class="kr-tag">${o.ph}</span>
+      </div>`).join('');
+    return `<div class="okr-blk">
+      <div class="okr-top"><div class="okr-obj">${o.obj}</div><div class="okr-pct">${o.pct}%</div></div>
+      <div class="okr-bar"><div class="okr-bf" style="width:${o.pct}%"></div></div>
+      ${krs}
+    </div>`;
+  }).join('');
+}
+
+function tkr(oid,i){
+  const o = okrs.find(o=>o.id===oid);
+  if(o){ o.krs[i].d=!o.krs[i].d; o.pct=Math.round(o.krs.filter(k=>k.d).length/o.krs.length*100); rof(); rdo(); }
+}
+
+// ─── MIND: PROMPTS & CHAT ───
+function rchips(){
+  document.getElementById('chips').innerHTML = PROMPTS.map(p=>
+    `<button class="chip" onclick="up('${p.replace(/'/g,"\\'")}')">${p}</button>`
+  ).join('');
+}
+
+function up(p){ document.getElementById('cin').value=p; document.getElementById('cin').focus(); }
+function onK(e){ if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();} }
+
+async function send(){
+  const inp = document.getElementById('cin');
+  const txt = inp.value.trim(); if(!txt) return;
+  inp.value = '';
+  am(txt,'user');
+  hist.push({role:'user',content:txt});
+  const t = am('...','typing');
+  try{
+    const r = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYS_CHAT,messages:hist})
+    });
+    const data = await r.json();
+    const reply = data.content?.[0]?.text || 'Je suis là.';
+    t.remove(); am(reply,'ai'); hist.push({role:'assistant',content:reply});
+  } catch(e){
+    t.textContent = '(hors ligne) Écris quand même.';
+    t.classList.replace('typing','ai');
+  }
+}
+
+function am(txt, type){
+  const w = document.getElementById('msgs');
+  const d = document.createElement('div'); d.className='cmsg '+type; d.textContent=txt;
+  w.appendChild(d); w.scrollTop=w.scrollHeight; return d;
+}
+
+// ─── SAVE ENTRY ───
+async function saveE(){
+  const txt = document.getElementById('wta').value.trim();
+  if(!txt){ alert('Écris quelque chose avant de sauvegarder.'); return; }
+  if(!selectedMood){ alert('Sélectionne ton humeur de 1 à 10 avant de sauvegarder.'); return; }
+
+  const now = new Date();
+  const entry = {
+    id: Date.now(),
+    date: now,
+    dateStr: now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}),
+    text: txt,
+    mood: selectedMood,
+    moodEmoji: moodEmoji(selectedMood),
+    summary: null
+  };
+
+  entries.unshift(entry);
+  document.getElementById('wta').value = '';
+  document.getElementById('wc').textContent = '0 mots';
+  selectedMood = 0;
+  renderMoodBtns();
+
+  // Update dashboard last note
+  const ln = document.getElementById('lastnote');
+  ln.innerHTML = `<div class="note-d">${entry.dateStr} · ${entry.moodEmoji} ${entry.mood}/10</div>${entry.text.substring(0,120)}${entry.text.length>120?'...':''}`;
+  rdh();
+
+  // Generate AI summary for this entry
+  generateSummary(entry);
+}
+
+async function generateSummary(entry){
+  try{
+    const r = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:300,
+        system: SYS_SUMMARY,
+        messages:[{role:'user',content:`Entrée du ${entry.dateStr} (humeur: ${entry.mood}/10)\n\n${entry.text}`}]
+      })
+    });
+    const data = await r.json();
+    entry.summary = data.content?.[0]?.text || null;
+  } catch(e){ entry.summary = null; }
+}
+
+function clrW(){ document.getElementById('wta').value=''; document.getElementById('wc').textContent='0 mots'; selectedMood=0; renderMoodBtns(); }
+
+// ─── HISTORY PAGE ───
+async function openHist(mode){
+  goTo('hist', null);
+  // Keep mind pill active visual if coming from mind
+  const now = new Date();
+  let filtered = [];
+  let title = '', sub = '', bilanLbl = '';
+
+  if(mode === 'week'){
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - now.getDay() + (now.getDay()===0?-6:1));
+    startOfWeek.setHours(0,0,0,0);
+    filtered = entries.filter(e => e.date >= startOfWeek);
+    title = 'Cette semaine';
+    sub = startOfWeek.toLocaleDateString('fr-FR',{day:'numeric',month:'long'}) + ' → aujourd\'hui';
+    bilanLbl = 'Bilan · semaine';
+  } else {
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    filtered = entries.filter(e => e.date >= startOfMonth);
+    title = 'Ce mois — ' + now.toLocaleDateString('fr-FR',{month:'long'});
+    sub = now.toLocaleDateString('fr-FR',{month:'long',year:'numeric'});
+    bilanLbl = 'Bilan · ' + now.toLocaleDateString('fr-FR',{month:'long'});
+  }
+
+  document.getElementById('hist-title').textContent = title;
+  document.getElementById('hist-sub').textContent = sub;
+  document.getElementById('bilan-lbl').textContent = bilanLbl;
+  document.getElementById('bilan-text').innerHTML = '<span class="bilan-loading">Génération du bilan en cours...</span>';
+
+  renderMoodStrip(filtered);
+  renderHistEntries(filtered);
+
+  if(filtered.length > 0){
+    await generateBilan(filtered, bilanLbl);
+  } else {
+    document.getElementById('bilan-text').textContent = 'Pas encore d\'entrées pour cette période. Commence à écrire dans Mind Dump.';
+  }
+}
+
+function renderMoodStrip(filtered){
+  const el = document.getElementById('mood-strip');
+  if(!filtered.length){ el.innerHTML='<div style="font-size:13px;color:var(--muted)">Aucune entrée pour cette période.</div>'; return; }
+  el.innerHTML = filtered.map(e=>`
+    <div class="mood-day-pill">
+      <div class="mood-day-emoji">${e.moodEmoji}</div>
+      <div>
+        <div class="mood-day-score">${e.mood}/10</div>
+        <div class="mood-day-label">${e.date.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric'})}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderHistEntries(filtered){
+  const el = document.getElementById('hist-entries');
+  if(!filtered.length){ el.innerHTML=''; return; }
+  el.innerHTML = filtered.map(e=>`
+    <div class="entry-card" id="ecard-${e.id}">
+      <div class="entry-top">
+        <div>
+          <div class="entry-date-big">${e.date.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})}</div>
+          <div class="entry-date-sub">${e.date.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})}</div>
+        </div>
+        <div class="entry-mood-badge">
+          <span class="entry-mood-emoji">${e.moodEmoji}</span>
+          <span class="entry-mood-score">${e.mood}/10</span>
+        </div>
+      </div>
+      <div class="entry-body">${e.text}</div>
+      <div class="entry-summary" id="esum-${e.id}">
+        <div class="entry-summary-lbl">Lecture JARVIS</div>
+        ${e.summary || '<span style="color:var(--faint);font-style:italic">Chargement...</span>'}
+      </div>
+    </div>
+  `).join('');
+
+  // Fill summaries that are already generated
+  filtered.forEach(e=>{
+    if(e.summary){ const el=document.getElementById('esum-'+e.id); if(el) el.innerHTML=`<div class="entry-summary-lbl">Lecture JARVIS</div>${e.summary}`; }
+    else { generateSummaryAndUpdate(e); }
+  });
+}
+
+async function generateSummaryAndUpdate(entry){
+  if(entry.summary) return;
+  try{
+    const r = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:300,
+        system: SYS_SUMMARY,
+        messages:[{role:'user',content:`Entrée du ${entry.dateStr} (humeur: ${entry.mood}/10)\n\n${entry.text}`}]
+      })
+    });
+    const data = await r.json();
+    entry.summary = data.content?.[0]?.text || null;
+    const el = document.getElementById('esum-'+entry.id);
+    if(el && entry.summary) el.innerHTML = `<div class="entry-summary-lbl">Lecture JARVIS</div>${entry.summary}`;
+  } catch(e){}
+}
+
+async function generateBilan(filtered, label){
+  const corpus = filtered.map(e=>`[${e.dateStr} · humeur ${e.mood}/10]\n${e.text}`).join('\n\n---\n\n');
+  try{
+    const r = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:500,
+        system: SYS_BILAN,
+        messages:[{role:'user',content:`Voici les entrées de la période:\n\n${corpus}`}]
+      })
+    });
+    const data = await r.json();
+    const bilan = data.content?.[0]?.text || 'Impossible de générer le bilan.';
+    document.getElementById('bilan-text').textContent = bilan;
+  } catch(e){
+    document.getElementById('bilan-text').textContent = 'Hors ligne. Reconnecte-toi pour générer le bilan.';
+  }
+}
+
+init();
+</script>
+</body>
+</html>
