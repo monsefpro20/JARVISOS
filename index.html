@@ -556,6 +556,86 @@ to { width: 100%; }
   .scard:hover { background: #1c2128 !important; }
   select.modal-input option { background: #161b22; color: #e6edf3; }
 
+/* ── BUTTONS REDESIGN ── */
+.btn-primary {
+background: rgba(59,130,246,0.15);
+color: #3b82f6;
+border: 1px solid rgba(59,130,246,0.25);
+padding: 8px 18px;
+border-radius: var(–r);
+font-size: 12px;
+font-weight: 600;
+cursor: pointer;
+font-family: inherit;
+transition: all 0.15s;
+letter-spacing: 0.02em;
+}
+.btn-primary:hover { background: rgba(59,130,246,0.25); border-color: rgba(59,130,246,0.4); }
+
+.btn-ghost {
+background: transparent;
+color: var(–muted);
+border: 1px solid var(–border-md);
+padding: 8px 16px;
+border-radius: var(–r);
+font-size: 12px;
+font-weight: 500;
+cursor: pointer;
+font-family: inherit;
+transition: all 0.15s;
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.05); color: var(–text); }
+
+/* Mood buttons redesign */
+.mood-btn {
+width: 28px; height: 28px;
+border-radius: 8px;
+border: 1px solid var(–border-md);
+background: rgba(255,255,255,0.04);
+font-size: 11px;
+cursor: pointer;
+display: flex; align-items: center; justify-content: center;
+transition: all 0.12s;
+color: var(–muted);
+font-weight: 600;
+}
+.mood-btn.sel {
+background: var(–accent);
+color: #fff;
+border-color: var(–accent);
+box-shadow: 0 0 10px rgba(59,130,246,0.3);
+}
+.mood-btn:hover:not(.sel) { background: rgba(255,255,255,0.08); color: var(–text); }
+
+/* Trade notes textarea */
+#trade-notes {
+background: rgba(255,255,255,0.03) !important;
+border: 1px solid var(–border-md) !important;
+color: var(–text) !important;
+}
+#trade-notes:focus { border-color: var(–accent) !important; outline: none; }
+
+/* Calendar grid styling like Google Calendar */
+.day-hour {
+border-bottom: 1px solid rgba(255,255,255,0.04) !important;
+position: relative;
+}
+.day-hour:nth-child(2n) {
+background: rgba(255,255,255,0.01);
+}
+.time-slot {
+color: rgba(255,255,255,0.2) !important;
+font-size: 9px !important;
+}
+.wh-day {
+background: #0d1117 !important;
+border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+}
+.wh-corner { background: #0d1117 !important; }
+
+/* Write area header — remove “Journal libre” title */
+.write-hd .write-lbl { display: none; }
+
 </style>
 </head>
 <body>
@@ -572,19 +652,19 @@ to { width: 100%; }
 <div class="sidebar">
   <div class="sb-logo">JARVIS</div>
   <div class="sb-nav">
-    <button class="sn active" onclick="goTo('dashboard',this)" title="Dashboard">⌂</button>
-    <button class="sn" onclick="goTo('habits',this)" title="Habitudes">◎</button>
-    <button class="sn" onclick="goTo('okrs',this)" title="OKRs">◈</button>
-    <button class="sn" onclick="goTo('trading',this)" title="Trading">📈</button>
-    <button class="sn" onclick="goTo('mind',this)" title="Mind Dump">◉</button>
-    <button class="sn" onclick="goTo('calendar',this)" title="Calendrier">📅</button>
-    <button class="sn" onclick="goTo('focus',this)" title="Focus">⏱</button>
+    <button class="sn active" onclick="goTo('dashboard',this)" title="Dashboard"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></button>
+    <button class="sn" onclick="goTo('habits',this)" title="Habitudes"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></button>
+    <button class="sn" onclick="goTo('okrs',this)" title="OKRs"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></button>
+    <button class="sn" onclick="goTo('trading',this)" title="Trading"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></button>
+    <button class="sn" onclick="goTo('mind',this)" title="Mind Dump"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></button>
+    <button class="sn" onclick="goTo('calendar',this)" title="Calendrier"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></button>
+    <button class="sn" onclick="goTo('focus',this)" title="Focus"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></button>
   </div>
   <div class="sb-bottom">
-    <button class="sn" onclick="toggleFS()" title="Plein écran">⛶</button>
-    <button class="sn" title="Paramètres">⚙</button>
+    <button class="sn" onclick="toggleFS()" title="Plein écran"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg></button>
+    <button class="sn" onclick="showSettings()" title="Paramètres"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></button>
   </div>
-  <div class="sb-arrow">›</div>
+
 </div>
 
 <!-- MAIN -->
@@ -597,10 +677,10 @@ to { width: 100%; }
     <h1 id="page-title">Bonjour, Monsef</h1>
     <div class="topbar-right">
       <div class="date-chip" id="datechip">—</div>
-      <button class="ticon" title="Calendrier">📅</button>
-      <button class="ticon" title="Notifications">🔔</button>
+      <button class="ticon" title="Notifications">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+      </button>
       <div class="tavatar">M</div>
-      <span style="font-size:11px;color:var(--muted);cursor:pointer">▾</span>
     </div>
   </div>
 
@@ -706,7 +786,7 @@ to { width: 100%; }
     <div class="card-w">
       <div class="habits-toolbar">
         <div class="p-lbl" style="margin:0">Habitudes · semaine en cours</div>
-        <button class="btn btn-s" onclick="openHabitModal()">+ Ajouter</button>
+        <button class="btn-primary" onclick="openHabitModal()">+ Ajouter</button>
       </div>
       <div style="display:flex;align-items:center;padding:0 0 6px;border-bottom:1px solid var(--border);gap:10px;">
         <div style="width:32px;flex-shrink:0"></div><div style="flex:1"></div>
@@ -791,7 +871,7 @@ to { width: 100%; }
       <div class="trade-card-full">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
           <div class="p-lbl" style="margin:0">Journal de trades</div>
-          <button class="btn btn-s" onclick="openTradeModal()">+ Trade</button>
+          <button class="btn-primary" onclick="openTradeModal()">+ Trade</button>
         </div>
         <div id="trade-list">
           <div style="text-align:center;padding:24px;color:var(--faint);font-size:12px;">Aucun trade enregistré.<br>Phase 2 commence en mai.</div>
@@ -806,14 +886,13 @@ to { width: 100%; }
       <div class="trade-card">
         <div class="p-lbl">Notes · session du jour</div>
         <textarea id="trade-notes" style="width:100%;height:120px;background:var(--bg);border:none;border-radius:9px;padding:10px;font-family:inherit;font-size:12px;color:var(--text);resize:none;outline:none;line-height:1.7;" placeholder="Observations, biais, setup repéré..."></textarea>
-        <button class="btn btn-s" style="margin-top:8px;width:100%;" onclick="saveTradeNotes()">Sauvegarder notes</button>
+        <button class="btn-primary" style="margin-top:8px;width:100%;border-radius:10px;" onclick="saveTradeNotes()">Sauvegarder notes</button>
       </div>
     </div>
   </div>
 
   <!-- ══ MIND ══ -->
   <div class="page" id="page-mind">
-    <div class="mind-chips" id="chips"></div>
     <div class="mind-grid">
       <div class="chat-crd">
         <div class="chat-hd"><div class="chat-dot"></div><div class="chat-lbl">JARVIS · Réflexion guidée</div></div>
@@ -830,8 +909,8 @@ to { width: 100%; }
           <div class="write-ft">
             <div class="mood-row"><span class="mood-lbl">Humeur</span><div class="mood-btns" id="mood-btns"></div></div>
             <div style="display:flex;gap:6px;">
-              <button class="btn btn-g" onclick="clrW()">Effacer</button>
-              <button class="btn btn-s" onclick="saveE()">Sauvegarder</button>
+              <button class="btn-ghost" onclick="clrW()">Effacer</button>
+              <button class="btn-primary" onclick="saveE()">Sauvegarder</button>
             </div>
           </div>
         </div>
@@ -859,8 +938,8 @@ to { width: 100%; }
         <button class="gcal-nav-btn" onclick="calNav(1)">›</button>
         <div class="gcal-period" id="cal-period">—</div>
         <div class="gcal-status-pill"><div class="gcal-dot" id="gcal-dot"></div><div class="gcal-lbl" id="gcal-lbl">Non connecté</div></div>
-        <button class="btn btn-s" id="gcal-btn" onclick="handleGcalAuth()">Connecter Google</button>
-        <button class="btn btn-g" onclick="openAddEvent(null,null)">+ Événement</button>
+        <button class="btn-primary" id="gcal-btn" onclick="handleGcalAuth()">Connecter Google</button>
+        <button class="btn-primary" onclick="openAddEvent(null,null)">+ Événement</button>
       </div>
       <div class="week-grid" id="week-grid"></div>
     </div>
@@ -1099,7 +1178,6 @@ function init() {
   renderHabitsFull();
   renderOkrsFull();
   renderDashHabits();
-  renderChips();
   renderCal();
   renderDashChart();
   renderHabitCharts();
@@ -1328,8 +1406,8 @@ function renderHabitsFull() {
       <div class="dcells">${cells}</div>
       <div class="streak">${n} j</div>
       <div class="h-actions">
-        <button class="h-act-btn" onclick="openHabitModal(${h.id})">✏️</button>
-        <button class="h-act-btn" onclick="delHabit(${h.id})" style="color:var(--red)">×</button>
+        <button class="h-act-btn" onclick="openHabitModal(${h.id})" style="opacity:0.35;color:var(--muted)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+        <button class="h-act-btn" onclick="delHabit(${h.id})" style="opacity:0.5;color:var(--red)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
       </div>
     </div>`;
   }).join('');
@@ -1397,8 +1475,8 @@ function renderOkrsFull() {
         <div class="kr-box"></div>
         <span class="kr-t">${k.t}</span>
         <div class="kr-actions" onclick="event.stopPropagation()">
-          <button class="h-act-btn" onclick="editKR(${o.id},${i})" style="font-size:10px">✏️</button>
-          <button class="h-act-btn" onclick="delKR(${o.id},${i})" style="color:var(--red)">×</button>
+          <button class="h-act-btn" onclick="editKR(${o.id},${i})" style="opacity:0.35;color:var(--muted)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+          <button class="h-act-btn" onclick="delKR(${o.id},${i})" style="opacity:0.5;color:var(--red)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
         </div>
       </div>`).join('');
     return `<div class="okr-blk">
@@ -1409,7 +1487,7 @@ function renderOkrsFull() {
         </div>
         <div style="display:flex;align-items:center;gap:7px;flex-shrink:0;">
           <div class="okr-pct">${o.pct}%</div>
-          <button class="h-act-btn" onclick="openOkrModal(${o.id})">✏️</button>
+          <button class="h-act-btn" onclick="openOkrModal(${o.id})" style="opacity:0.35;color:var(--muted)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
           <button class="h-act-btn" onclick="delOkr(${o.id})" style="color:var(--red)">×</button>
         </div>
       </div>
@@ -1864,6 +1942,10 @@ window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   window._pwaPrompt = e;
 });
+
+function showSettings() {
+  alert('Paramètres JARVIS OS\n\nVersion 1.0 · Phase 1 Reset\nMonsef · 2026\n\nFonctionnalités à venir:\n• Synchronisation iCloud\n• Export données\n• Notifications');
+}
 
 init();
 </script>
