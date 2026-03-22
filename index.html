@@ -649,6 +649,109 @@ border-radius: 100px !important;
 border-radius: 14px !important;
 }
 
+/* ── FIX ALL INPUTS DARK MODE ── */
+input, textarea, select {
+color: #e6edf3 !important;
+background: rgba(255,255,255,0.04) !important;
+-webkit-text-fill-color: #e6edf3 !important;
+}
+input::placeholder, textarea::placeholder {
+color: rgba(255,255,255,0.25) !important;
+-webkit-text-fill-color: rgba(255,255,255,0.25) !important;
+}
+input:focus, textarea:focus {
+color: #e6edf3 !important;
+-webkit-text-fill-color: #e6edf3 !important;
+outline: none;
+border-color: rgba(59,130,246,0.5) !important;
+}
+/* Fix autofill background */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+-webkit-text-fill-color: #e6edf3 !important;
+-webkit-box-shadow: 0 0 0px 1000px #161b22 inset !important;
+}
+
+/* 2. Fix topbar layout - remove all ··· artifacts */
+.topbar {
+position: relative;
+z-index: 5;
+}
+.topbar-right {
+display: flex !important;
+align-items: center !important;
+gap: 8px !important;
+flex-shrink: 0 !important;
+}
+.topbar h1 {
+flex: 1;
+white-space: nowrap;
+}
+
+/* 3. Fix mood buttons - force identical on all platforms */
+.mood-btns {
+display: flex !important;
+gap: 4px !important;
+flex-wrap: nowrap !important;
+}
+.mood-btn {
+width: 26px !important;
+height: 26px !important;
+min-width: 26px !important;
+border-radius: 8px !important;
+border: 1px solid rgba(255,255,255,0.1) !important;
+background: rgba(255,255,255,0.04) !important;
+font-size: 11px !important;
+cursor: pointer !important;
+display: flex !important;
+align-items: center !important;
+justify-content: center !important;
+color: var(–muted) !important;
+font-weight: 600 !important;
+font-family: -apple-system, ‘SF Pro Display’, sans-serif !important;
+transition: all 0.12s !important;
+-webkit-appearance: none !important;
+}
+.mood-btn.sel {
+background: var(–accent) !important;
+color: #fff !important;
+border-color: var(–accent) !important;
+}
+.mood-btn:hover:not(.sel) {
+background: rgba(255,255,255,0.08) !important;
+color: #e6edf3 !important;
+}
+
+/* Fix write footer layout */
+.write-ft {
+flex-wrap: nowrap !important;
+gap: 8px !important;
+}
+.mood-row {
+flex-shrink: 0 !important;
+}
+
+/* Fix chat input */
+.chat-in {
+color: #e6edf3 !important;
+-webkit-text-fill-color: #e6edf3 !important;
+background: rgba(255,255,255,0.04) !important;
+}
+
+/* Fix modal inputs */
+.modal-input {
+color: #e6edf3 !important;
+-webkit-text-fill-color: #e6edf3 !important;
+background: #0d1117 !important;
+}
+
+/* Fix trade notes */
+#trade-notes {
+color: #e6edf3 !important;
+-webkit-text-fill-color: #e6edf3 !important;
+}
+
 </style>
 </head>
 <body>
