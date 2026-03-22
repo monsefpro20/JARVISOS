@@ -636,6 +636,19 @@ border-bottom: 1px solid rgba(255,255,255,0.08) !important;
 /* Write area header — remove “Journal libre” title */
 .write-hd .write-lbl { display: none; }
 
+/* ── ALL BUTTONS ROUNDED ── */
+button, .btn, .btn-s, .btn-g, .btn-primary, .btn-ghost,
+.btn-red, .gcal-today-btn, .focus-btn, .okr-add-btn,
+.rd-btn, .modal input[type=submit] {
+border-radius: 100px !important;
+}
+.modal-btns .btn, .modal-btns button {
+border-radius: 100px !important;
+}
+.okr-add-btn {
+border-radius: 14px !important;
+}
+
 </style>
 </head>
 <body>
@@ -677,11 +690,12 @@ border-bottom: 1px solid rgba(255,255,255,0.08) !important;
     <h1 id="page-title">Bonjour, Monsef</h1>
     <div class="topbar-right">
       <div class="date-chip" id="datechip">—</div>
-      <button class="ticon" title="Notifications">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-      </button>
-      <div class="tavatar">M</div>
-    </div>
+
+```
+  <div class="tavatar">M</div>
+</div>
+```
+
   </div>
 
   <!-- CONTENT WRAP -->
