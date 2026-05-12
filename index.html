@@ -608,11 +608,15 @@ const CHAR_IMGS = {
 };
 
 function getCharContent(name, w, h, radius, grayscale){
-  const ch=CHAR_IMGS[name]||{url:null,fallback:'👤'};
+  var ch=CHAR_IMGS[name]||{url:null,fallback:'👤'};
+  var fs=Math.round((w||88)/2.2)+'px';
+  var r=radius||'14px';
   if(ch.url){
-    return `<img src="${ch.url}" style="width:100%;height:100%;object-fit:cover;border-radius:${radius||'14px'};${grayscale?'filter:grayscale(0.8)':''}" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:${Math.round((w||88)/2.2)}px">${ch.fallback}</span>`;
+    var st='width:100%;height:100%;object-fit:cover;object-position:top center;border-radius:'+r+';';
+    if(grayscale) st+='filter:grayscale(0.8);';
+    return '<img src="'+ch.url+'" style="'+st+'">';
   }
-  return `<span style="font-size:${Math.round((w||88)/2.2)}px">${ch.fallback}</span>`;
+  return '<span style="font-size:'+fs+'">'+ch.fallback+'</span>';
 }
 // backward compat
 const CHAR_FB = Object.fromEntries(Object.entries(CHAR_IMGS).map(([k,v])=>[k,v.fallback]));
