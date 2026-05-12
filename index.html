@@ -305,54 +305,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   .mind-g{grid-template-columns:1fr;height:auto;}
   .char-cards{grid-template-columns:1fr;}
 }
-
-/* ── LEVEL UP CINEMA ANIMATION ── */
-#levelup-overlay{
-  position:fixed;inset:0;background:#000;z-index:9999;
-  display:none;flex-direction:column;align-items:center;justify-content:center;
-  cursor:pointer;
-}
-#levelup-overlay.show{display:flex;}
-.lu-img{
-  width:180px;height:240px;border-radius:20px;
-  background:#111;border:1px solid #222;
-  display:flex;align-items:center;justify-content:center;
-  font-size:80px;overflow:hidden;
-  animation:luSlide 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
-}
-.lu-img img{width:100%;height:100%;object-fit:cover;object-position:top center;border-radius:20px;}
-.lu-line{
-  width:0;height:2px;background:#a78bfa;
-  margin:24px auto 20px;
-  animation:luLine 0.8s ease 0.4s forwards;
-}
-.lu-lv{
-  font-size:72px;font-weight:700;color:#f0f0f0;line-height:1;
-  font-family:-apple-system,sans-serif;
-  opacity:0;animation:luUp 0.5s ease 0.3s forwards;
-}
-.lu-name{
-  font-size:20px;font-weight:600;color:#a78bfa;
-  letter-spacing:0.08em;text-transform:uppercase;
-  font-family:-apple-system,sans-serif;margin-top:10px;
-  opacity:0;animation:luUp 0.5s ease 0.5s forwards;
-}
-.lu-desc{
-  font-size:13px;color:#555;margin-top:8px;
-  font-family:-apple-system,sans-serif;
-  opacity:0;animation:luUp 0.5s ease 0.65s forwards;
-}
-.lu-tap{
-  position:absolute;bottom:40px;
-  font-size:11px;color:#333;letter-spacing:0.12em;text-transform:uppercase;
-  font-family:-apple-system,sans-serif;
-  animation:luPulse 2s ease 1.2s infinite;
-}
-@keyframes luSlide{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
-@keyframes luLine{to{width:60px}}
-@keyframes luUp{to{opacity:1;transform:translateY(0)}from{opacity:0;transform:translateY(14px)}}
-@keyframes luPulse{0%,100%{opacity:0.25}50%{opacity:0.7}}
-
 </style>
 </head>
 <body>
@@ -450,7 +402,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
           <div class="niv-c"><div class="niv-n" id="niv-n">1</div><div class="niv-mx">/ 100</div></div>
         </div>
         <div class="niv-img" id="niv-img">🎭</div>
-        <div class="niv-nm" id="niv-nm">The Boy</div>
+        <div class="niv-nm" id="niv-nm">Le gamin au pistolet en bois</div>
         <div class="niv-ds" id="niv-ds">Tu fais semblant. Le chemin commence ici.</div>
         <div class="niv-barw">
           <div class="niv-brlbl"><span id="niv-cur">0 XP</span><span id="niv-nxt-lbl">Vers niveau suivant</span><span id="niv-nxt">—</span></div>
@@ -643,31 +595,31 @@ const UNLOCKS = [
 
 const SMC = ['Bias H4 confirmé (Dow Theory)','Liquidité identifiée','Order Block H1 validé','CHoCH/MSS M15 confirmé','Entrée OTE 62-79%','SL au dernier high/low','Session NY active (14h30-17h30)'];
 
-// Photos des personnages
+// Photos des personnages — remplace null par le chemin de ton image
+// ex: 'img/gamin.jpg' si tu as mis l'image dans un dossier img/ sur GitHub
 const CHAR_IMGS = {
-  'The Boy':       {url: 'img/boy.jpg',       fallback: '🎭'},
-  'The Rookie':    {url: 'img/rookie.jpg',    fallback: '🃏'},
-  'The Suit':      {url: 'img/suit.jpg',      fallback: '🃏'},
-  'The Viking':    {url: 'img/viking.jpg',    fallback: '🪓'},
-  'The Ghost':     {url: 'img/ghost.jpg',     fallback: '🖤'},
-  'The Architect': {url: 'img/architect.jpg', fallback: '🎩'},
-  'The Empire':    {url: 'img/empire.jpg',    fallback: '🎩'},
-  'The Legend':    {url: 'img/legend.jpg',    fallback: '👑'},
-  'Il Capo':       {url: 'img/capo.jpg',      fallback: '🔱'},
+  'Le gamin au pistolet en bois': {url: null, fallback: '🎭'},
+  'Hvitserk détruit':             {url: null, fallback: '⚔️'},
+  'Hvitserk lucide':              {url: null, fallback: '⚔️'},
+  'Michael Gray jeune':           {url: null, fallback: '🃏'},
+  'Michael Gray évolué':          {url: null, fallback: '🃏'},
+  'Bjorn jeune':                  {url: null, fallback: '🪓'},
+  'Tom Hardy · Mob Land':         {url: null, fallback: '🖤'},
+  'Tommy Shelby · S1':            {url: null, fallback: '🎩'},
+  'Tommy Shelby · S2-3':          {url: null, fallback: '🎩'},
+  'Tommy Shelby au sommet':       {url: null, fallback: '👑'},
+  'Michel Morrone':               {url: null, fallback: '🔱'},
 };
 
 function getCharContent(name, w, h, radius, grayscale){
   const ch=CHAR_IMGS[name]||{url:null,fallback:'👤'};
-  const fs=Math.round((w||88)/2.2)+'px';
   if(ch.url){
-    return `<img src="${ch.url}" style="width:100%;height:100%;object-fit:cover;object-position:top center;border-radius:${radius||'14px'};${grayscale?'filter:grayscale(0.8)':''}" onerror="this.parentElement.innerHTML='<span style=font-size:${fs}>${ch.fallback}</span>'">`;
+    return `<img src="${ch.url}" style="width:100%;height:100%;object-fit:cover;border-radius:${radius||'14px'};${grayscale?'filter:grayscale(0.8)':''}" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><span style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:${Math.round((w||88)/2.2)}px">${ch.fallback}</span>`;
   }
-  return `<span style="font-size:${fs}">${ch.fallback}</span>`;
+  return `<span style="font-size:${Math.round((w||88)/2.2)}px">${ch.fallback}</span>`;
 }
 // backward compat
 const CHAR_FB = Object.fromEntries(Object.entries(CHAR_IMGS).map(([k,v])=>[k,v.fallback]));
-// Also map by img path for getLvInfo
-function getLvImg(name){ return CHAR_IMGS[name]||{url:null,fallback:'👤'}; }
 
 const COACH_SYS = `Tu es le coach de Monsef, 22 ans, trader à Toulouse. Dis la vérité brutale. Leviers: son père qui a travaillé toute sa vie, sa copine qui le regarde, le temps qui passe, l'argent perdu (5000€). Messages durs: "Ton père s'est levé toute sa vie à 6h pour que toi tu dormes jusqu'à midi." / "Ta copine te regarde. Elle voit quoi ?" / "Pendant que tu scrollais, des mecs construisaient." Motivation: "Tu as fait ce que 90% des gens n'ont pas fait aujourd'hui. En silence." Système: 4 piliers, 100 niveaux de gamin au pistolet en bois à Michel Morrone. Français, phrases courtes, brutal.`;
 const MIND_SYS = `Tu es JARVIS, assistant de Monsef. Direct, sobre. Français.`;
@@ -698,7 +650,9 @@ function getWeekData(){
 // Seuils XP par pilier pour débloquer chaque niveau global
 // Le niveau global n'avance que si TOUS les piliers ont atteint le seuil
 const LV_THRESHOLDS = [
-  {lv:8,   xp:300},
+  {lv:4,   xp:300},
+  {lv:6,   xp:800},
+  {lv:8,   xp:800},
   {lv:15,  xp:1500},
   {lv:19,  xp:2000},
   {lv:30,  xp:2500},
@@ -847,10 +801,8 @@ function toggleDaily(hid){
   const was=!!d.checked[hid];
   d.checked[hid]=!was;
   if(!was) S.totalXP+=h.pts; else S.totalXP=Math.max(0,S.totalXP-h.pts);
-  const _prevLv=getGlobalLv();
   S.streak=getStreak();
   save();renderCurrent();
-  checkLevelUp(_prevLv);
 }
 
 function incrWeekly(hid,delta){
@@ -871,9 +823,7 @@ function incrWeekly(hid,delta){
     S.totalXP=Math.max(0,S.totalXP-h.pts);
     S.pillarXP[pid3]=Math.max(0,(S.pillarXP[pid3]||0)-h.pts);
   }
-  const _prevLv2=getGlobalLv();
   save();renderCurrent();
-  checkLevelUp(_prevLv2);
 }
 
 // ════════════════════════════════
@@ -967,6 +917,7 @@ function renderDashboard(){
   document.getElementById('d-ring').style.strokeDashoffset=264-(264*minPct/100);
   document.getElementById('d-pct').textContent=minPct+'%';
   document.getElementById('d-lv').textContent=niv;
+  document.getElementById('d-perso').textContent=info.name;
   document.getElementById('d-photo').innerHTML=getCharContent(info.name,88,116,'14px',false);
 
   // Stats
@@ -1078,7 +1029,7 @@ function renderNiveau(){
   }
 
   document.getElementById('prog-wrap').innerHTML=LEVELS.map(l=>{
-    const isCur=niv>=l.r[0]&&niv<=l.r[1],isDone=niv>l.r[1];
+    const isCur=niv2>=l.r[0]&&niv2<=l.r[1],isDone=niv2>l.r[1];
     const dc=l.diff==='extreme'?'extreme':l.diff==='hard'?'hard':'';
     const dl=l.diff==='extreme'?'Extrême':l.diff==='hard'?'Difficile':l.diff==='normal'?'Normal':'Facile';
     return `<div class="prog-item ${isCur?'cur':''} ${!isDone&&!isCur?'locked':''}">
@@ -1371,84 +1322,17 @@ function toggleFS(){if(!document.fullscreenElement)document.documentElement.requ
 // ════════════════════════════════
 // INIT
 // ════════════════════════════════
-
-// ── LEVEL UP SYSTEM ──
-let _lastGlobalLv = null;
-
-function checkLevelUp(prevLv){
-  const newLv = getGlobalLv();
-  if(_lastGlobalLv === null){ _lastGlobalLv = newLv; return; }
-  if(newLv > prevLv){
-    _lastGlobalLv = newLv;
-    showLevelUp(newLv);
-  }
-}
-
-function showLevelUp(niv){
-  const info = getLvInfo(niv);
-  const el = document.getElementById('levelup-overlay');
-  const imgEl = document.getElementById('lu-img');
-  const lvEl = document.getElementById('lu-lv');
-  const nmEl = document.getElementById('lu-name');
-  const dsEl = document.getElementById('lu-desc');
-  if(!el) return;
-
-  // Set content
-  lvEl.textContent = niv;
-  nmEl.textContent = info.name.toUpperCase();
-  dsEl.textContent = info.desc;
-
-  // Set image
-  const ch = CHAR_IMGS[info.name]||{url:null,fallback:'👤'};
-  if(ch.url){
-    imgEl.innerHTML = `<img src="${ch.url}" style="width:100%;height:100%;object-fit:cover;object-position:top center;border-radius:20px;" onerror="this.parentElement.textContent='${ch.fallback}'">`;
-  } else {
-    imgEl.textContent = ch.fallback;
-  }
-
-  // Reset animations
-  el.querySelectorAll('.lu-img,.lu-lv,.lu-name,.lu-desc').forEach(x=>{
-    x.style.animation='none';
-    x.offsetHeight;
-    x.style.animation='';
-  });
-  const line = el.querySelector('.lu-line');
-  if(line){ line.style.animation='none'; line.offsetHeight; line.style.animation=''; }
-
-  el.classList.add('show');
-
-  // Auto close after 5s
-  setTimeout(()=>closeLevelUp(), 5000);
-}
-
-function closeLevelUp(){
-  const el = document.getElementById('levelup-overlay');
-  if(el) el.classList.remove('show');
-}
-
 document.getElementById('datechip').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
 document.getElementById('tr-date').value=new Date().toISOString().slice(0,10);
 if(S.tradeNotes) document.getElementById('trade-notes').value=S.tradeNotes;
 const wta=document.getElementById('write-ta');
 if(wta) wta.addEventListener('input',function(){const n=this.value.trim().split(/\s+/).filter(w=>w).length;document.getElementById('wcount').textContent=n+' mot'+(n>1?'s':'');});
 renderMoodBtns();
-_lastGlobalLv=getGlobalLv();
 checkGcalToken();
 renderDashboard();
 renderSMC();
 renderTrades();
 setTimeout(()=>{const s=document.getElementById('splash');if(s){s.style.opacity='0';setTimeout(()=>s.remove(),500);}},1400);
 </script>
-
-<!-- LEVEL UP OVERLAY -->
-<div id="levelup-overlay" onclick="closeLevelUp()">
-  <div class="lu-img" id="lu-img">🎭</div>
-  <div class="lu-line"></div>
-  <div class="lu-lv" id="lu-lv">1</div>
-  <div class="lu-name" id="lu-name">THE BOY</div>
-  <div class="lu-desc" id="lu-desc">Tu fais semblant. Le chemin commence ici.</div>
-  <div class="lu-tap">Tap pour continuer</div>
-</div>
-
 </body>
 </html>
