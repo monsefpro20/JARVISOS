@@ -76,7 +76,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 
 /* RING CARD */
 .ring-card{background:var(--bg3);border-radius:var(--rc);padding:16px;border:1px solid var(--border);display:flex;gap:14px;align-items:center;margin-bottom:12px;}
-.ring-photo{width:140px;height:185px;border-radius:14px;background:#1a1a1a;border:1px solid #222;display:flex;align-items:center;justify-content:center;font-size:38px;flex-shrink:0;overflow:hidden;}
+.ring-photo{width:140px;height:185px;border-radius:14px;background:#1a1a1a;border:1px solid #222;display:block;font-size:38px;flex-shrink:0;overflow:hidden;line-height:185px;text-align:center;}
 .ring-photo img{width:100%;height:100%;object-fit:cover;border-radius:14px;}
 .ring-info{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;}
 .rw{position:relative;width:100px;height:100px;}
@@ -100,7 +100,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 /* CHAR CARDS */
 .char-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
 .char-card{background:var(--bg3);border-radius:var(--rc);padding:14px;border:1px solid var(--border);display:flex;gap:12px;align-items:center;}
-.char-img{width:90px;height:118px;border-radius:12px;background:#1a1a1a;border:1px solid #222;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;overflow:hidden;}
+.char-img{width:90px;height:118px;border-radius:12px;background:#1a1a1a;border:1px solid #222;display:block;font-size:28px;flex-shrink:0;overflow:hidden;line-height:118px;text-align:center;}
 .char-img img{width:100%;height:100%;object-fit:cover;border-radius:12px;}
 .char-nm{font-size:13px;font-weight:600;margin-bottom:3px;}
 .char-lv{font-size:10px;color:var(--muted);margin-bottom:3px;}
@@ -168,7 +168,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .niv-c{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
 .niv-n{font-size:38px;font-weight:700;line-height:1;}
 .niv-mx{font-size:11px;color:var(--muted);}
-.niv-img{width:140px;height:185px;border-radius:14px;background:#1a1a1a;border:1px solid #222;display:flex;align-items:center;justify-content:center;font-size:42px;overflow:hidden;}
+.niv-img{width:140px;height:185px;border-radius:14px;background:#1a1a1a;border:1px solid #222;display:block;font-size:42px;overflow:hidden;line-height:185px;text-align:center;}
 .niv-img img{width:100%;height:100%;object-fit:cover;border-radius:14px;}
 .niv-nm{font-size:17px;font-weight:700;text-align:center;}
 .niv-ds{font-size:12px;color:var(--muted);text-align:center;line-height:1.6;max-width:280px;}
@@ -609,12 +609,13 @@ const CHAR_IMGS = {
 
 function getCharContent(name, w, h, radius, grayscale){
   var ch=CHAR_IMGS[name]||{url:null,fallback:'👤'};
-  var fs=Math.round((w||88)/2.2)+'px';
+  var fw=w||88, fh=h||116;
+  var fs=Math.round(fw/2.2)+'px';
   var r=radius||'14px';
   if(ch.url){
-    var st='width:100%;height:100%;object-fit:cover;object-position:top center;border-radius:'+r+';';
+    var st='display:block;width:'+fw+'px;height:'+fh+'px;object-fit:cover;object-position:top center;border-radius:'+r+';';
     if(grayscale) st+='filter:grayscale(0.8);';
-    return '<img src="'+ch.url+'" style="'+st+'">';
+    return '<img src="'+ch.url+'" width="'+fw+'" height="'+fh+'" style="'+st+'">';
   }
   return '<span style="font-size:'+fs+'">'+ch.fallback+'</span>';
 }
@@ -918,7 +919,7 @@ function renderDashboard(){
   document.getElementById('d-pct').textContent=minPct+'%';
   document.getElementById('d-lv').textContent=niv;
   document.getElementById('d-perso').textContent=info.name;
-  document.getElementById('d-photo').innerHTML=getCharContent(info.name,88,116,'14px',false);
+  document.getElementById('d-photo').innerHTML=getCharContent(info.name,140,185,'14px',false);
 
   // Stats
   document.getElementById('d-7avg').textContent=avg7+'%';
@@ -1020,7 +1021,7 @@ function renderNiveau(){
   document.getElementById('niv-ds').textContent=info2.desc;
   document.getElementById('niv-cur').textContent=S.totalXP.toLocaleString('fr-FR')+' XP total';
   document.getElementById('niv-bar').style.width=minPillarPct+'%';
-  document.getElementById('niv-img').innerHTML=getCharContent(info2.name,88,116,'14px',false);
+  document.getElementById('niv-img').innerHTML=getCharContent(info2.name,140,185,'14px',false);
   // Show next threshold info
   if(nextT3){
     const bl=getBottleneck();
