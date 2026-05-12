@@ -362,7 +362,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
             <div class="rc"><div class="rc-pct" id="d-pct">0%</div><div class="rc-sub">7j avg</div></div>
           </div>
           <div class="lv-pill">Niveau <b id="d-lv">1</b></div>
-          <div class="perso-nm" id="d-perso">Le gamin au pistolet en bois</div>
+          <div class="perso-nm" id="d-perso">The Boy</div>
         </div>
       </div>
       <!-- Stats -->
@@ -402,7 +402,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
           <div class="niv-c"><div class="niv-n" id="niv-n">1</div><div class="niv-mx">/ 100</div></div>
         </div>
         <div class="niv-img" id="niv-img">🎭</div>
-        <div class="niv-nm" id="niv-nm">Le gamin au pistolet en bois</div>
+        <div class="niv-nm" id="niv-nm">The Boy</div>
         <div class="niv-ds" id="niv-ds">Tu fais semblant. Le chemin commence ici.</div>
         <div class="niv-barw">
           <div class="niv-brlbl"><span id="niv-cur">0 XP</span><span id="niv-nxt-lbl">Vers niveau suivant</span><span id="niv-nxt">—</span></div>
@@ -572,17 +572,15 @@ const PILLARS = [
 ];
 
 const LEVELS = [
-  {r:[1,4],   name:'Le gamin au pistolet en bois', desc:'Tu fais semblant. Le chemin commence ici.', diff:'facile'},
-  {r:[5,6],   name:'Hvitserk détruit',              desc:'Le potentiel gâché. Long à quitter.',       diff:'hard'},
-  {r:[7,8],   name:'Hvitserk lucide',               desc:'Tu remontes la tête. Difficile.',           diff:'hard'},
-  {r:[9,15],  name:'Michael Gray jeune',            desc:'Dans l\'arène, brut, pas encore prouvé.',   diff:'hard'},
-  {r:[15,19], name:'Michael Gray évolué',           desc:'La classe arrive. Grosse difficulté.',      diff:'hard'},
-  {r:[20,30], name:'Bjorn jeune',                   desc:'Dans le combat. Premiers résultats.',       diff:'normal'},
-  {r:[30,50], name:'Tom Hardy · Mob Land',          desc:'Puissance et charisme. Presque libre.',     diff:'hard'},
-  {r:[50,55], name:'Tommy Shelby · S1',             desc:'Vision, discipline, il construit.',         diff:'normal'},
-  {r:[55,65], name:'Tommy Shelby · S2-3',           desc:'L\'empire se construit.',                   diff:'normal'},
-  {r:[65,99], name:'Tommy Shelby au sommet',        desc:'Charisme absolu. La plus grande difficulté.', diff:'extreme'},
-  {r:[100,100],name:'Michel Morrone',               desc:'Libre. Accompli. Rien à prouver.',          diff:'extreme'},
+  {r:[1,8],    name:'The Boy',       desc:'Tu fais semblant. Le chemin commence ici.',     diff:'facile'},
+  {r:[9,15],   name:'The Rookie',    desc:"Dans l'arène, brut, pas encore prouvé.",        diff:'hard'},
+  {r:[15,19],  name:'The Suit',      desc:'La classe arrive. Grosse difficulté.',          diff:'hard'},
+  {r:[20,30],  name:'The Viking',    desc:'Dans le combat. Premiers résultats.',           diff:'normal'},
+  {r:[30,50],  name:'The Ghost',     desc:'Puissance et charisme. Presque libre.',         diff:'hard'},
+  {r:[50,55],  name:'The Architect', desc:'Vision, discipline, il construit en silence.',  diff:'normal'},
+  {r:[55,65],  name:'The Empire',    desc:"L'empire se construit.",                        diff:'normal'},
+  {r:[65,99],  name:'The Legend',    desc:'Charisme absolu. La plus grande difficulté.',   diff:'extreme'},
+  {r:[100,100],name:'Il Capo',       desc:'Libre. Accompli. Rien à prouver.',              diff:'extreme'},
 ];
 
 const UNLOCKS = [
@@ -598,7 +596,7 @@ const SMC = ['Bias H4 confirmé (Dow Theory)','Liquidité identifiée','Order Bl
 // Photos des personnages — remplace null par le chemin de ton image
 // ex: 'img/gamin.jpg' si tu as mis l'image dans un dossier img/ sur GitHub
 const CHAR_IMGS = {
-  'Le gamin au pistolet en bois': {url: null, fallback: '🎭'},
+  'Le gamin au pistolet en bois': {url: 'img/boy.jpg', fallback: '🎭'},
   'Hvitserk détruit':             {url: null, fallback: '⚔️'},
   'Hvitserk lucide':              {url: null, fallback: '⚔️'},
   'Michael Gray jeune':           {url: null, fallback: '🃏'},
