@@ -76,7 +76,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 
 /* RING CARD */
 .ring-card{background:var(--bg3);border-radius:var(--rc);padding:16px;border:1px solid var(--border);display:flex;gap:14px;align-items:center;margin-bottom:12px;}
-.ring-photo{width:140px;height:185px;border-radius:14px;background:#1a1a1a;border:1px solid #222;display:block;font-size:38px;flex-shrink:0;overflow:hidden;line-height:185px;text-align:center;}
+.ring-photo{width:140px;height:185px;border-radius:14px;background:#1a1a1a;border:1px solid #222;display:block;font-size:38px;flex-shrink:0;overflow:hidden;}
 .ring-photo img{width:100%;height:100%;object-fit:cover;border-radius:14px;}
 .ring-info{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;}
 .rw{position:relative;width:100px;height:100px;}
@@ -100,7 +100,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 /* CHAR CARDS */
 .char-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
 .char-card{background:var(--bg3);border-radius:var(--rc);padding:14px;border:1px solid var(--border);display:flex;gap:12px;align-items:center;}
-.char-img{width:90px;height:118px;border-radius:12px;background:#1a1a1a;border:1px solid #222;display:block;font-size:28px;flex-shrink:0;overflow:hidden;line-height:118px;text-align:center;}
+.char-img{width:90px;height:118px;border-radius:12px;background:#1a1a1a;border:1px solid #222;display:block;font-size:28px;flex-shrink:0;overflow:hidden;}
 .char-img img{width:100%;height:100%;object-fit:cover;border-radius:12px;}
 .char-nm{font-size:13px;font-weight:600;margin-bottom:3px;}
 .char-lv{font-size:10px;color:var(--muted);margin-bottom:3px;}
@@ -168,7 +168,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .niv-c{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
 .niv-n{font-size:38px;font-weight:700;line-height:1;}
 .niv-mx{font-size:11px;color:var(--muted);}
-.niv-img{width:140px;height:185px;border-radius:14px;background:#1a1a1a;border:1px solid #222;display:block;font-size:42px;overflow:hidden;line-height:185px;text-align:center;}
+.niv-img{width:140px;height:185px;border-radius:14px;background:#1a1a1a;border:1px solid #222;display:block;font-size:42px;overflow:hidden;}
 .niv-img img{width:100%;height:100%;object-fit:cover;border-radius:14px;}
 .niv-nm{font-size:17px;font-weight:700;text-align:center;}
 .niv-ds{font-size:12px;color:var(--muted);text-align:center;line-height:1.6;max-width:280px;}
@@ -305,6 +305,21 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   .mind-g{grid-template-columns:1fr;height:auto;}
   .char-cards{grid-template-columns:1fr;}
 }
+
+#levelup-overlay{position:fixed;inset:0;background:#000;z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;}
+#levelup-overlay.show{display:flex;}
+.lu-img{width:180px;height:240px;border-radius:20px;background:#111;border:1px solid #222;display:block;overflow:hidden;animation:luSlide 0.6s cubic-bezier(0.34,1.56,0.64,1) both;}
+.lu-img img{width:180px;height:240px;object-fit:cover;object-position:top center;border-radius:20px;display:block;}
+.lu-line{width:0;height:2px;background:#a78bfa;margin:24px auto 20px;animation:luLine 0.8s ease 0.4s forwards;}
+.lu-lv{font-size:72px;font-weight:700;color:#f0f0f0;line-height:1;opacity:0;animation:luUp 0.5s ease 0.3s forwards;}
+.lu-name{font-size:20px;font-weight:600;color:#a78bfa;letter-spacing:0.08em;text-transform:uppercase;margin-top:10px;opacity:0;animation:luUp 0.5s ease 0.5s forwards;}
+.lu-desc{font-size:13px;color:#555;margin-top:8px;opacity:0;animation:luUp 0.5s ease 0.65s forwards;}
+.lu-tap{position:absolute;bottom:40px;font-size:11px;color:#333;letter-spacing:0.12em;text-transform:uppercase;animation:luPulse 2s ease 1.2s infinite;}
+@keyframes luSlide{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes luLine{to{width:60px}}
+@keyframes luUp{to{opacity:1;transform:translateY(0)}from{opacity:0;transform:translateY(14px)}}
+@keyframes luPulse{0%,100%{opacity:0.25}50%{opacity:0.7}}
+
 </style>
 </head>
 <body>
@@ -344,25 +359,42 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     <!-- ══ DASHBOARD ══ -->
     <div class="page active" id="page-dashboard">
       <!-- XP Bar -->
-      <div class="xp-section">
-        <div class="xp-top">
-          <div><div style="font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2px;">XP Total</div><div class="xp-pts" id="d-xp">0 XP</div></div>
-          <div style="text-align:right"><div style="font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:2px;">Aujourd'hui</div><div style="font-size:18px;font-weight:700;color:var(--purple)" id="d-xp-today">+0 XP</div></div>
-        </div>
-        <div class="xp-bar-track"><div class="xp-bar-fill" id="xp-bar" style="width:0%"></div></div>
-        <div class="xp-labels"><span id="xp-lbl-l">0 XP ce palier</span><span id="xp-lbl-r">Prochain palier →</span></div>
-      </div>
-      <!-- Ring + photo -->
-      <div class="ring-card">
-        <div class="ring-photo" id="d-photo">🎭</div>
-        <div class="ring-info">
-          <div class="slbl" style="margin:0">Moyenne 7 jours</div>
-          <div class="rw">
-            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#1a1a1a" stroke-width="8"/><circle cx="50" cy="50" r="42" fill="none" stroke="#a78bfa" stroke-width="8" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264" transform="rotate(-90 50 50)" id="d-ring" style="transition:stroke-dashoffset 0.8s ease"/></svg>
-            <div class="rc"><div class="rc-pct" id="d-pct">0%</div><div class="rc-sub">7j avg</div></div>
+            <!-- HERO CARD -->
+      <div style="background:var(--bg3);border-radius:var(--rc);border:1px solid var(--border);padding:20px;margin-bottom:12px;display:flex;gap:20px;align-items:stretch;">
+        <!-- Photo -->
+        <div id="d-photo" style="width:160px;min-width:160px;height:210px;border-radius:14px;background:#1a1a1a;border:1px solid #222;overflow:hidden;flex-shrink:0;display:block;"></div>
+        <!-- Right side -->
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:12px;">
+          <!-- Top: XP total + aujourd'hui -->
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <div>
+              <div style="font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">XP Total</div>
+              <div style="font-size:28px;font-weight:700;color:var(--amber);line-height:1;" id="d-xp">0 XP</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Aujourd'hui</div>
+              <div style="font-size:22px;font-weight:700;color:var(--purple);line-height:1;" id="d-xp-today">+0 XP</div>
+            </div>
           </div>
-          <div class="lv-pill">Niveau <b id="d-lv">1</b></div>
-          <div class="perso-nm" id="d-perso">The Boy</div>
+          <!-- Pilier le plus faible + barre -->
+          <div>
+            <div style="font-size:10px;color:var(--muted);margin-bottom:6px;" id="xp-lbl-l">Pilier le plus faible</div>
+            <div class="xp-bar-track"><div class="xp-bar-fill" id="xp-bar" style="width:0%"></div></div>
+            <div style="font-size:10px;color:var(--muted);margin-top:4px;text-align:right;" id="xp-lbl-r">300 XP → Niv.2</div>
+          </div>
+          <!-- Ring + niveau -->
+          <div style="display:flex;align-items:center;gap:14px;">
+            <div style="position:relative;width:80px;height:80px;flex-shrink:0;">
+              <svg viewBox="0 0 100 100" width="80" height="80"><circle cx="50" cy="50" r="42" fill="none" stroke="#1a1a1a" stroke-width="8"/><circle cx="50" cy="50" r="42" fill="none" stroke="#a78bfa" stroke-width="8" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264" transform="rotate(-90 50 50)" id="d-ring" style="transition:stroke-dashoffset 0.8s ease"/></svg>
+              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+                <div style="font-size:16px;font-weight:700;" id="d-pct">0%</div>
+                <div style="font-size:8px;color:var(--muted);letter-spacing:0.05em;">7J AVG</div>
+              </div>
+            </div>
+            <div>
+              <div style="background:var(--bg4);border:1px solid var(--border2);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--muted);display:inline-block;margin-bottom:6px;">Niveau <b style="color:var(--amber)" id="d-lv">1</b></div>
+            </div>
+          </div>
         </div>
       </div>
       <!-- Stats -->
@@ -374,6 +406,11 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
       <div class="g4" id="d-pillars"></div>
       <!-- Char cards -->
       <div class="char-cards" id="d-chars"></div>
+      <!-- Habits today -->
+      <div class="habits-card">
+        <div class="slbl">Habitudes du jour</div>
+        <div id="dash-habits-list"></div>
+      </div>
       <!-- Activity chart -->
       <div class="act-card">
         <div class="slbl">Activité · 30 derniers jours</div>
@@ -402,7 +439,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
           <div class="niv-c"><div class="niv-n" id="niv-n">1</div><div class="niv-mx">/ 100</div></div>
         </div>
         <div class="niv-img" id="niv-img">🎭</div>
-        <div class="niv-nm" id="niv-nm">The Boy</div>
+        <div class="niv-nm" id="niv-nm">Le gamin au pistolet en bois</div>
         <div class="niv-ds" id="niv-ds">Tu fais semblant. Le chemin commence ici.</div>
         <div class="niv-barw">
           <div class="niv-brlbl"><span id="niv-cur">0 XP</span><span id="niv-nxt-lbl">Vers niveau suivant</span><span id="niv-nxt">—</span></div>
@@ -540,12 +577,12 @@ const PILLARS = [
     id:'esprit', name:'Esprit', color:'#a78bfa', bg:'#1a1030',
     penalty:'1 prière manquée = jour invalidé. 2 jours ratés → Esprit -1 niveau',
     habits:[
-      {id:'e1', name:'Prière Fajr', freq:'daily', pts:4, weeklyTarget:null},
-      {id:'e2', name:'Prière Dohr', freq:'daily', pts:4, weeklyTarget:null},
-      {id:'e3', name:'Prière Asr', freq:'daily', pts:4, weeklyTarget:null},
-      {id:'e4', name:'Prière Maghrib', freq:'daily', pts:4, weeklyTarget:null},
-      {id:'e5', name:'Prière Isha', freq:'daily', pts:4, weeklyTarget:null},
-      {id:'e6', name:'Lecture 30 min', freq:'daily', pts:6, weeklyTarget:null},
+      {id:'e1', name:'Prière Fajr', freq:'daily', pts:2, weeklyTarget:null},
+      {id:'e2', name:'Prière Dohr', freq:'daily', pts:2, weeklyTarget:null},
+      {id:'e3', name:'Prière Asr', freq:'daily', pts:2, weeklyTarget:null},
+      {id:'e4', name:'Prière Maghrib', freq:'daily', pts:2, weeklyTarget:null},
+      {id:'e5', name:'Prière Isha', freq:'daily', pts:2, weeklyTarget:null},
+      {id:'e6', name:'Lecture 30 min', freq:'daily', pts:10, weeklyTarget:null},
     ]
   },
   {
@@ -553,7 +590,7 @@ const PILLARS = [
     penalty:'',
     habits:[
       {id:'a1', name:'Session trading/backtest', freq:'daily', pts:10, weeklyTarget:null},
-      {id:'a2', name:'Journal de trade', freq:'daily', pts:8, weeklyTarget:null},
+      {id:'a2', name:'Journal de trade', freq:'daily', pts:10, weeklyTarget:null},
     ]
   },
   {
@@ -562,11 +599,11 @@ const PILLARS = [
     habits:[
       {id:'h1', name:'Brossage matin', freq:'daily', pts:3, weeklyTarget:null},
       {id:'h2', name:'Brossage soir', freq:'daily', pts:3, weeklyTarget:null},
-      {id:'h3', name:'Douche', freq:'daily', pts:4, weeklyTarget:null},
+      {id:'h3', name:'Douche', freq:'daily', pts:7, weeklyTarget:null},
       {id:'h4', name:'Rasage barbe', freq:'weekly', pts:6, weeklyTarget:1},
       {id:'h5', name:'Rasage intime', freq:'weekly', pts:6, weeklyTarget:1},
       {id:'h6', name:'Produit cheveux', freq:'weekly', pts:4, weeklyTarget:2},
-      {id:'h7', name:'Skincare soir', freq:'daily', pts:4, weeklyTarget:null},
+      {id:'h7', name:'Skincare soir', freq:'daily', pts:7, weeklyTarget:null},
     ]
   }
 ];
@@ -623,6 +660,7 @@ function getCharContent(name, w, h, radius, grayscale){
 }
 // backward compat
 const CHAR_FB = Object.fromEntries(Object.entries(CHAR_IMGS).map(([k,v])=>[k,v.fallback]));
+function getLvImg(name){ return CHAR_IMGS[name]||{url:null,fallback:'👤'}; }
 
 const COACH_SYS = `Tu es le coach de Monsef, 22 ans, trader à Toulouse. Dis la vérité brutale. Leviers: son père qui a travaillé toute sa vie, sa copine qui le regarde, le temps qui passe, l'argent perdu (5000€). Messages durs: "Ton père s'est levé toute sa vie à 6h pour que toi tu dormes jusqu'à midi." / "Ta copine te regarde. Elle voit quoi ?" / "Pendant que tu scrollais, des mecs construisaient." Motivation: "Tu as fait ce que 90% des gens n'ont pas fait aujourd'hui. En silence." Système: 4 piliers, 100 niveaux de gamin au pistolet en bois à Michel Morrone. Français, phrases courtes, brutal.`;
 const MIND_SYS = `Tu es JARVIS, assistant de Monsef. Direct, sobre. Français.`;
@@ -653,16 +691,105 @@ function getWeekData(){
 // Seuils XP par pilier pour débloquer chaque niveau global
 // Le niveau global n'avance que si TOUS les piliers ont atteint le seuil
 const LV_THRESHOLDS = [
-  {lv:4,   xp:300},
-  {lv:6,   xp:800},
-  {lv:8,   xp:800},
-  {lv:15,  xp:1500},
-  {lv:19,  xp:2000},
-  {lv:30,  xp:2500},
-  {lv:50,  xp:4000},
-  {lv:65,  xp:5000},
-  {lv:99,  xp:10000},
-  {lv:100, xp:15000},
+  {lv:2, xp:300},
+  {lv:3, xp:600},
+  {lv:4, xp:900},
+  {lv:5, xp:1200},
+  {lv:6, xp:1500},
+  {lv:7, xp:2100},
+  {lv:8, xp:2700},
+  {lv:9, xp:3300},
+  {lv:10, xp:4100},
+  {lv:11, xp:4900},
+  {lv:12, xp:5700},
+  {lv:13, xp:6500},
+  {lv:14, xp:7300},
+  {lv:15, xp:8100},
+  {lv:16, xp:9600},
+  {lv:17, xp:11100},
+  {lv:18, xp:12600},
+  {lv:19, xp:14100},
+  {lv:20, xp:15600},
+  {lv:21, xp:17100},
+  {lv:22, xp:18600},
+  {lv:23, xp:20100},
+  {lv:24, xp:21600},
+  {lv:25, xp:23100},
+  {lv:26, xp:24600},
+  {lv:27, xp:26100},
+  {lv:28, xp:27600},
+  {lv:29, xp:29100},
+  {lv:30, xp:30600},
+  {lv:31, xp:32600},
+  {lv:32, xp:34600},
+  {lv:33, xp:36600},
+  {lv:34, xp:38600},
+  {lv:35, xp:40600},
+  {lv:36, xp:42600},
+  {lv:37, xp:44600},
+  {lv:38, xp:46600},
+  {lv:39, xp:48600},
+  {lv:40, xp:50600},
+  {lv:41, xp:52600},
+  {lv:42, xp:54600},
+  {lv:43, xp:56600},
+  {lv:44, xp:58600},
+  {lv:45, xp:60600},
+  {lv:46, xp:62600},
+  {lv:47, xp:64600},
+  {lv:48, xp:66600},
+  {lv:49, xp:68600},
+  {lv:50, xp:70600},
+  {lv:51, xp:72600},
+  {lv:52, xp:74600},
+  {lv:53, xp:76600},
+  {lv:54, xp:78600},
+  {lv:55, xp:80600},
+  {lv:56, xp:82600},
+  {lv:57, xp:84600},
+  {lv:58, xp:86600},
+  {lv:59, xp:88600},
+  {lv:60, xp:90600},
+  {lv:61, xp:92600},
+  {lv:62, xp:94600},
+  {lv:63, xp:96600},
+  {lv:64, xp:98600},
+  {lv:65, xp:100600},
+  {lv:66, xp:107600},
+  {lv:67, xp:114600},
+  {lv:68, xp:121600},
+  {lv:69, xp:128600},
+  {lv:70, xp:135600},
+  {lv:71, xp:142600},
+  {lv:72, xp:149600},
+  {lv:73, xp:156600},
+  {lv:74, xp:163600},
+  {lv:75, xp:170600},
+  {lv:76, xp:177600},
+  {lv:77, xp:184600},
+  {lv:78, xp:191600},
+  {lv:79, xp:198600},
+  {lv:80, xp:205600},
+  {lv:81, xp:212600},
+  {lv:82, xp:219600},
+  {lv:83, xp:226600},
+  {lv:84, xp:233600},
+  {lv:85, xp:240600},
+  {lv:86, xp:247600},
+  {lv:87, xp:254600},
+  {lv:88, xp:261600},
+  {lv:89, xp:268600},
+  {lv:90, xp:275600},
+  {lv:91, xp:282600},
+  {lv:92, xp:289600},
+  {lv:93, xp:296600},
+  {lv:94, xp:303600},
+  {lv:95, xp:310600},
+  {lv:96, xp:317600},
+  {lv:97, xp:324600},
+  {lv:98, xp:331600},
+  {lv:99, xp:338600},
+  {lv:100, xp:345600},
 ];
 
 function getPillarXP(pid){
@@ -920,8 +1047,7 @@ function renderDashboard(){
   document.getElementById('d-ring').style.strokeDashoffset=264-(264*minPct/100);
   document.getElementById('d-pct').textContent=minPct+'%';
   document.getElementById('d-lv').textContent=niv;
-  document.getElementById('d-perso').textContent=info.name;
-  document.getElementById('d-photo').innerHTML=getCharContent(info.name,140,185,'14px',false);
+  document.getElementById('d-photo').innerHTML=getCharContent(info.name,160,210,'14px',false);
 
   // Stats
   document.getElementById('d-7avg').textContent=avg7+'%';
@@ -955,6 +1081,7 @@ function renderDashboard(){
 
 
 
+  renderDashHabits();
   setTimeout(()=>{renderActChart();renderRadar();},50);
 }
 
@@ -1111,8 +1238,10 @@ function onMindKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMi
 // ════════════════════════════════
 let selMood=0;
 function renderMoodBtns(){document.getElementById('mood-btns').innerHTML=[1,2,3,4,5,6,7,8,9,10].map(n=>`<button class="mood-btn ${selMood===n?'sel':''}" onclick="setMood(${n})">${n}</button>`).join('');}
-function setMood(n){selMood=n;renderMoodBtns();}
-function clearWrite(){document.getElementById('write-ta').value='';selMood=0;renderMoodBtns();}
+function setMood(n){selMood=n;renderMoodBtns();
+_lastGlobalLv=getGlobalLv();}
+function clearWrite(){document.getElementById('write-ta').value='';selMood=0;renderMoodBtns();
+_lastGlobalLv=getGlobalLv();}
 function saveEntry(){const txt=document.getElementById('write-ta').value.trim();if(!txt){alert('Écris quelque chose.');return;}S.entries.unshift({id:Date.now(),date:new Date().toLocaleDateString('fr-FR'),text:txt,mood:selMood});save();clearWrite();alert('Sauvegardé ✓');}
 
 // ════════════════════════════════
@@ -1325,17 +1454,101 @@ function toggleFS(){if(!document.fullscreenElement)document.documentElement.requ
 // ════════════════════════════════
 // INIT
 // ════════════════════════════════
+
+function renderDashHabits(){
+  var wd=getWeekData();
+  var el=document.getElementById('dash-habits-list');
+  if(!el) return;
+  var rows=[];
+  PILLARS.forEach(function(p){
+    p.habits.forEach(function(h){
+      if(h.freq==='daily'){
+        var done=!!getDayData().checked[h.id];
+        var div=document.createElement('div');
+        div.className='hrow';
+        div.onclick=function(){toggleDaily(h.id);};
+        div.innerHTML='<div class="hchk '+(done?'done':'')+'"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>'+
+          '<div class="hnm '+(done?'done':'')+'">'+h.name+'</div>'+
+          '<span class="hbadge" style="background:'+p.bg+';color:'+p.color+'">'+p.name+'</span>'+
+          '<span style="font-size:11px;color:'+(done?'#34d399':'#555')+'">+'+h.pts+' XP</span>';
+        rows.push(div);
+      } else {
+        var cnt=wd[h.id]||0;
+        var done2=cnt>=h.weeklyTarget;
+        var div=document.createElement('div');
+        div.className='hrow';
+        div.innerHTML='<div class="hchk '+(done2?'done':'')+'"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>'+
+          '<div class="hnm '+(done2?'done':'')+'">'+h.name+'</div>'+
+          '<span class="hbadge" style="background:'+p.bg+';color:'+p.color+'">'+p.name+'</span>'+
+          '<div class="wctr">'+
+            '<button class="wctr-btn">−</button>'+
+            '<span class="wctr-val '+(done2?'done':'')+'">'+cnt+'/'+h.weeklyTarget+'</span>'+
+            '<button class="wctr-btn">+</button>'+
+          '</div>';
+        var btns=div.querySelectorAll('.wctr-btn');
+        (function(hid){
+          btns[0].onclick=function(){incrWeekly(hid,-1);};
+          btns[1].onclick=function(){incrWeekly(hid,1);};
+        })(h.id);
+        rows.push(div);
+      }
+    });
+  });
+  el.innerHTML='';
+  rows.forEach(function(r){el.appendChild(r);});
+}
+
+
+let _lastGlobalLv=null;
+function checkLevelUp(prevLv){
+  const newLv=getGlobalLv();
+  if(_lastGlobalLv===null){_lastGlobalLv=newLv;return;}
+  if(newLv>prevLv){_lastGlobalLv=newLv;showLevelUp(newLv);}
+}
+function showLevelUp(niv){
+  const info=getLvInfo(niv);
+  const el=document.getElementById('levelup-overlay');
+  if(!el) return;
+  document.getElementById('lu-lv').textContent=niv;
+  document.getElementById('lu-name').textContent=info.name.toUpperCase();
+  document.getElementById('lu-desc').textContent=info.desc;
+  var ch=CHAR_IMGS[info.name]||{url:null,fallback:'👤'};
+  var imgEl=document.getElementById('lu-img');
+  if(ch.url) imgEl.innerHTML='<img src="'+ch.url+'" width="180" height="240" style="width:180px;height:240px;object-fit:cover;object-position:top center;border-radius:20px;display:block;">';
+  else imgEl.textContent=ch.fallback;
+  el.querySelectorAll('.lu-lv,.lu-name,.lu-desc').forEach(function(x){x.style.animation='none';x.offsetHeight;x.style.animation='';});
+  var line=el.querySelector('.lu-line');
+  if(line){line.style.animation='none';line.offsetHeight;line.style.animation='';}
+  el.classList.add('show');
+  setTimeout(function(){closeLevelUp();},5000);
+}
+function closeLevelUp(){
+  var el=document.getElementById('levelup-overlay');
+  if(el) el.classList.remove('show');
+}
+
 document.getElementById('datechip').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
 document.getElementById('tr-date').value=new Date().toISOString().slice(0,10);
 if(S.tradeNotes) document.getElementById('trade-notes').value=S.tradeNotes;
 const wta=document.getElementById('write-ta');
 if(wta) wta.addEventListener('input',function(){const n=this.value.trim().split(/\s+/).filter(w=>w).length;document.getElementById('wcount').textContent=n+' mot'+(n>1?'s':'');});
 renderMoodBtns();
+_lastGlobalLv=getGlobalLv();
 checkGcalToken();
 renderDashboard();
 renderSMC();
 renderTrades();
 setTimeout(()=>{const s=document.getElementById('splash');if(s){s.style.opacity='0';setTimeout(()=>s.remove(),500);}},1400);
 </script>
+
+<div id="levelup-overlay" onclick="closeLevelUp()">
+  <div class="lu-img" id="lu-img"><img src="img/boy.jpg"></div>
+  <div class="lu-line"></div>
+  <div class="lu-lv" id="lu-lv">1</div>
+  <div class="lu-name" id="lu-name">THE BOY</div>
+  <div class="lu-desc" id="lu-desc">Tu fais semblant. Le chemin commence ici.</div>
+  <div class="lu-tap">Tap pour continuer</div>
+</div>
+
 </body>
 </html>
