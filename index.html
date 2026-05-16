@@ -300,6 +300,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     <div class="topbar-title" id="page-title">Bonjour, Monsef</div>
     <div class="topbar-right">
       <div class="datechip" id="datechip"></div>
+      <button onclick="exportData()" style="font-size:10px;padding:4px 10px;border-radius:20px;background:transparent;border:1px solid var(--border2);color:var(--muted);cursor:pointer;font-family:inherit;" title="Exporter les données">↑ Export</button>
+      <button onclick="importData()" style="font-size:10px;padding:4px 10px;border-radius:20px;background:transparent;border:1px solid var(--border2);color:var(--muted);cursor:pointer;font-family:inherit;" title="Importer les données">↓ Import</button>
       <div class="avatar">M</div>
     </div>
   </div>
@@ -519,6 +521,49 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 </div>
 
 <script>
+
+// ══════════════════════════════════════════
+// EXPORT / IMPORT
+// ══════════════════════════════════════════
+function exportData() {
+  var data = JSON.stringify(S);
+  var blob = new Blob([data], {type: 'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'jarvis_backup_' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData() {
+  var input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      try {
+        var data = JSON.parse(ev.target.result);
+        S = { ...S, ...data };
+        if (!S.pillarXP) S.pillarXP = {};
+        if (!S.missions) S.missions = [];
+        if (!S.entries) S.entries = [];
+        if (!S.pillars) S.pillars = JSON.parse(JSON.stringify(DEFAULT_PILLARS));
+        save();
+        renderDashboard();
+        alert('Import reussi ! Toutes vos donnees sont restaurees.');
+      } catch(err) {
+        alert('Erreur import : fichier invalide.');
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
 // ══════════════════════════════════════════
 // XP SYSTEM: 20 XP/jour par pilier, distribués selon poids
 // ══════════════════════════════════════════
