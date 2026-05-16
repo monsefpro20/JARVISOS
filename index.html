@@ -20,8 +20,6 @@
   --rc:16px;--r:100px;
 }
 html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:-apple-system,'SF Pro Display',BlinkMacSystemFont,system-ui,sans-serif;}
-
-/* SPLASH */
 #splash{position:fixed;inset:0;background:#0a0a0a;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity 0.5s;}
 .spl-j{width:72px;height:72px;border-radius:18px;background:#111;border:1px solid #222;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;color:#fff;}
 .spl-name{font-size:20px;font-weight:700;letter-spacing:-0.02em;}
@@ -29,8 +27,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .spl-bar{width:100px;height:2px;background:#1a1a1a;border-radius:2px;overflow:hidden;}
 .spl-fill{height:100%;background:#a78bfa;animation:ld 1.3s ease forwards;}
 @keyframes ld{from{width:0}to{width:100%}}
-
-/* LAYOUT */
 .app{display:flex;height:100vh;overflow:hidden;}
 .sidebar{width:64px;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:20px 0 16px;flex-shrink:0;z-index:20;}
 .sb-logo{font-size:10px;font-weight:700;color:#333;letter-spacing:0.1em;margin-bottom:24px;}
@@ -46,49 +42,19 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .topbar-right{display:flex;align-items:center;gap:8px;}
 .datechip{padding:5px 12px;border-radius:var(--r);background:var(--bg3);font-size:11px;color:var(--muted);border:1px solid var(--border);}
 .avatar{width:32px;height:32px;border-radius:50%;background:#2a1f4a;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--purple);}
-
-/* SCROLL + PAGES */
 .scroll{flex:1;overflow-y:auto;padding:16px 24px 32px;}
 .scroll::-webkit-scrollbar{width:3px;}
 .scroll::-webkit-scrollbar-thumb{background:#222;border-radius:2px;}
 .page{display:none;}
 .page.active{display:block;}
-
-/* CARDS */
-.card{background:var(--bg3);border-radius:var(--rc);padding:16px;border:1px solid var(--border);margin-bottom:12px;}
-.slbl{font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
-
-/* STAT CARDS */
 .scard{background:var(--bg3);border-radius:14px;padding:14px;border:1px solid var(--border);}
 .scard-val{font-size:26px;font-weight:700;line-height:1;}
 .scard-lbl{font-size:11px;color:var(--muted);margin-top:4px;}
-
-/* XP BAR */
-.xp-section{background:var(--bg3);border-radius:var(--rc);padding:16px;border:1px solid var(--border);margin-bottom:12px;}
-.xp-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
-.xp-title{font-size:13px;font-weight:600;}
-.xp-pts{font-size:22px;font-weight:700;color:var(--amber);}
+.slbl{font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;}
 .xp-bar-track{height:6px;background:var(--bg4);border-radius:99px;overflow:hidden;margin-bottom:6px;}
 .xp-bar-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--amber));border-radius:99px;transition:width 0.6s ease;}
-.xp-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);}
-
-/* RING CARD */
-.ring-card{background:var(--bg3);border-radius:var(--rc);padding:16px;border:1px solid var(--border);display:flex;gap:14px;align-items:center;margin-bottom:12px;}
-.ring-photo{width:140px;height:185px;border-radius:14px;background:#1a1a1a;border:1px solid #222;display:block;font-size:38px;flex-shrink:0;overflow:hidden;}
-.ring-photo img{width:100%;height:100%;object-fit:cover;border-radius:14px;}
-.ring-info{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;}
-.rw{position:relative;width:100px;height:100px;}
-.rw svg{width:100px;height:100px;}
-.rc{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
-.rc-pct{font-size:20px;font-weight:700;}
-.rc-sub{font-size:9px;color:var(--muted);letter-spacing:0.05em;text-transform:uppercase;margin-top:1px;}
-.lv-pill{background:var(--bg4);border:1px solid var(--border2);border-radius:20px;padding:5px 12px;font-size:11px;color:var(--muted);}
-.lv-pill b{color:var(--amber);}
-.perso-nm{font-size:11px;font-weight:600;text-align:center;color:var(--text);}
-
-/* PILLAR MINIS */
 .pmini{background:var(--bg3);border-radius:14px;padding:12px;border:1px solid var(--border);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;transition:border-color 0.15s;}
 .pmini:hover{border-color:var(--border2);}
 .pmini-ring{position:relative;width:52px;height:52px;}
@@ -96,8 +62,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .pmini-pct{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:11px;font-weight:600;}
 .pmini-name{font-size:11px;color:var(--muted);}
 .pmini-lv{font-size:10px;}
-
-/* CHAR CARDS */
 .char-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
 .char-card{background:var(--bg3);border-radius:var(--rc);padding:14px;border:1px solid var(--border);display:flex;gap:12px;align-items:center;}
 .char-img{width:90px;height:118px;border-radius:12px;background:#1a1a1a;border:1px solid #222;display:block;font-size:28px;flex-shrink:0;overflow:hidden;}
@@ -105,13 +69,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .char-nm{font-size:13px;font-weight:600;margin-bottom:3px;}
 .char-lv{font-size:10px;color:var(--muted);margin-bottom:3px;}
 .char-desc{font-size:10px;color:var(--muted);line-height:1.5;}
-
-/* ACTIVITY */
 .act-card{background:var(--bg3);border-radius:var(--rc);padding:16px;border:1px solid var(--border);margin-bottom:12px;}
-
-/* HABITS LIST */
 .habits-card{background:var(--bg3);border-radius:var(--rc);padding:16px;border:1px solid var(--border);margin-bottom:12px;}
-.hrow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);cursor:pointer;}
+.hrow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);}
 .hrow:last-child{border-bottom:none;}
 .hchk{width:22px;height:22px;border-radius:50%;border:1.5px solid #333;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}
 .hchk.done{background:var(--text);border-color:var(--text);}
@@ -120,14 +80,11 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .hnm{flex:1;font-size:13px;}
 .hnm.done{color:var(--muted);text-decoration:line-through;}
 .hbadge{font-size:10px;padding:2px 7px;border-radius:20px;}
-/* weekly counter */
 .wctr{display:flex;align-items:center;gap:6px;flex-shrink:0;}
 .wctr-btn{width:22px;height:22px;border-radius:50%;border:1.5px solid #333;background:transparent;color:var(--text);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;}
-.wctr-btn:hover{border-color:var(--muted);}
 .wctr-val{font-size:12px;color:var(--muted);min-width:28px;text-align:center;}
 .wctr-val.done{color:var(--green);}
-
-/* PILIERS PAGE */
+/* PILIERS */
 .psec{background:var(--bg3);border-radius:var(--rc);border:1px solid var(--border);overflow:hidden;margin-bottom:12px;}
 .phdr{display:flex;align-items:center;gap:12px;padding:14px 16px;}
 .phr{position:relative;width:48px;height:48px;flex-shrink:0;}
@@ -154,13 +111,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .phfq{font-size:10px;color:var(--muted);margin-top:1px;}
 .phpts{font-size:11px;color:var(--muted);}
 .phpts.earned{color:var(--green);}
-/* weekly pill in piliers */
 .wk-pill{display:flex;align-items:center;gap:2px;background:var(--bg4);border-radius:20px;padding:2px 2px 2px 8px;font-size:11px;color:var(--muted);}
 .wk-plus{width:20px;height:20px;border-radius:50%;border:none;background:var(--border2);color:var(--text);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
-.wk-plus:hover{background:var(--muted);}
 .wk-minus{width:20px;height:20px;border-radius:50%;border:none;background:transparent;color:var(--muted);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.wk-minus:hover{color:var(--red);}
-
 /* NIVEAU */
 .niv-hero{background:var(--bg3);border-radius:var(--rc);border:1px solid var(--border);padding:24px;display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:12px;}
 .niv-ring{position:relative;width:150px;height:150px;}
@@ -176,11 +129,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .niv-brlbl{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);}
 .niv-brtr{height:4px;background:var(--bg4);border-radius:99px;overflow:hidden;}
 .niv-brfi{height:100%;background:var(--amber);border-radius:99px;transition:width 0.8s ease;}
-
-/* XP INFO BOX */
 .xp-info-box{background:var(--bg4);border-radius:12px;padding:12px 14px;margin-bottom:12px;font-size:12px;line-height:1.8;color:var(--muted);}
 .xp-info-box b{color:var(--text);}
-
 /* COACH */
 .coach-card{background:var(--bg3);border-radius:var(--rc);border:1px solid var(--border);margin-bottom:12px;overflow:hidden;}
 .coach-hd{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border);}
@@ -195,8 +145,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .coach-in{flex:1;background:var(--bg4);border:1px solid var(--border2);border-radius:20px;padding:8px 14px;font-family:inherit;font-size:12px;color:var(--text);outline:none;resize:none;}
 .coach-in::placeholder{color:var(--muted);}
 .coach-send{width:34px;height:34px;border-radius:50%;background:var(--purple);border:none;color:#fff;font-size:14px;cursor:pointer;flex-shrink:0;}
-
-/* PROG / UNLOCK */
+/* PROG */
 .prog-list,.unlock-list{background:var(--bg3);border-radius:var(--rc);border:1px solid var(--border);overflow:hidden;margin-bottom:12px;}
 .prog-item{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border);}
 .prog-item:last-child{border-bottom:none;}
@@ -221,7 +170,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .unl-st{font-size:11px;font-weight:600;}
 .unl-st.ok{color:var(--green);}
 .unl-st.no{color:var(--faint);}
-
 /* TRADING */
 .tgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
 .tcell{background:var(--bg3);border-radius:var(--rc);padding:16px;border:1px solid var(--border);}
@@ -244,7 +192,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .tag-s{background:rgba(248,113,113,0.15);color:var(--red);}
 .tag-w{background:rgba(52,211,153,0.15);color:var(--green);}
 .tag-lo{background:rgba(248,113,113,0.15);color:var(--red);}
-
 /* MIND */
 .mind-g{display:grid;grid-template-columns:1fr 1fr;gap:10px;height:calc(100vh - 130px);}
 .write-card{background:var(--bg3);border-radius:var(--rc);border:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
@@ -254,40 +201,16 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .mood-btns{display:flex;gap:3px;}
 .mood-btn{width:26px;height:26px;border-radius:7px;border:1px solid var(--border2);background:var(--bg4);font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:600;transition:all 0.12s;}
 .mood-btn.sel{background:var(--purple);border-color:var(--purple);color:#fff;}
-
-/* CALENDAR */
-.gcw{height:calc(100vh - 130px);display:flex;flex-direction:column;}
-.gcal-tb{display:flex;align-items:center;gap:8px;padding-bottom:12px;flex-shrink:0;}
-.cal-btn{padding:6px 14px;border-radius:20px;border:1px solid var(--border2);background:var(--bg3);color:var(--text);font-family:inherit;font-size:11px;cursor:pointer;}
-.cal-nav{width:28px;height:28px;border-radius:50%;border:none;background:transparent;cursor:pointer;font-size:15px;color:var(--muted);}
-.cal-period{font-size:14px;font-weight:600;flex:1;}
-.wgrid{flex:1;display:grid;grid-template-columns:40px repeat(7,1fr);overflow-y:auto;scrollbar-width:thin;}
-.wh-corner,.wh-day{background:var(--bg);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10;}
-.wh-day{border-left:1px solid var(--border);padding:6px 4px;text-align:center;cursor:pointer;}
-.wh-day-name{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;}
-.wh-day-num{font-size:18px;font-weight:300;margin-top:2px;}
-.wh-day.today .wh-day-num{background:var(--purple);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:2px auto 0;}
-.time-col{display:flex;flex-direction:column;}
-.tslot{height:44px;display:flex;align-items:flex-start;justify-content:flex-end;padding:2px 4px 0;font-size:9px;color:var(--faint);flex-shrink:0;}
-.day-col{border-left:1px solid var(--border);position:relative;display:flex;flex-direction:column;}
-.day-hr{height:44px;border-bottom:1px solid rgba(255,255,255,0.03);flex-shrink:0;cursor:pointer;}
-.day-hr:hover{background:rgba(167,139,250,0.03);}
-.gcal-ev{position:absolute;left:2px;right:2px;border-radius:5px;padding:2px 5px;font-size:10px;font-weight:500;cursor:pointer;overflow:hidden;z-index:5;background:var(--purple);color:#fff;}
-
-/* RADAR */
 .radar-card{background:var(--bg3);border-radius:var(--rc);border:1px solid var(--border);padding:16px;margin-bottom:12px;}
-
-/* BUTTONS */
 .btn{padding:6px 14px;border-radius:20px;font-size:11px;font-family:inherit;cursor:pointer;transition:all 0.15s;border:none;}
 .btn-g{background:transparent;color:var(--muted);border:1px solid var(--border2);}
 .btn-g:hover{color:var(--text);}
 .btn-p{background:var(--purple);color:#fff;font-weight:600;}
 .btn-p:hover{opacity:0.85;}
-
 /* MODALS */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:90;}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:90;backdrop-filter:blur(2px);}
 .overlay.open{display:block;}
-.modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#161616;border:1px solid #222;border-radius:var(--rc);padding:22px;width:340px;z-index:100;}
+.modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#161616;border:1px solid #2a2a2a;border-radius:var(--rc);padding:22px;width:340px;z-index:100;max-height:85vh;overflow-y:auto;}
 .modal.open{display:block;}
 .modal-title{font-size:15px;font-weight:600;margin-bottom:14px;}
 .mi{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:10px;padding:9px 12px;font-family:inherit;font-size:12px;color:var(--text);outline:none;margin-bottom:8px;}
@@ -295,7 +218,36 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 .mrow{display:flex;gap:7px;margin-bottom:8px;}
 .mrow .mi{margin-bottom:0;}
 .mbtns{display:flex;justify-content:flex-end;gap:7px;margin-top:6px;}
-
+/* DAY BADGE */
+.day-badge{display:inline-flex;align-items:center;gap:6px;background:var(--bg4);border:1px solid var(--border2);border-radius:20px;padding:3px 10px;font-size:10px;color:var(--muted);}
+.day-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0;}
+/* ICON BUTTONS discrets */
+.icon-btn{width:24px;height:24px;border-radius:7px;border:1px solid var(--border2);background:transparent;color:var(--muted);font-size:11px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all 0.15s;flex-shrink:0;}
+.icon-btn:hover{background:var(--bg4);color:var(--text);}
+.icon-btn svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+/* ADD HABIT BTN */
+.add-habit-btn{display:flex;align-items:center;gap:7px;padding:8px 16px;margin:4px 16px 14px;border:1px dashed var(--border2);border-radius:10px;background:transparent;color:var(--muted);font-size:11px;font-family:inherit;cursor:pointer;transition:all 0.15s;width:calc(100% - 32px);}
+.add-habit-btn:hover{border-color:var(--muted);color:var(--text);}
+/* HISTORIQUE */
+.hist-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px;}
+.hist-day{border-radius:8px;padding:6px 4px;text-align:center;cursor:pointer;transition:all 0.15s;border:1px solid transparent;}
+.hist-day:hover{border-color:var(--border2);}
+.hist-day.selected{border-color:var(--purple);}
+.hist-day-num{font-size:13px;font-weight:600;line-height:1;}
+.hist-day-pct{font-size:9px;margin-top:2px;}
+.hist-detail{background:var(--bg3);border-radius:var(--rc);border:1px solid var(--border);padding:16px;margin-bottom:12px;}
+.hist-habit-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);}
+.hist-habit-row:last-child{border-bottom:none;}
+.hist-chk{width:22px;height:22px;border-radius:50%;border:1.5px solid #333;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.2s;cursor:pointer;}
+.hist-chk.done{background:var(--text);border-color:var(--text);}
+.hist-chk svg{width:10px;height:10px;stroke:transparent;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.hist-chk.done svg{stroke:#0a0a0a;}
+/* WEIGHT SLIDER */
+.weight-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.weight-lbl{font-size:11px;color:var(--muted);flex:1;}
+.weight-val{font-size:12px;font-weight:600;color:var(--amber);min-width:20px;text-align:center;}
+.weight-slider{flex:2;-webkit-appearance:none;appearance:none;height:3px;border-radius:2px;background:var(--border2);outline:none;}
+.weight-slider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--amber);cursor:pointer;}
 @media(max-width:768px){
   .sidebar{width:50px;}.sn{width:36px;height:36px;}
   .topbar{padding:14px 14px 0;}.topbar-title{font-size:18px;}
@@ -304,8 +256,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   .tgrid{grid-template-columns:1fr;}
   .mind-g{grid-template-columns:1fr;height:auto;}
   .char-cards{grid-template-columns:1fr;}
+  .hist-grid{grid-template-columns:repeat(7,1fr);}
 }
-
 #levelup-overlay{position:fixed;inset:0;background:#000;z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;}
 #levelup-overlay.show{display:flex;}
 .lu-img{width:180px;height:240px;border-radius:20px;background:#111;border:1px solid #222;display:block;overflow:hidden;animation:luSlide 0.6s cubic-bezier(0.34,1.56,0.64,1) both;}
@@ -319,7 +271,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 @keyframes luLine{to{width:60px}}
 @keyframes luUp{to{opacity:1;transform:translateY(0)}from{opacity:0;transform:translateY(14px)}}
 @keyframes luPulse{0%,100%{opacity:0.25}50%{opacity:0.7}}
-
 </style>
 </head>
 <body>
@@ -329,23 +280,21 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   <div class="spl-sub">Monsef · 2026</div>
   <div class="spl-bar"><div class="spl-fill"></div></div>
 </div>
-
 <div class="app">
 <div class="sidebar">
   <div class="sb-logo">JOS</div>
   <div class="sb-nav">
     <button class="sn active" onclick="goTo('dashboard',this)" title="Dashboard"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></button>
     <button class="sn" onclick="goTo('piliers',this)" title="Piliers"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></button>
+    <button class="sn" onclick="goTo('historique',this)" title="Historique"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></button>
     <button class="sn" onclick="goTo('niveau',this)" title="Niveau"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button>
-    <button class="sn" onclick="goTo('trading',this)" title="Trading"><svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></button>
     <button class="sn" onclick="goTo('mind',this)" title="Mind"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></button>
-    <button class="sn" onclick="goTo('calendar',this)" title="Calendrier"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></button>
+    <button class="sn" onclick="goTo('missions',this)" title="Missions"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></button>
   </div>
   <div class="sb-bot">
     <button class="sn" onclick="toggleFS()" title="Plein écran"><svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg></button>
   </div>
 </div>
-
 <div class="main">
   <div class="topbar">
     <div class="topbar-title" id="page-title">Bonjour, Monsef</div>
@@ -356,81 +305,89 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
   </div>
   <div class="scroll" id="scroll">
 
-    <!-- ══ DASHBOARD ══ -->
+    <!-- DASHBOARD -->
     <div class="page active" id="page-dashboard">
-      <!-- XP Bar -->
-            <!-- HERO CARD -->
       <div style="background:var(--bg3);border-radius:var(--rc);border:1px solid var(--border);padding:20px;margin-bottom:12px;display:flex;gap:20px;align-items:stretch;">
-        <!-- Photo -->
-        <div id="d-photo" style="width:160px;min-width:160px;height:210px;border-radius:14px;background:#1a1a1a;border:1px solid #222;overflow:hidden;flex-shrink:0;display:block;"></div>
-        <!-- Right side -->
+        <div id="d-photo" style="width:160px;min-width:160px;height:210px;border-radius:14px;background:#1a1a1a;border:1px solid #222;overflow:hidden;flex-shrink:0;"></div>
         <div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;gap:12px;">
-          <!-- Top: XP total + aujourd'hui -->
           <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-            <div>
-              <div style="font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">XP Total</div>
-              <div style="font-size:28px;font-weight:700;color:var(--amber);line-height:1;" id="d-xp">0 XP</div>
-            </div>
-            <div style="text-align:right;">
-              <div style="font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Aujourd'hui</div>
-              <div style="font-size:22px;font-weight:700;color:var(--purple);line-height:1;" id="d-xp-today">+0 XP</div>
-            </div>
+            <div><div style="font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">XP Total</div><div style="font-size:28px;font-weight:700;color:var(--amber);line-height:1;" id="d-xp">0 XP</div></div>
+            <div style="text-align:right;"><div style="font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Aujourd'hui</div><div style="font-size:22px;font-weight:700;color:var(--purple);line-height:1;" id="d-xp-today">+0 XP</div></div>
           </div>
-          <!-- Pilier le plus faible + barre -->
           <div>
             <div style="font-size:10px;color:var(--muted);margin-bottom:6px;" id="xp-lbl-l">Pilier le plus faible</div>
             <div class="xp-bar-track"><div class="xp-bar-fill" id="xp-bar" style="width:0%"></div></div>
             <div style="font-size:10px;color:var(--muted);margin-top:4px;text-align:right;" id="xp-lbl-r">300 XP → Niv.2</div>
           </div>
-          <!-- Ring + niveau -->
           <div style="display:flex;align-items:center;gap:14px;">
             <div style="position:relative;width:80px;height:80px;flex-shrink:0;">
               <svg viewBox="0 0 100 100" width="80" height="80"><circle cx="50" cy="50" r="42" fill="none" stroke="#1a1a1a" stroke-width="8"/><circle cx="50" cy="50" r="42" fill="none" stroke="#a78bfa" stroke-width="8" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264" transform="rotate(-90 50 50)" id="d-ring" style="transition:stroke-dashoffset 0.8s ease"/></svg>
-              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
-                <div style="font-size:16px;font-weight:700;" id="d-pct">0%</div>
-                <div style="font-size:8px;color:var(--muted);letter-spacing:0.05em;">7J AVG</div>
-              </div>
+              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;"><div style="font-size:16px;font-weight:700;" id="d-pct">0%</div><div style="font-size:8px;color:var(--muted);">7J AVG</div></div>
             </div>
-            <div>
-              <div style="background:var(--bg4);border:1px solid var(--border2);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--muted);display:inline-block;margin-bottom:6px;">Niveau <b style="color:var(--amber)" id="d-lv">1</b></div>
-            </div>
+            <div><div style="background:var(--bg4);border:1px solid var(--border2);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--muted);display:inline-block;">Niveau <b style="color:var(--amber)" id="d-lv">1</b></div></div>
           </div>
         </div>
       </div>
-      <!-- Stats -->
       <div class="g2">
         <div class="scard"><div class="scard-val" id="d-7avg">0%</div><div class="scard-lbl">Moyenne 7 jours</div></div>
         <div class="scard"><div class="scard-val" id="d-30avg">0%</div><div class="scard-lbl">Moyenne 30 jours</div></div>
       </div>
-      <!-- Pillars -->
+      <!-- PHRASE COACH -->
+      <div style="background:var(--bg3);border-radius:var(--rc);border:1px solid var(--border);padding:16px;margin-bottom:12px;" id="coach-phrase-wrap">
+        <div id="coach-phrase" style="flex:1;font-size:12px;color:var(--muted);">Chargement...</div>
+      </div>
+
       <div class="g4" id="d-pillars"></div>
-      <!-- Char cards -->
       <div class="char-cards" id="d-chars"></div>
-      <!-- Habits today -->
       <div class="habits-card">
-        <div class="slbl">Habitudes du jour</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div class="slbl" style="margin:0">Habitudes du jour</div>
+          <div class="day-badge"><div class="day-badge-dot"></div><span id="today-label">—</span></div>
+        </div>
         <div id="dash-habits-list"></div>
       </div>
-      <!-- Activity chart -->
       <div class="act-card">
         <div class="slbl">Activité · 30 derniers jours</div>
-        <div style="font-size:10px;color:var(--muted);margin-bottom:10px;">Vert = bonne journée (70%+) · violet = partiel · jaune = peu · gris = rien</div>
+        <div style="font-size:10px;color:var(--muted);margin-bottom:10px;">Vert = 70%+ · violet = partiel · jaune = peu · gris = rien</div>
         <div style="position:relative;height:140px;"><canvas id="act-chart"></canvas></div>
       </div>
-      <!-- Radar -->
       <div class="radar-card">
         <div class="slbl">Équilibre des piliers · moyenne 30j</div>
         <div style="position:relative;height:200px;"><canvas id="radar-chart"></canvas></div>
       </div>
-
     </div>
 
-    <!-- ══ PILIERS ══ -->
+    <!-- PILIERS -->
     <div class="page" id="page-piliers">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div style="font-size:11px;color:var(--muted);">Reset automatique à minuit</div>
+        <div class="day-badge"><div class="day-badge-dot"></div><span id="piliers-today-label">—</span></div>
+      </div>
       <div id="piliers-wrap"></div>
     </div>
 
-    <!-- ══ NIVEAU ══ -->
+    <!-- HISTORIQUE -->
+    <div class="page" id="page-historique">
+      <div style="background:var(--bg3);border-radius:var(--rc);border:1px solid var(--border);padding:16px;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div class="slbl" style="margin:0">Calendrier · 35 derniers jours</div>
+          <div style="font-size:10px;color:var(--muted);">Clique sur un jour pour modifier</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px;">
+          <div style="font-size:9px;color:var(--muted);text-align:center;padding:2px;">L</div>
+          <div style="font-size:9px;color:var(--muted);text-align:center;padding:2px;">M</div>
+          <div style="font-size:9px;color:var(--muted);text-align:center;padding:2px;">M</div>
+          <div style="font-size:9px;color:var(--muted);text-align:center;padding:2px;">J</div>
+          <div style="font-size:9px;color:var(--muted);text-align:center;padding:2px;">V</div>
+          <div style="font-size:9px;color:var(--muted);text-align:center;padding:2px;">S</div>
+          <div style="font-size:9px;color:var(--muted);text-align:center;padding:2px;">D</div>
+        </div>
+        <div class="hist-grid" id="hist-calendar"></div>
+      </div>
+      <div id="hist-detail-wrap"></div>
+    </div>
+
+    <!-- NIVEAU -->
     <div class="page" id="page-niveau">
       <div class="niv-hero">
         <div class="slbl" style="margin:0">L'Homme Idéal</div>
@@ -446,11 +403,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
           <div class="niv-brtr"><div class="niv-brfi" id="niv-bar" style="width:0%"></div></div>
         </div>
       </div>
-      <div class="xp-info-box">
-        <b>Comment les niveaux fonctionnent :</b> Chaque habitude cochée donne des XP. Ton niveau est calculé sur la <b>moyenne de tes 7 derniers jours</b> de complétion. Une bonne journée ne suffit pas — il faut tenir dans le temps. Plus tu es régulier, plus vite tu montes.
-      </div>
+      <div class="xp-info-box"><b>Niveaux :</b> Chaque habitude cochée donne des XP définitivement. Le niveau global = le pilier le plus faible. Tous doivent progresser ensemble. 20 XP max/jour par pilier, distribués selon le poids de chaque habitude.</div>
       <div class="coach-card">
-        <div class="coach-hd"><div class="coach-dot"></div><div class="coach-ti">JARVIS Coach — Analyse de ta semaine</div><button class="btn btn-g" style="font-size:10px" onclick="coachAnalyse()">Analyser ↗</button></div>
+        <div class="coach-hd"><div class="coach-dot"></div><div class="coach-ti">JARVIS Coach</div><button class="btn btn-g" style="font-size:10px" onclick="coachAnalyse()">Analyser ↗</button></div>
         <div class="coach-msgs" id="coach-msgs"><div class="cmsg ai">Je suis là pour te dire la vérité sur ta semaine. Clique sur Analyser.</div></div>
         <div class="coach-ft"><textarea class="coach-in" id="coach-in" placeholder="Parle à ton coach..." rows="1" onkeydown="onCoachKey(event)"></textarea><button class="coach-send" onclick="sendCoach()">↑</button></div>
       </div>
@@ -464,44 +419,21 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
       </div>
     </div>
 
-    <!-- ══ TRADING ══ -->
-    <div class="page" id="page-trading">
-      <div class="tgrid">
-        <div class="tcell">
-          <div class="slbl">Performance · ce mois</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            <div class="smi"><div class="smi-lbl">WIN RATE</div><div class="smi-val" id="t-wr" style="color:var(--blue)">—%</div></div>
-            <div class="smi"><div class="smi-lbl">P&L</div><div class="smi-val" id="t-pnl">—</div></div>
-            <div class="smi"><div class="smi-lbl">TRADES</div><div class="smi-val" id="t-total">0</div></div>
-            <div class="smi"><div class="smi-lbl">RISK</div><div class="smi-val" style="color:var(--amber)">0.5%</div></div>
-          </div>
-        </div>
-        <div class="tcell">
-          <div class="slbl">Plan · NY Session</div>
-          <div style="font-size:12px;line-height:2;">
-            <div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding:3px 0;"><span style="color:var(--muted)">Session</span><span>14h30–16h30 CET</span></div>
-            <div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding:3px 0;"><span style="color:var(--muted)">Max trades/j</span><span>2</span></div>
-            <div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding:3px 0;"><span style="color:var(--muted)">Stop après</span><span>2 pertes consec.</span></div>
-            <div style="display:flex;justify-content:space-between;padding:3px 0;"><span style="color:var(--muted)">RR cible</span><span style="color:var(--green)">1:3</span></div>
-          </div>
-        </div>
-        <div class="tcell-full">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;"><div class="slbl" style="margin:0">Journal de trades</div><button class="btn btn-p" onclick="openM('trade-modal')">+ Trade</button></div>
-          <div id="trade-list"><div style="text-align:center;padding:20px;color:var(--muted);font-size:12px;">Aucun trade enregistré.</div></div>
-        </div>
-        <div class="tcell">
-          <div class="slbl">Checklist SMC</div>
-          <div id="smc-list"></div>
-        </div>
-        <div class="tcell">
-          <div class="slbl">Notes · session du jour</div>
-          <textarea id="trade-notes" style="width:100%;height:110px;background:var(--bg);border:1px solid var(--border2);border-radius:10px;padding:10px;font-family:inherit;font-size:12px;color:var(--text);resize:none;outline:none;line-height:1.7;" placeholder="Observations, biais, setup..."></textarea>
-          <button class="btn btn-p" style="margin-top:8px;width:100%;" onclick="saveNotes()">Sauvegarder</button>
-        </div>
+
+    <!-- MISSIONS -->
+    <div class="page" id="page-missions">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <div style="font-size:11px;color:var(--muted);">Complète avant la date → bonus XP · Dépasse la date → malus quotidien</div>
+        <button class="btn btn-p" style="font-size:11px;" onclick="openAddMission()">+ Mission</button>
+      </div>
+      <div id="missions-list"></div>
+      <div style="background:var(--bg3);border-radius:var(--rc);border:1px solid var(--border);padding:14px;margin-top:4px;">
+        <div class="slbl">Missions terminées</div>
+        <div id="missions-done-list"></div>
       </div>
     </div>
 
-    <!-- ══ MIND ══ -->
+    <!-- MIND -->
     <div class="page" id="page-mind">
       <div class="mind-g">
         <div class="coach-card" style="margin-bottom:0;display:flex;flex-direction:column;">
@@ -520,363 +452,316 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
       </div>
     </div>
 
-    <!-- ══ CALENDAR ══ -->
-    <div class="page" id="page-calendar">
-      <div style="display:flex;flex-direction:column;height:calc(100vh - 130px);gap:10px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
-          <div style="font-size:11px;color:var(--muted);">Google Agenda · monsef.pro20@gmail.com</div>
-          <a href="https://calendar.google.com" target="_blank" class="btn btn-p" style="text-decoration:none;font-size:11px;">Ouvrir Google Agenda ↗</a>
-        </div>
-        <div style="flex:1;border-radius:var(--rc);overflow:hidden;border:1px solid var(--border);">
-          <iframe
-            src="https://calendar.google.com/calendar/embed?src=monsef.pro20%40gmail.com&ctz=Europe%2FParis&bgcolor=%230a0a0a&color=%23a78bfa&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=0&showCalendars=0&showTz=0&mode=WEEK"
-            style="width:100%;height:100%;border:none;display:block;"
-            frameborder="0"
-            scrolling="no">
-          </iframe>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- end scroll -->
-</div><!-- end main -->
-</div><!-- end app -->
+  </div>
+</div>
+</div>
 
 <!-- MODALS -->
 <div class="overlay" id="overlay" onclick="closeModals()"></div>
-<div class="modal" id="trade-modal">
-  <div class="modal-title">Nouveau trade</div>
-  <div class="mrow"><select class="mi" id="tr-dir"><option value="long">Long</option><option value="short">Short</option></select><input class="mi" id="tr-date" type="date"></div>
-  <div class="mrow"><input class="mi" id="tr-entry" placeholder="Entrée" type="number" step="0.01"><input class="mi" id="tr-sl" placeholder="SL" type="number" step="0.01"><input class="mi" id="tr-tp" placeholder="TP" type="number" step="0.01"></div>
-  <div class="mrow"><input class="mi" id="tr-result" placeholder="Résultat ($)" type="number" step="0.01"><select class="mi" id="tr-outcome"><option value="">Résultat...</option><option value="win">Win ✅</option><option value="loss">Loss ❌</option><option value="be">Break Even</option></select></div>
-  <input class="mi" id="tr-notes2" placeholder="Notes">
-  <div class="mbtns"><button class="btn btn-g" onclick="closeModals()">Annuler</button><button class="btn btn-p" onclick="submitTrade()">Enregistrer</button></div>
-</div>
-<div class="modal" id="event-modal">
-  <div class="modal-title">Nouvel événement</div>
+
   <input class="mi" id="ev-title" placeholder="Titre">
   <div class="mrow"><input class="mi" id="ev-date" type="date"><input class="mi" id="ev-ts" type="time"><input class="mi" id="ev-te" type="time"></div>
   <div class="mbtns"><button class="btn btn-g" onclick="closeModals()">Annuler</button><button class="btn btn-p" onclick="submitEvent()">Créer</button></div>
 </div>
 
+
+<!-- Mission modal -->
+<div class="modal" id="mission-modal">
+  <div class="modal-title" id="mission-modal-title">Nouvelle mission</div>
+  <input class="mi" id="mm-title" placeholder="Titre de la mission">
+  <textarea class="mi" id="mm-desc" placeholder="Description (optionnel)" rows="2" style="resize:none;"></textarea>
+  <div class="mrow">
+    <input class="mi" id="mm-date" type="date" placeholder="Date limite">
+    <select class="mi" id="mm-xp">
+      <option value="5">+5 XP bonus</option>
+      <option value="10" selected>+10 XP bonus</option>
+      <option value="20">+20 XP bonus</option>
+      <option value="50">+50 XP bonus</option>
+    </select>
+  </div>
+  <div style="font-size:10px;color:var(--muted);margin-bottom:12px;">Chaque jour après la date limite = -1 XP</div>
+  <input type="hidden" id="mm-id">
+  <div class="mbtns">
+    <button class="btn btn-g" id="mm-delete-btn" onclick="deleteMission()" style="display:none;color:var(--red);border-color:var(--red);">Supprimer</button>
+    <button class="btn btn-g" onclick="closeModals()">Annuler</button>
+    <button class="btn btn-p" onclick="saveMission()">Sauvegarder</button>
+  </div>
+</div>
+
+<!-- Habit edit/add modal -->
+<div class="modal" id="habit-modal">
+  <div class="modal-title" id="habit-modal-title">Modifier l'habitude</div>
+  <input class="mi" id="hm-name" placeholder="Nom de l'habitude">
+  <select class="mi" id="hm-freq">
+    <option value="daily">Quotidienne</option>
+    <option value="weekly">Hebdomadaire</option>
+  </select>
+  <div id="hm-weekly-target-wrap" style="display:none;">
+    <input class="mi" id="hm-weekly-target" placeholder="Fois par semaine (ex: 2)" type="number" min="1" max="7">
+  </div>
+  <div style="margin-bottom:12px;">
+    <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">Importance relative (poids)</div>
+    <div style="font-size:10px;color:var(--muted);margin-bottom:8px;line-height:1.6;">Un poids de 2 = deux fois plus important qu'un poids de 1. Les XP sont calculés automatiquement pour que le total fasse 20 XP/jour.</div>
+    <div class="weight-row">
+      <span class="weight-lbl">Poids</span>
+      <input type="range" class="weight-slider" id="hm-weight" min="1" max="5" value="1" oninput="document.getElementById('hm-weight-val').textContent=this.value">
+      <span class="weight-val" id="hm-weight-val">1</span>
+    </div>
+  </div>
+  <input type="hidden" id="hm-pid">
+  <input type="hidden" id="hm-hid">
+  <div class="mbtns">
+    <button class="btn btn-g" id="hm-delete-btn" onclick="deleteHabit()" style="display:none;color:var(--red);border-color:var(--red);">Supprimer</button>
+    <button class="btn btn-g" onclick="closeModals()">Annuler</button>
+    <button class="btn btn-p" onclick="saveHabit()">Sauvegarder</button>
+  </div>
+</div>
+
 <script>
-// ════════════════════════════════
-// PILLARS DATA
-// ════════════════════════════════
-const PILLARS = [
-  {
-    id:'corps', name:'Corps', color:'#34d399', bg:'#0a2018',
-    penalty:'Moins de 3 séances sport → Corps -1 niveau',
-    habits:[
-      {id:'c1', name:'Séance sport', freq:'daily', pts:10, weeklyTarget:null},
-      {id:'c2', name:'Coucher avant minuit', freq:'daily', pts:5, weeklyTarget:null},
-      {id:'c3', name:'Réveil avant 9h', freq:'daily', pts:5, weeklyTarget:null},
-    ]
-  },
-  {
-    id:'esprit', name:'Esprit', color:'#a78bfa', bg:'#1a1030',
-    penalty:'1 prière manquée = jour invalidé. 2 jours ratés → Esprit -1 niveau',
-    habits:[
-      {id:'e1', name:'Prière Fajr', freq:'daily', pts:2, weeklyTarget:null},
-      {id:'e2', name:'Prière Dohr', freq:'daily', pts:2, weeklyTarget:null},
-      {id:'e3', name:'Prière Asr', freq:'daily', pts:2, weeklyTarget:null},
-      {id:'e4', name:'Prière Maghrib', freq:'daily', pts:2, weeklyTarget:null},
-      {id:'e5', name:'Prière Isha', freq:'daily', pts:2, weeklyTarget:null},
-      {id:'e6', name:'Lecture 30 min', freq:'daily', pts:10, weeklyTarget:null},
-    ]
-  },
-  {
-    id:'argent', name:'Argent', color:'#fbbf24', bg:'#1a1000',
-    penalty:'',
-    habits:[
-      {id:'a1', name:'Session trading/backtest', freq:'daily', pts:10, weeklyTarget:null},
-      {id:'a2', name:'Journal de trade', freq:'daily', pts:10, weeklyTarget:null},
-    ]
-  },
-  {
-    id:'hygiene', name:'Hygiène', color:'#60a5fa', bg:'#0a1828',
-    penalty:'',
-    habits:[
-      {id:'h1', name:'Brossage matin', freq:'daily', pts:3, weeklyTarget:null},
-      {id:'h2', name:'Brossage soir', freq:'daily', pts:3, weeklyTarget:null},
-      {id:'h3', name:'Douche', freq:'daily', pts:7, weeklyTarget:null},
-      {id:'h4', name:'Rasage barbe', freq:'weekly', pts:6, weeklyTarget:1},
-      {id:'h5', name:'Rasage intime', freq:'weekly', pts:6, weeklyTarget:1},
-      {id:'h6', name:'Produit cheveux', freq:'weekly', pts:4, weeklyTarget:2},
-      {id:'h7', name:'Skincare soir', freq:'daily', pts:7, weeklyTarget:null},
-    ]
-  }
+// ══════════════════════════════════════════
+// XP SYSTEM: 20 XP/jour par pilier, distribués selon poids
+// ══════════════════════════════════════════
+const DAILY_XP_PER_PILLAR = 20;
+
+// Calcule les XP de chaque habitude selon son poids
+function computeHabitXP(pillar) {
+  const habits = pillar.habits;
+  const dailyHabits = habits.filter(h => h.freq === 'daily');
+  const totalWeight = dailyHabits.reduce((s, h) => s + (h.weight || 1), 0);
+  return habits.map(h => {
+    if (h.freq === 'daily') {
+      const xp = totalWeight > 0 ? Math.round((h.weight || 1) / totalWeight * DAILY_XP_PER_PILLAR) : 0;
+      return { ...h, pts: xp };
+    }
+    // Hebdo: fixé à 3 XP par occurrence (indépendant du système de poids)
+    return { ...h, pts: 3 };
+  });
+}
+
+// Retourne les habitudes avec XP calculés
+function getPillarHabitsWithXP(pid) {
+  const p = S.pillars.find(x => x.id === pid);
+  if (!p) return [];
+  return computeHabitXP(p);
+}
+
+// ══════════════════════════════════════════
+// DEFAULT PILLARS
+// ══════════════════════════════════════════
+const DEFAULT_PILLARS = [
+  {id:'corps', name:'Corps', color:'#34d399', bg:'#0a2018', penalty:'Moins de 3 séances sport → Corps -1 niveau',
+   habits:[
+    {id:'c1', name:'Séance sport',        freq:'daily',  weight:2, weeklyTarget:null},
+    {id:'c2', name:'Coucher avant minuit',freq:'daily',  weight:1, weeklyTarget:null},
+    {id:'c3', name:'Réveil avant 9h',     freq:'daily',  weight:1, weeklyTarget:null},
+  ]},
+  {id:'esprit', name:'Esprit', color:'#a78bfa', bg:'#1a1030', penalty:'1 prière manquée = jour invalidé. 2 jours ratés → Esprit -1 niveau',
+   habits:[
+    {id:'e1', name:'Prière Fajr',   freq:'daily', weight:1, weeklyTarget:null},
+    {id:'e2', name:'Prière Dohr',   freq:'daily', weight:1, weeklyTarget:null},
+    {id:'e3', name:'Prière Asr',    freq:'daily', weight:1, weeklyTarget:null},
+    {id:'e4', name:'Prière Maghrib',freq:'daily', weight:1, weeklyTarget:null},
+    {id:'e5', name:'Prière Isha',   freq:'daily', weight:1, weeklyTarget:null},
+    {id:'e6', name:'Lecture 30 min',freq:'daily', weight:2, weeklyTarget:null},
+  ]},
+  {id:'argent', name:'Argent', color:'#fbbf24', bg:'#1a1000', penalty:'',
+   habits:[
+    {id:'a1', name:'Session trading/backtest', freq:'daily', weight:2, weeklyTarget:null},
+    {id:'a2', name:'Journal de trade',         freq:'daily', weight:1, weeklyTarget:null},
+  ]},
+  {id:'hygiene', name:'Hygiène', color:'#60a5fa', bg:'#0a1828', penalty:'',
+   habits:[
+    {id:'h1', name:'Brossage matin',  freq:'daily',  weight:1, weeklyTarget:null},
+    {id:'h2', name:'Brossage soir',   freq:'daily',  weight:1, weeklyTarget:null},
+    {id:'h3', name:'Douche',          freq:'daily',  weight:2, weeklyTarget:null},
+    {id:'h4', name:'Rasage barbe',    freq:'weekly', weight:1, weeklyTarget:1},
+    {id:'h5', name:'Rasage intime',   freq:'weekly', weight:1, weeklyTarget:1},
+    {id:'h6', name:'Produit cheveux', freq:'weekly', weight:1, weeklyTarget:2},
+    {id:'h7', name:'Skincare soir',   freq:'daily',  weight:1, weeklyTarget:null},
+  ]}
 ];
 
-const LEVELS = [
-  {r:[1,6],    name:'The Boy',       desc:'Tu fais semblant. Le chemin commence ici.',     diff:'facile'},
-  {r:[6,9],    name:'The Sober',     desc:'Tu remontes la tête. Difficile à franchir.',    diff:'hard'},
-  {r:[10,15],  name:'The Rookie',    desc:"Dans l'arène, brut, pas encore prouvé.",        diff:'hard'},
-  {r:[15,19],  name:'The Suit',      desc:'La classe arrive. Grosse difficulté.',          diff:'hard'},
-  {r:[20,30],  name:'The Viking',    desc:'Dans le combat. Premiers résultats.',           diff:'normal'},
-  {r:[30,50],  name:'The Ghost',     desc:'Puissance et charisme. Presque libre.',         diff:'hard'},
-  {r:[50,55],  name:'The Architect', desc:'Vision, discipline, il construit en silence.',  diff:'normal'},
-  {r:[55,65],  name:'The Empire',    desc:"L'empire se construit.",                        diff:'normal'},
-  {r:[65,99],  name:'The Legend',    desc:'Charisme absolu. La plus grande difficulté.',   diff:'extreme'},
-  {r:[100,100],name:'Il Capo',       desc:'Libre. Accompli. Rien à prouver.',              diff:'extreme'},
+// ══════════════════════════════════════════
+// LEVELS & UNLOCKS
+// ══════════════════════════════════════════
+const LEVELS=[
+  {r:[1,6],   name:'The Boy',      desc:'Tu fais semblant. Le chemin commence ici.',    diff:'facile'},
+  {r:[6,9],   name:'The Sober',    desc:'Tu remontes la tête. Difficile à franchir.',   diff:'hard'},
+  {r:[10,15], name:'The Rookie',   desc:"Dans l'arène, brut, pas encore prouvé.",       diff:'hard'},
+  {r:[15,19], name:'The Suit',     desc:'La classe arrive.',                            diff:'hard'},
+  {r:[20,30], name:'The Viking',   desc:'Dans le combat. Premiers résultats.',          diff:'normal'},
+  {r:[30,50], name:'The Ghost',    desc:'Puissance et charisme. Presque libre.',        diff:'hard'},
+  {r:[50,55], name:'The Architect',desc:'Vision, discipline, il construit en silence.', diff:'normal'},
+  {r:[55,65], name:'The Empire',   desc:"L'empire se construit.",                       diff:'normal'},
+  {r:[65,99], name:'The Legend',   desc:'Charisme absolu. La plus grande difficulté.',  diff:'extreme'},
+  {r:[100,100],name:'Il Capo',     desc:'Libre. Accompli. Rien à prouver.',             diff:'extreme'},
 ];
 
-const UNLOCKS = [
-  {name:'Café premium',      req:'100 XP cumulés',              ico:'☕', check:s=>s.totalXP>=100,   color:'#a78bfa'},
-  {name:'Soirée libre',      req:'7 jours de streak',           ico:'🌙', check:s=>s.streak>=7,      color:'#34d399'},
-  {name:'Nouvelle pièce',    req:'Corps niv.3 + Hygiène niv.3', ico:'👕', check:_=>getPillarLv('corps')>=3&&getPillarLv('hygiene')>=3, color:'#60a5fa'},
-  {name:'Sortie restaurant', req:'500 XP cumulés',              ico:'🍽', check:s=>s.totalXP>=500,   color:'#fbbf24'},
-  {name:'Niveau 4 global',   req:'Argent niv.4 + Corps niv.4',ico:'🏆', check:_=>getPillarLv('argent')>=4&&getPillarLv('corps')>=4, color:'#f87171'},
-];
-
-const SMC = ['Bias H4 confirmé (Dow Theory)','Liquidité identifiée','Order Block H1 validé','CHoCH/MSS M15 confirmé','Entrée OTE 62-79%','SL au dernier high/low','Session NY active (14h30-17h30)'];
-
-// Photos des personnages — remplace null par le chemin de ton image
-// ex: 'img/gamin.jpg' si tu as mis l'image dans un dossier img/ sur GitHub
-const CHAR_IMGS = {
-  'The Boy':       {url: 'img/boy.jpg',       fallback: '🎭'},
-  'The Sober':     {url: 'img/sober.jpg',     fallback: '⚔️'},
-  'The Rookie':    {url: 'img/rookie.jpg',    fallback: '🃏'},
-  'The Suit':      {url: 'img/suit.jpg',      fallback: '🃏'},
-  'The Viking':    {url: 'img/viking.jpg',    fallback: '🪓'},
-  'The Ghost':     {url: 'img/ghost.jpg',     fallback: '🖤'},
-  'The Architect': {url: 'img/architect.jpg', fallback: '🎩'},
-  'The Empire':    {url: 'img/empire.jpg',    fallback: '🎩'},
-  'The Legend':    {url: 'img/legend.jpg',    fallback: '👑'},
-  'Il Capo':       {url: 'img/capo.jpg',      fallback: '🔱'},
+const CHAR_IMGS={
+  'The Boy':{url:'img/boy.jpg',fallback:'🎭'},'The Sober':{url:'img/sober.jpg',fallback:'⚔️'},
+  'The Rookie':{url:'img/rookie.jpg',fallback:'🃏'},'The Suit':{url:'img/suit.jpg',fallback:'🃏'},
+  'The Viking':{url:'img/viking.jpg',fallback:'🪓'},'The Ghost':{url:'img/ghost.jpg',fallback:'🖤'},
+  'The Architect':{url:'img/architect.jpg',fallback:'🎩'},'The Empire':{url:'img/empire.jpg',fallback:'🎩'},
+  'The Legend':{url:'img/legend.jpg',fallback:'👑'},'Il Capo':{url:'img/capo.jpg',fallback:'🔱'},
 };
 
-function getCharContent(name, w, h, radius, grayscale){
-  var ch=CHAR_IMGS[name]||{url:null,fallback:'👤'};
-  var fw=w||88, fh=h||116;
-  var fs=Math.round(fw/2.2)+'px';
-  var r=radius||'14px';
-  if(ch.url){
-    var st='display:block;width:'+fw+'px;height:'+fh+'px;object-fit:cover;object-position:top center;border-radius:'+r+';';
-    if(grayscale) st+='filter:grayscale(0.8);';
-    return '<img src="'+ch.url+'" width="'+fw+'" height="'+fh+'" style="'+st+'">';
-  }
-  return '<span style="font-size:'+fs+'">'+ch.fallback+'</span>';
-}
-// backward compat
-const CHAR_FB = Object.fromEntries(Object.entries(CHAR_IMGS).map(([k,v])=>[k,v.fallback]));
-function getLvImg(name){ return CHAR_IMGS[name]||{url:null,fallback:'👤'}; }
-
-const COACH_SYS = `Tu es le coach de Monsef, 22 ans, trader à Toulouse. Dis la vérité brutale. Leviers: son père qui a travaillé toute sa vie, sa copine qui le regarde, le temps qui passe, l'argent perdu (5000€). Messages durs: "Ton père s'est levé toute sa vie à 6h pour que toi tu dormes jusqu'à midi." / "Ta copine te regarde. Elle voit quoi ?" / "Pendant que tu scrollais, des mecs construisaient." Motivation: "Tu as fait ce que 90% des gens n'ont pas fait aujourd'hui. En silence." Système: 4 piliers, 100 niveaux de gamin au pistolet en bois à Michel Morrone. Français, phrases courtes, brutal.`;
-const MIND_SYS = `Tu es JARVIS, assistant de Monsef. Direct, sobre. Français.`;
-
-// ════════════════════════════════
-// STATE
-// ════════════════════════════════
-let S = {totalXP:0, streak:0, days:{}, weeklyData:{}, trades:[], entries:[], smcCk:new Array(SMC.length).fill(false), tradeNotes:''};
-try{const s=localStorage.getItem('jarvis_v4');if(s)S={...S,...JSON.parse(s)};}catch(e){}
-
-const todayK = () => new Date().toISOString().slice(0,10);
-const weekK  = () => { const d=new Date(); const m=getMonday(d); return m.toISOString().slice(0,10); };
-function save(){try{localStorage.setItem('jarvis_v4',JSON.stringify(S));}catch(e){}}
-
-function getDayData(){
-  if(!S.days[todayK()]) S.days[todayK()]={checked:{}};
-  return S.days[todayK()];
-}
-function getWeekData(){
-  const wk=weekK();
-  if(!S.weeklyData[wk]) S.weeklyData[wk]={};
-  return S.weeklyData[wk];
-}
-
-// ════════════════════════════════
-// XP SYSTEM
-// ════════════════════════════════
-// Seuils XP par pilier pour débloquer chaque niveau global
-// Le niveau global n'avance que si TOUS les piliers ont atteint le seuil
-const LV_THRESHOLDS = [
-  {lv:2, xp:300},
-  {lv:3, xp:600},
-  {lv:4, xp:900},
-  {lv:5, xp:1200},
-  {lv:6, xp:1500},
-  {lv:7, xp:2100},
-  {lv:8, xp:2700},
-  {lv:9, xp:3300},
-  {lv:10, xp:4100},
-  {lv:11, xp:4900},
-  {lv:12, xp:5700},
-  {lv:13, xp:6500},
-  {lv:14, xp:7300},
-  {lv:15, xp:8100},
-  {lv:16, xp:9600},
-  {lv:17, xp:11100},
-  {lv:18, xp:12600},
-  {lv:19, xp:14100},
-  {lv:20, xp:15600},
-  {lv:21, xp:17100},
-  {lv:22, xp:18600},
-  {lv:23, xp:20100},
-  {lv:24, xp:21600},
-  {lv:25, xp:23100},
-  {lv:26, xp:24600},
-  {lv:27, xp:26100},
-  {lv:28, xp:27600},
-  {lv:29, xp:29100},
-  {lv:30, xp:30600},
-  {lv:31, xp:32600},
-  {lv:32, xp:34600},
-  {lv:33, xp:36600},
-  {lv:34, xp:38600},
-  {lv:35, xp:40600},
-  {lv:36, xp:42600},
-  {lv:37, xp:44600},
-  {lv:38, xp:46600},
-  {lv:39, xp:48600},
-  {lv:40, xp:50600},
-  {lv:41, xp:52600},
-  {lv:42, xp:54600},
-  {lv:43, xp:56600},
-  {lv:44, xp:58600},
-  {lv:45, xp:60600},
-  {lv:46, xp:62600},
-  {lv:47, xp:64600},
-  {lv:48, xp:66600},
-  {lv:49, xp:68600},
-  {lv:50, xp:70600},
-  {lv:51, xp:72600},
-  {lv:52, xp:74600},
-  {lv:53, xp:76600},
-  {lv:54, xp:78600},
-  {lv:55, xp:80600},
-  {lv:56, xp:82600},
-  {lv:57, xp:84600},
-  {lv:58, xp:86600},
-  {lv:59, xp:88600},
-  {lv:60, xp:90600},
-  {lv:61, xp:92600},
-  {lv:62, xp:94600},
-  {lv:63, xp:96600},
-  {lv:64, xp:98600},
-  {lv:65, xp:100600},
-  {lv:66, xp:107600},
-  {lv:67, xp:114600},
-  {lv:68, xp:121600},
-  {lv:69, xp:128600},
-  {lv:70, xp:135600},
-  {lv:71, xp:142600},
-  {lv:72, xp:149600},
-  {lv:73, xp:156600},
-  {lv:74, xp:163600},
-  {lv:75, xp:170600},
-  {lv:76, xp:177600},
-  {lv:77, xp:184600},
-  {lv:78, xp:191600},
-  {lv:79, xp:198600},
-  {lv:80, xp:205600},
-  {lv:81, xp:212600},
-  {lv:82, xp:219600},
-  {lv:83, xp:226600},
-  {lv:84, xp:233600},
-  {lv:85, xp:240600},
-  {lv:86, xp:247600},
-  {lv:87, xp:254600},
-  {lv:88, xp:261600},
-  {lv:89, xp:268600},
-  {lv:90, xp:275600},
-  {lv:91, xp:282600},
-  {lv:92, xp:289600},
-  {lv:93, xp:296600},
-  {lv:94, xp:303600},
-  {lv:95, xp:310600},
-  {lv:96, xp:317600},
-  {lv:97, xp:324600},
-  {lv:98, xp:331600},
-  {lv:99, xp:338600},
-  {lv:100, xp:345600},
+const UNLOCKS=[
+  {name:'Café premium',   req:'100 XP cumulés',              ico:'☕',check:s=>s.totalXP>=100},
+  {name:'Soirée libre',   req:'7 jours de streak',           ico:'🌙',check:s=>getStreak()>=7},
+  {name:'Nouvelle pièce', req:'Corps niv.3 + Hygiène niv.3', ico:'👕',check:_=>getPillarLv('corps')>=3&&getPillarLv('hygiene')>=3},
+  {name:'Sortie restaurant',req:'500 XP cumulés',            ico:'🍽',check:s=>s.totalXP>=500},
+  {name:'Niveau 4 global',req:'Argent niv.4 + Corps niv.4',  ico:'🏆',check:_=>getPillarLv('argent')>=4&&getPillarLv('corps')>=4},
 ];
 
-function getPillarXP(pid){
-  if(!S.pillarXP) S.pillarXP={};
-  return S.pillarXP[pid]||0;
+
+const COACH_SYS=`Tu es le coach de Monsef, 22 ans, trader à Toulouse. Dis la vérité brutale. Leviers: son père qui a travaillé toute sa vie, sa copine qui le regarde, le temps qui passe, l'argent perdu (5000€). Français, phrases courtes, brutal.`;
+const MIND_SYS=`Tu es JARVIS, assistant de Monsef. Direct, sobre. Français.`;
+
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+let S = {
+  totalXP: 0, streak: 0,
+  days: {}, weeklyData: {},
+  trades: [], entries: [],
+  pillarXP: {},
+  pillars: JSON.parse(JSON.stringify(DEFAULT_PILLARS)),
+  missions: [],
+  lastMissionCheck: ''
+};
+
+try {
+  const saved = localStorage.getItem('jarvis_v5');
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    S = { ...S, ...parsed };
+    if (!S.pillarXP) S.pillarXP = {};
+    if (!S.pillars) S.pillars = JSON.parse(JSON.stringify(DEFAULT_PILLARS));
+    // Migrate old pillars: add weight field if missing
+    S.pillars.forEach(p => p.habits.forEach(h => { if (!h.weight) h.weight = 1; }));
+  }
+} catch(e) {}
+
+// Migrate from v4 if needed
+try {
+  const v4 = localStorage.getItem('jarvis_v4');
+  if (v4 && !localStorage.getItem('jarvis_v5')) {
+    const old = JSON.parse(v4);
+    S.days = old.days || {};
+    S.weeklyData = old.weeklyData || {};
+    S.trades = old.trades || [];
+    S.entries = old.entries || [];
+
+    // Recalculate totalXP and pillarXP from scratch
+    recalcAllXP();
+    save();
+  }
+} catch(e) {}
+
+const todayK = () => new Date().toISOString().slice(0,10);
+function getMonday(d){const c=new Date(d),day=c.getDay(),diff=c.getDate()-day+(day===0?-6:1);return new Date(c.setDate(diff));}
+const weekK = () => { const d=new Date(),m=getMonday(d); return m.toISOString().slice(0,10); };
+function save() { try { localStorage.setItem('jarvis_v5', JSON.stringify(S)); } catch(e) {} }
+function getDayData(dateKey) { const k=dateKey||todayK(); if(!S.days[k]) S.days[k]={checked:{}}; return S.days[k]; }
+function getWeekData() { const wk=weekK(); if(!S.weeklyData[wk]) S.weeklyData[wk]={}; return S.weeklyData[wk]; }
+
+// ══════════════════════════════════════════
+// XP RECALC — recalcule tout depuis l'historique
+// ══════════════════════════════════════════
+function recalcAllXP() {
+  S.pillarXP = {};
+  S.totalXP = 0;
+  S.pillars.forEach(p => { S.pillarXP[p.id] = 0; });
+
+  // Recalc daily habits from days history
+  Object.keys(S.days).forEach(dateKey => {
+    const day = S.days[dateKey];
+    if (!day || !day.checked) return;
+    S.pillars.forEach(p => {
+      const habitsWithXP = computeHabitXP(p);
+      habitsWithXP.forEach(h => {
+        if (h.freq === 'daily' && day.checked[h.id]) {
+          S.pillarXP[p.id] = (S.pillarXP[p.id] || 0) + h.pts;
+          S.totalXP += h.pts;
+        }
+      });
+    });
+  });
+
+  // Recalc weekly habits from weeklyData
+  Object.keys(S.weeklyData).forEach(wk => {
+    const wd = S.weeklyData[wk];
+    S.pillars.forEach(p => {
+      p.habits.filter(h => h.freq === 'weekly' && h.weeklyTarget).forEach(h => {
+        const cnt = Math.min(wd[h.id] || 0, h.weeklyTarget);
+        const xpEach = 3;
+        S.pillarXP[p.id] = (S.pillarXP[p.id] || 0) + cnt * xpEach;
+        S.totalXP += cnt * xpEach;
+      });
+    });
+  });
 }
 
-// Niveau d'un pilier basé sur ses XP cumulés
-function getPillarLv(pid){
-  const xp=getPillarXP(pid);
-  let lv=1;
-  for(const t of LV_THRESHOLDS){
-    if(xp>=t.xp) lv=t.lv;
-    else break;
-  }
+// ══════════════════════════════════════════
+// LV THRESHOLDS
+// ══════════════════════════════════════════
+const LV_THRESHOLDS=[
+  {lv:2,xp:300},{lv:3,xp:600},{lv:4,xp:900},{lv:5,xp:1200},
+  {lv:6,xp:1500},{lv:7,xp:2100},{lv:8,xp:2700},{lv:9,xp:3300},{lv:10,xp:4100},
+  {lv:11,xp:4900},{lv:12,xp:5700},{lv:13,xp:6500},{lv:14,xp:7300},{lv:15,xp:8100},
+  {lv:16,xp:9600},{lv:17,xp:11100},{lv:18,xp:12600},{lv:19,xp:14100},{lv:20,xp:15600},
+  {lv:25,xp:23100},{lv:30,xp:30600},{lv:35,xp:40600},{lv:40,xp:50600},
+  {lv:45,xp:60600},{lv:50,xp:70600},{lv:55,xp:80600},{lv:60,xp:90600},
+  {lv:65,xp:100600},{lv:70,xp:135600},{lv:75,xp:170600},{lv:80,xp:205600},
+  {lv:85,xp:240600},{lv:90,xp:275600},{lv:95,xp:310600},{lv:100,xp:345600},
+];
+
+function getPillarXP(pid) { return S.pillarXP[pid] || 0; }
+function getPillarLv(pid) {
+  const xp=getPillarXP(pid); let lv=1;
+  for(const t of LV_THRESHOLDS){if(xp>=t.xp)lv=t.lv;else break;}
   return lv;
 }
-
-// Niveau global = le plus haut seuil où TOUS les piliers ont assez de XP
-function getGlobalLv(){
-  if(!S.pillarXP) return 1;
-  let globalLv=1;
+function getGlobalLv() {
+  let g=1;
   for(const t of LV_THRESHOLDS){
-    const allMet=PILLARS.every(p=>(S.pillarXP[p.id]||0)>=t.xp);
-    if(allMet) globalLv=t.lv;
-    else break;
+    if(S.pillars.every(p=>(S.pillarXP[p.id]||0)>=t.xp))g=t.lv;else break;
   }
-  return Math.max(1,Math.min(100,globalLv));
+  return Math.max(1,Math.min(100,g));
+}
+function getBottleneck() {
+  const nextT=LV_THRESHOLDS.find(t=>t.lv>getGlobalLv());if(!nextT)return null;
+  return S.pillars.map(p=>({pid:p.id,name:p.name,xp:getPillarXP(p.id),missing:Math.max(0,nextT.xp-(S.pillarXP[p.id]||0)),color:p.color})).sort((a,b)=>b.missing-a.missing)[0];
+}
+function getLvInfo(n){return LEVELS.find(l=>n>=l.r[0]&&n<=l.r[1])||LEVELS[0];}
+
+function getMaxDailyXP() { return S.pillars.length * DAILY_XP_PER_PILLAR; }
+
+function getDayXP(dateKey) {
+  const day = S.days[dateKey]; if(!day||!day.checked) return 0;
+  let total = 0;
+  S.pillars.forEach(p => {
+    const habitsXP = computeHabitXP(p);
+    habitsXP.forEach(h => { if(h.freq==='daily'&&day.checked[h.id]) total += h.pts; });
+  });
+  return total;
 }
 
-// Prochain seuil pour un pilier
-function getNextPillarThreshold(pid){
-  const xp=getPillarXP(pid);
-  for(const t of LV_THRESHOLDS){
-    if(xp<t.xp) return t;
-  }
-  return null;
+function getTodayXP() { return getDayXP(todayK()); }
+
+function getWeeklyHabitXP() {
+  const wd=getWeekData(); let total=0;
+  S.pillars.forEach(p => {
+    p.habits.filter(h=>h.freq==='weekly'&&h.weeklyTarget).forEach(h=>{
+      total += Math.min(wd[h.id]||0,h.weeklyTarget)*3;
+    });
+  });
+  return total;
 }
 
-// Pilier le plus en retard (bloque la progression globale)
-function getBottleneck(){
-  const nextGlobal=LV_THRESHOLDS.find(t=>t.lv>getGlobalLv());
-  if(!nextGlobal) return null;
-  return PILLARS.map(p=>({
-    pid:p.id, name:p.name,
-    xp:getPillarXP(p.id),
-    missing:Math.max(0,nextGlobal.xp-(S.pillarXP&&S.pillarXP[p.id]||0)),
-    color:p.color
-  })).sort((a,b)=>b.missing-a.missing)[0];
-}
-
-// aliases
-function getLv7(pid){ return getPillarLv(pid); }
-
-function getMaxDailyXP(){
-  return PILLARS.flatMap(p=>p.habits).reduce((s,h)=>{
-    if(h.freq==='daily') return s+h.pts;
-    if(h.weeklyTarget) return s+Math.round(h.pts*h.weeklyTarget/7);
-    return s;
-  },0);
-}
-
-function getDayXP(dateKey){
-  const day=S.days[dateKey];
-  if(!day||!day.checked) return 0;
-  return PILLARS.flatMap(p=>p.habits).reduce((s,h)=>{
-    if(h.freq==='daily'&&day.checked[h.id]) return s+h.pts;
-    return s;
-  },0);
-}
-
-function getTodayXP(){ return getDayXP(todayK()); }
-
-function getWeeklyHabitXP(){
-  const wd=getWeekData();
-  return PILLARS.flatMap(p=>p.habits).reduce((s,h)=>{
-    if(h.freq==='weekly'&&h.weeklyTarget){
-      return s+Math.min(wd[h.id]||0,h.weeklyTarget)*h.pts;
-    }
-    return s;
-  },0);
-}
-
-function getAvgPct(days){
-  const max=getMaxDailyXP(); if(max===0) return 0;
-  const today=new Date();
-  let tot=0,cnt=0;
+function getAvgPct(days) {
+  const max=getMaxDailyXP();if(max===0)return 0;
+  const today=new Date();let tot=0,cnt=0;
   for(let i=0;i<days;i++){
     const d=new Date(today);d.setDate(today.getDate()-i);
     const k=d.toISOString().slice(0,10);
@@ -886,79 +771,277 @@ function getAvgPct(days){
   return cnt>0?Math.round(tot/cnt):0;
 }
 
-function getPillarPct30(pid){
-  const p=PILLARS.find(x=>x.id===pid);
-  const today=new Date();
-  let tot=0,cnt=0;
-  const max=p.habits.filter(h=>h.freq==='daily').reduce((s,h)=>s+h.pts,0);
-  if(max===0) return 0;
+function getPillarPct30(pid) {
+  const p=S.pillars.find(x=>x.id===pid);if(!p)return 0;
+  const today=new Date();let tot=0,cnt=0;
+  const habitsXP = computeHabitXP(p);
+  const max=habitsXP.filter(h=>h.freq==='daily').reduce((s,h)=>s+h.pts,0);
+  if(max===0)return 0;
   for(let i=0;i<30;i++){
     const d=new Date(today);d.setDate(today.getDate()-i);
     const k=d.toISOString().slice(0,10),day=S.days[k];
-    const pts=day&&day.checked?p.habits.filter(h=>h.freq==='daily').reduce((s,h)=>s+(day.checked[h.id]?h.pts:0),0):0;
+    const pts=day&&day.checked?habitsXP.filter(h=>h.freq==='daily').reduce((s,h)=>s+(day.checked[h.id]?h.pts:0),0):0;
     tot+=pts/max*100;cnt++;
   }
   return cnt>0?Math.round(tot/cnt):0;
 }
 
-function getPillarTodayPct(pid){
-  const p=PILLARS.find(x=>x.id===pid);
-  const max=p.habits.filter(h=>h.freq==='daily').reduce((s,h)=>s+h.pts,0);
-  if(max===0) return 0;
+function getPillarTodayPct(pid) {
+  const p=S.pillars.find(x=>x.id===pid);if(!p)return 0;
+  const habitsXP=computeHabitXP(p);
+  const max=habitsXP.filter(h=>h.freq==='daily').reduce((s,h)=>s+h.pts,0);if(max===0)return 0;
   const day=getDayData();
-  const pts=p.habits.filter(h=>h.freq==='daily').reduce((s,h)=>s+(day.checked[h.id]?h.pts:0),0);
+  const pts=habitsXP.filter(h=>h.freq==='daily').reduce((s,h)=>s+(day.checked[h.id]?h.pts:0),0);
   return Math.round(pts/max*100);
 }
-
-function getLvInfo(n){return LEVELS.find(l=>n>=l.r[0]&&n<=l.r[1])||LEVELS[0];}
 
 function getStreak(){
   let s=0;const d=new Date();
   for(let i=0;i<365;i++){
     const k=d.toISOString().slice(0,10),day=S.days[k];
-    if(!day||!Object.keys(day.checked||{}).length) break;
+    if(!day||!Object.keys(day.checked||{}).length)break;
     s++;d.setDate(d.getDate()-1);
   }
   return s;
 }
 
-// ════════════════════════════════
-// TOGGLE HABITS
-// ════════════════════════════════
-function toggleDaily(hid){
-  const d=getDayData();if(!d.checked)d.checked={};
-  const h=PILLARS.flatMap(p=>p.habits).find(x=>x.id===hid);if(!h)return;
-  const was=!!d.checked[hid];
-  d.checked[hid]=!was;
-  if(!was) S.totalXP+=h.pts; else S.totalXP=Math.max(0,S.totalXP-h.pts);
-  S.streak=getStreak();
-  save();renderCurrent();
+// ══════════════════════════════════════════
+// TOGGLE HABITS — with full XP tracking
+// ══════════════════════════════════════════
+function toggleDaily(hid, dateKey) {
+  const dk = dateKey || todayK();
+  const day = getDayData(dk); if(!day.checked) day.checked={};
+  const p = S.pillars.find(pl => pl.habits.some(h => h.id===hid));
+  if(!p) return;
+  const habitsXP = computeHabitXP(p);
+  const h = habitsXP.find(x => x.id===hid); if(!h) return;
+  const was = !!day.checked[hid];
+  day.checked[hid] = !was;
+  if(!S.pillarXP) S.pillarXP={};
+  if(!was) {
+    S.totalXP += h.pts;
+    S.pillarXP[p.id] = (S.pillarXP[p.id]||0) + h.pts;
+  } else {
+    S.totalXP = Math.max(0, S.totalXP - h.pts);
+    S.pillarXP[p.id] = Math.max(0, (S.pillarXP[p.id]||0) - h.pts);
+  }
+  const prevLv = _lastGlobalLv;
+  save(); renderCurrent(); checkLevelUp(prevLv);
 }
 
-function incrWeekly(hid,delta){
+function incrWeekly(hid, delta) {
   const wd=getWeekData();
-  const h=PILLARS.flatMap(p=>p.habits).find(x=>x.id===hid);if(!h)return;
+  const p=S.pillars.find(pl=>pl.habits.some(h=>h.id===hid));if(!p)return;
+  const h=p.habits.find(x=>x.id===hid);if(!h)return;
   const cur=wd[hid]||0;
+  if(delta>0&&cur>=h.weeklyTarget)return;
   const newVal=Math.max(0,cur+delta);
-  if(delta>0&&cur>=h.weeklyTarget) return; // cap at target (allow going over manually? no)
   const prev=Math.min(cur,h.weeklyTarget);
   const next=Math.min(newVal,h.weeklyTarget);
   wd[hid]=newVal;
-  if(!S.pillarXP) S.pillarXP={};
-  const pid3=PILLARS.find(p=>p.habits.some(x=>x.id===hid)).id;
-  if(next>prev){
-    S.totalXP+=h.pts;
-    S.pillarXP[pid3]=(S.pillarXP[pid3]||0)+h.pts;
-  } else if(next<prev){
-    S.totalXP=Math.max(0,S.totalXP-h.pts);
-    S.pillarXP[pid3]=Math.max(0,(S.pillarXP[pid3]||0)-h.pts);
-  }
+  if(!S.pillarXP)S.pillarXP={};
+  if(next>prev){S.totalXP+=3;S.pillarXP[p.id]=(S.pillarXP[p.id]||0)+3;}
+  else if(next<prev){S.totalXP=Math.max(0,S.totalXP-3);S.pillarXP[p.id]=Math.max(0,(S.pillarXP[p.id]||0)-3);}
   save();renderCurrent();
 }
 
-// ════════════════════════════════
+// ══════════════════════════════════════════
+// HABIT EDIT / ADD / DELETE
+// ══════════════════════════════════════════
+function openAddHabit(pid) {
+  document.getElementById('habit-modal-title').textContent = 'Ajouter une habitude';
+  document.getElementById('hm-name').value = '';
+  document.getElementById('hm-freq').value = 'daily';
+  document.getElementById('hm-weight').value = 1;
+  document.getElementById('hm-weight-val').textContent = '1';
+  document.getElementById('hm-weekly-target-wrap').style.display = 'none';
+  document.getElementById('hm-weekly-target').value = '';
+  document.getElementById('hm-pid').value = pid;
+  document.getElementById('hm-hid').value = '';
+  document.getElementById('hm-delete-btn').style.display = 'none';
+  document.getElementById('hm-freq').onchange = () => {
+    document.getElementById('hm-weekly-target-wrap').style.display =
+      document.getElementById('hm-freq').value === 'weekly' ? 'block' : 'none';
+  };
+  openM('habit-modal');
+}
+
+function openEditHabit(pid, hid) {
+  const p = S.pillars.find(x => x.id===pid); if(!p) return;
+  const h = p.habits.find(x => x.id===hid); if(!h) return;
+  document.getElementById('habit-modal-title').textContent = 'Modifier l\'habitude';
+  document.getElementById('hm-name').value = h.name;
+  document.getElementById('hm-freq').value = h.freq;
+  document.getElementById('hm-weight').value = h.weight || 1;
+  document.getElementById('hm-weight-val').textContent = h.weight || 1;
+  document.getElementById('hm-weekly-target-wrap').style.display = h.freq==='weekly' ? 'block' : 'none';
+  document.getElementById('hm-weekly-target').value = h.weeklyTarget || '';
+  document.getElementById('hm-pid').value = pid;
+  document.getElementById('hm-hid').value = hid;
+  document.getElementById('hm-delete-btn').style.display = 'inline-flex';
+  document.getElementById('hm-freq').onchange = () => {
+    document.getElementById('hm-weekly-target-wrap').style.display =
+      document.getElementById('hm-freq').value === 'weekly' ? 'block' : 'none';
+  };
+  openM('habit-modal');
+}
+
+function saveHabit() {
+  const pid = document.getElementById('hm-pid').value;
+  const hid = document.getElementById('hm-hid').value;
+  const name = document.getElementById('hm-name').value.trim();
+  const freq = document.getElementById('hm-freq').value;
+  const weight = parseInt(document.getElementById('hm-weight').value) || 1;
+  const weeklyTarget = freq==='weekly' ? (parseInt(document.getElementById('hm-weekly-target').value)||1) : null;
+  if(!name) { alert('Nom requis'); return; }
+
+  const p = S.pillars.find(x => x.id===pid); if(!p) return;
+
+  if(hid) {
+    // Edit existing
+    const h = p.habits.find(x => x.id===hid); if(!h) return;
+    h.name = name; h.freq = freq; h.weight = weight; h.weeklyTarget = weeklyTarget;
+  } else {
+    // Add new
+    const newId = pid.charAt(0) + Date.now();
+    p.habits.push({ id: newId, name, freq, weight, weeklyTarget });
+  }
+  // Recalc all XP with new weights
+  recalcAllXP();
+  save(); closeModals(); renderCurrent();
+}
+
+function deleteHabit() {
+  if(!confirm('Supprimer cette habitude ?')) return;
+  const pid = document.getElementById('hm-pid').value;
+  const hid = document.getElementById('hm-hid').value;
+  const p = S.pillars.find(x => x.id===pid); if(!p) return;
+  p.habits = p.habits.filter(h => h.id !== hid);
+  // Remove from all day records
+  Object.keys(S.days).forEach(dk => {
+    if(S.days[dk].checked) delete S.days[dk].checked[hid];
+  });
+  recalcAllXP();
+  save(); closeModals(); renderCurrent();
+}
+
+// ══════════════════════════════════════════
+// HISTORIQUE
+// ══════════════════════════════════════════
+let selectedHistDay = null;
+
+function renderHistorique() {
+  const today = new Date();
+  // Build 35-day calendar starting from monday 5 weeks ago
+  const cells = [];
+  for(let i=34; i>=0; i--) {
+    const d = new Date(today); d.setDate(today.getDate()-i);
+    cells.push(d);
+  }
+
+  const container = document.getElementById('hist-calendar');
+  const maxXP = getMaxDailyXP() || 1;
+  container.innerHTML = '';
+
+  cells.forEach(d => {
+    const k = d.toISOString().slice(0,10);
+    const xp = getDayXP(k);
+    const pct = Math.round(xp/maxXP*100);
+    const isToday = k === todayK();
+    const isSel = k === selectedHistDay;
+    const color = pct>=70?'#34d399':pct>=40?'#a78bfa':pct>0?'#fbbf24':'#1e1e1e';
+    const el = document.createElement('div');
+    el.className = 'hist-day' + (isSel?' selected':'');
+    el.style.background = color + '22';
+    el.style.borderColor = isSel?'var(--purple)':(isToday?'var(--amber)':'transparent');
+    el.innerHTML = `<div class="hist-day-num" style="color:${isToday?'var(--amber)':pct>0?color:'var(--muted)'}">${d.getDate()}</div><div class="hist-day-pct" style="color:${color}">${pct>0?pct+'%':''}</div>`;
+    el.onclick = () => selectHistDay(k);
+    container.appendChild(el);
+  });
+
+  renderHistDetail();
+}
+
+function selectHistDay(dateKey) {
+  selectedHistDay = dateKey;
+  renderHistorique();
+}
+
+function renderHistDetail() {
+  const wrap = document.getElementById('hist-detail-wrap');
+  if(!selectedHistDay) {
+    wrap.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:12px;">Sélectionne un jour pour voir et modifier les habitudes.</div>';
+    return;
+  }
+
+  const d = new Date(selectedHistDay);
+  const isToday = selectedHistDay === todayK();
+  const dayXP = getDayXP(selectedHistDay);
+  const maxXP = getMaxDailyXP();
+  const pct = maxXP>0 ? Math.round(dayXP/maxXP*100) : 0;
+  const dayLabel = d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+  let html = `<div class="hist-detail">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div>
+        <div style="font-size:13px;font-weight:600;text-transform:capitalize;">${dayLabel}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px;">${dayXP} XP · ${pct}% de complétion${isToday?' · Aujourd\'hui':''}</div>
+      </div>
+      <div style="font-size:22px;font-weight:700;color:${pct>=70?'var(--green)':pct>=40?'var(--purple)':pct>0?'var(--amber)':'var(--muted)'};">${pct}%</div>
+    </div>`;
+
+  S.pillars.forEach(p => {
+    const habitsXP = computeHabitXP(p);
+    const dayData = getDayData(selectedHistDay);
+    const dailyHabits = habitsXP.filter(h => h.freq==='daily');
+    if(dailyHabits.length === 0) return;
+    const doneCnt = dailyHabits.filter(h => dayData.checked[h.id]).length;
+
+    html += `<div style="margin-bottom:12px;">
+      <div style="font-size:10px;color:${p.color};letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;font-weight:600;">${p.name} · ${doneCnt}/${dailyHabits.length}</div>`;
+
+    dailyHabits.forEach(h => {
+      const done = !!dayData.checked[h.id];
+      html += `<div class="hist-habit-row">
+        <div class="hist-chk ${done?'done':''}" onclick="toggleDaily('${h.id}','${selectedHistDay}')">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div style="flex:1;font-size:13px;${done?'color:var(--muted);text-decoration:line-through;':''}">${h.name}</div>
+        <div style="font-size:11px;color:${done?'var(--green)':'var(--muted)'}">+${h.pts} XP</div>
+      </div>`;
+    });
+
+    html += '</div>';
+  });
+
+  html += '</div>';
+  wrap.innerHTML = html;
+}
+
+// ══════════════════════════════════════════
+// MIDNIGHT RESET
+// ══════════════════════════════════════════
+let _currentDay = todayK();
+function midnightReset(){
+  const newDay=todayK();
+  if(newDay!==_currentDay){
+    _currentDay=newDay;
+    const dc=document.getElementById('datechip');
+    if(dc)dc.textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+    updateTodayLabels();
+    renderCurrent();renderDashboard();
+  }
+}
+setInterval(midnightReset,30000);
+function updateTodayLabels(){
+  const label=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+  const e1=document.getElementById('today-label'),e2=document.getElementById('piliers-today-label');
+  if(e1)e1.textContent=label;if(e2)e2.textContent=label;
+}
+
+// ══════════════════════════════════════════
 // CHARTS
-// ════════════════════════════════
+// ══════════════════════════════════════════
 let actChart=null,radarChart=null,pillarCharts={};
 
 function renderActChart(){
@@ -968,198 +1051,191 @@ function renderActChart(){
   for(let i=29;i>=0;i--){
     const d=new Date(today);d.setDate(today.getDate()-i);
     const k=d.toISOString().slice(0,10);
-    const xp=getDayXP(k);
-    const pct=Math.round(xp/max*100);
+    const xp=getDayXP(k),pct=Math.round(xp/max*100);
     labels.push(i===0?'Auj.':(i%7===0?d.toLocaleDateString('fr-FR',{day:'numeric',month:'short'}):''));
     data.push(pct);
     colors.push(pct>=70?'#34d399':pct>=40?'#a78bfa':pct>0?'#fbbf24':'#1e1e1e');
   }
   if(actChart){actChart.data.labels=labels;actChart.data.datasets[0].data=data;actChart.data.datasets[0].backgroundColor=colors;actChart.update();return;}
-  actChart=new Chart(canvas.getContext('2d'),{
-    type:'bar',
-    data:{labels,datasets:[{data,backgroundColor:colors,borderRadius:3,borderSkipped:false}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:v=>v.raw+'%'},backgroundColor:'#161616',borderColor:'#333',borderWidth:1,bodyColor:'#f0f0f0',padding:8}},scales:{y:{min:0,max:100,display:false},x:{grid:{display:false},ticks:{color:'#333',font:{size:9},maxRotation:0}}}}
-  });
+  actChart=new Chart(canvas.getContext('2d'),{type:'bar',data:{labels,datasets:[{data,backgroundColor:colors,borderRadius:3,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:v=>v.raw+'%'},backgroundColor:'#161616',borderColor:'#333',borderWidth:1,bodyColor:'#f0f0f0',padding:8}},scales:{y:{min:0,max:100,display:false},x:{grid:{display:false},ticks:{color:'#333',font:{size:9},maxRotation:0}}}}});
 }
 
 function renderRadar(){
   const canvas=document.getElementById('radar-chart');if(!canvas)return;
-  const data=PILLARS.map(p=>getPillarPct30(p.id));
+  const data=S.pillars.map(p=>getPillarPct30(p.id));
   if(radarChart){radarChart.data.datasets[0].data=data;radarChart.update();return;}
-  radarChart=new Chart(canvas.getContext('2d'),{
-    type:'radar',
-    data:{labels:PILLARS.map(p=>p.name),datasets:[{data,backgroundColor:'rgba(167,139,250,0.1)',borderColor:'#a78bfa',borderWidth:1.5,pointBackgroundColor:PILLARS.map(p=>p.color),pointRadius:4,pointBorderWidth:0}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{r:{min:0,max:100,ticks:{display:false},grid:{color:'#1e1e1e'},angleLines:{color:'#1e1e1e'},pointLabels:{color:'#666',font:{size:11}}}}}
-  });
+  radarChart=new Chart(canvas.getContext('2d'),{type:'radar',data:{labels:S.pillars.map(p=>p.name),datasets:[{data,backgroundColor:'rgba(167,139,250,0.1)',borderColor:'#a78bfa',borderWidth:1.5,pointBackgroundColor:S.pillars.map(p=>p.color),pointRadius:4,pointBorderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{r:{min:0,max:100,ticks:{display:false},grid:{color:'#1e1e1e'},angleLines:{color:'#1e1e1e'},pointLabels:{color:'#666',font:{size:11}}}}}});
 }
 
 function renderPillarChart(pid){
   const canvas=document.getElementById('pchart-'+pid);if(!canvas)return;
   if(pillarCharts[pid]){try{pillarCharts[pid].destroy();}catch(e){}}
-  const p=PILLARS.find(x=>x.id===pid),today=new Date(),labels=[],data=[],colors=[];
-  const max=p.habits.filter(h=>h.freq==='daily').reduce((s,h)=>s+h.pts,0)||1;
+  const p=S.pillars.find(x=>x.id===pid);if(!p)return;
+  const habitsXP=computeHabitXP(p);
+  const today=new Date(),labels=[],data=[],colors=[];
+  const max=habitsXP.filter(h=>h.freq==='daily').reduce((s,h)=>s+h.pts,0)||1;
   for(let i=29;i>=0;i--){
     const d=new Date(today);d.setDate(today.getDate()-i);
     const k=d.toISOString().slice(0,10),day=S.days[k];
-    const pts=day&&day.checked?p.habits.filter(h=>h.freq==='daily').reduce((s,h)=>s+(day.checked[h.id]?h.pts:0),0):0;
+    const pts=day&&day.checked?habitsXP.filter(h=>h.freq==='daily').reduce((s,h)=>s+(day.checked[h.id]?h.pts:0),0):0;
     const pct=Math.round(pts/max*100);
     labels.push(i===0?'Auj.':(i%7===0?d.toLocaleDateString('fr-FR',{day:'numeric',month:'short'}):''));
     data.push(pct);
     colors.push(pct>=70?p.color:pct>=30?(p.color+'99'):(p.color+'33'));
   }
-  pillarCharts[pid]=new Chart(canvas.getContext('2d'),{
-    type:'bar',
-    data:{labels,datasets:[{data,backgroundColor:colors,borderRadius:2,borderSkipped:false}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:v=>v.raw+'%'},backgroundColor:'#161616',borderColor:'#333',borderWidth:1,bodyColor:'#f0f0f0',padding:6}},scales:{y:{min:0,max:100,display:false},x:{grid:{display:false},ticks:{color:'#2a2a2a',font:{size:8},maxRotation:0}}}}
-  });
+  pillarCharts[pid]=new Chart(canvas.getContext('2d'),{type:'bar',data:{labels,datasets:[{data,backgroundColor:colors,borderRadius:2,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:v=>v.raw+'%'},backgroundColor:'#161616',borderColor:'#333',borderWidth:1,bodyColor:'#f0f0f0',padding:6}},scales:{y:{min:0,max:100,display:false},x:{grid:{display:false},ticks:{color:'#2a2a2a',font:{size:8},maxRotation:0}}}}});
 }
 
-// ════════════════════════════════
+// ══════════════════════════════════════════
 // RENDER DASHBOARD
-// ════════════════════════════════
+// ══════════════════════════════════════════
+function getCharContent(name,w,h,radius,gray){
+  const ch=CHAR_IMGS[name]||{url:null,fallback:'👤'};
+  const fw=w||88,fh=h||116,r=radius||'14px';
+  if(ch.url){
+    let st=`display:block;width:${fw}px;height:${fh}px;object-fit:cover;object-position:top center;border-radius:${r};`;
+    if(gray)st+='filter:grayscale(0.8);';
+    return `<img src="${ch.url}" width="${fw}" height="${fh}" style="${st}">`;
+  }
+  return `<span style="font-size:${Math.round(fw/2.2)}px">${ch.fallback}</span>`;
+}
+
 function renderDashboard(){
   const avg7=getAvgPct(7),avg30=getAvgPct(30),niv=getGlobalLv(),info=getLvInfo(niv);
   const todayXP=getTodayXP()+getWeeklyHabitXP();
-  const maxXP=getMaxDailyXP();
-  const streak=getStreak();
-  const totalH=PILLARS.flatMap(p=>p.habits.filter(h=>h.freq==='daily')).length;
-  const doneH=PILLARS.flatMap(p=>p.habits.filter(h=>h.freq==='daily')).filter(h=>getDayData().checked[h.id]).length;
-
-  // XP bar — show bottleneck pillar progress toward next global level
   const nextT=LV_THRESHOLDS.find(t=>t.lv>niv);
   const bn=getBottleneck();
+
   document.getElementById('d-xp').textContent=S.totalXP.toLocaleString('fr-FR')+' XP';
   document.getElementById('d-xp-today').textContent='+'+todayXP+' XP';
-  if(nextT&&bn){
-    const xpPct=Math.round(Math.min(100,(S.pillarXP&&S.pillarXP[bn.pid]||0)/nextT.xp*100));
+
+  if(nextT){
+    const xpPct = Math.round(Math.min(100, S.totalXP / nextT.xp * 100));
     document.getElementById('xp-bar').style.width=xpPct+'%';
-    document.getElementById('xp-lbl-l').textContent='Pilier le plus faible: '+bn.name+' ('+(S.pillarXP&&S.pillarXP[bn.pid]||0)+' XP)';
-    document.getElementById('xp-lbl-r').textContent='Objectif: '+nextT.xp+' XP → Niv.'+nextT.lv;
+    document.getElementById('xp-lbl-l').textContent='Niveau '+niv+' → '+nextT.lv;
+    document.getElementById('xp-lbl-r').textContent=S.totalXP.toLocaleString('fr-FR')+' / '+nextT.xp+' XP';
   } else {
     document.getElementById('xp-bar').style.width='100%';
-    document.getElementById('xp-lbl-l').textContent=S.totalXP.toLocaleString('fr-FR')+' XP total';
-    document.getElementById('xp-lbl-r').textContent='Niveau max atteint !';
+    document.getElementById('xp-lbl-l').textContent='Niveau maximum atteint';
+    document.getElementById('xp-lbl-r').textContent=S.totalXP.toLocaleString('fr-FR')+' XP';
   }
 
-  // Ring — show min pillar progress toward next global threshold
   const nextTd=LV_THRESHOLDS.find(t=>t.lv>niv);
-  const minPct=nextTd?Math.min(...PILLARS.map(p=>Math.round(Math.min(100,getPillarXP(p.id)/nextTd.xp*100)))):100;
+  const minPct=nextTd?Math.min(...S.pillars.map(p=>Math.round(Math.min(100,getPillarXP(p.id)/nextTd.xp*100)))):100;
   document.getElementById('d-ring').style.strokeDashoffset=264-(264*minPct/100);
   document.getElementById('d-pct').textContent=minPct+'%';
   document.getElementById('d-lv').textContent=niv;
   document.getElementById('d-photo').innerHTML=getCharContent(info.name,160,210,'14px',false);
-
-  // Stats
   document.getElementById('d-7avg').textContent=avg7+'%';
   document.getElementById('d-30avg').textContent=avg30+'%';
 
-  // Pillar minis
-  document.getElementById('d-pillars').innerHTML=PILLARS.map(p=>{
-    const ppct=getPillarTodayPct(p.id),plv=getPillarLv(p.id);
-    const pxp=getPillarXP(p.id);
-    const nextT2=LV_THRESHOLDS.find(t=>pxp<t.xp);
-    const ringPct=nextT2?Math.round(pxp/nextT2.xp*100):100;
-    const circ2=2*Math.PI*20,off2=circ2-(circ2*ringPct/100);
+  document.getElementById('d-pillars').innerHTML=S.pillars.map(p=>{
+    const plv=getPillarLv(p.id),pxp=getPillarXP(p.id);
+    const nT=LV_THRESHOLDS.find(t=>pxp<t.xp);
+    const rPct=nT?Math.round(pxp/nT.xp*100):100;
+    const c2=2*Math.PI*20,o2=c2-(c2*rPct/100);
     return `<div class="pmini" onclick="goTo('piliers',null)">
-      <div class="pmini-ring"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="none" stroke="#1a1a1a" stroke-width="5"/><circle cx="24" cy="24" r="20" fill="none" stroke="${p.color}" stroke-width="5" stroke-linecap="round" stroke-dasharray="${circ2.toFixed(1)}" stroke-dashoffset="${off2.toFixed(1)}" transform="rotate(-90 24 24)"/></svg><div class="pmini-pct" style="color:${p.color}">${pxp}</div></div>
+      <div class="pmini-ring"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="none" stroke="#1a1a1a" stroke-width="5"/><circle cx="24" cy="24" r="20" fill="none" stroke="${p.color}" stroke-width="5" stroke-linecap="round" stroke-dasharray="${c2.toFixed(1)}" stroke-dashoffset="${o2.toFixed(1)}" transform="rotate(-90 24 24)"/></svg><div class="pmini-pct" style="color:${p.color};font-size:9px">${pxp}</div></div>
       <div class="pmini-name">${p.name}</div><div class="pmini-lv" style="color:${p.color}">niv.${plv}</div>
     </div>`;
   }).join('');
 
-  // Char cards
-  let nextNiv=niv+1;let nextInfo=getLvInfo(nextNiv);
+  let nextNiv=niv+1,nextInfo=getLvInfo(nextNiv);
   while(nextInfo.name===info.name&&nextNiv<100){nextNiv++;nextInfo=getLvInfo(nextNiv);}
   document.getElementById('d-chars').innerHTML=`
-    <div class="char-card">
-      <div class="char-img">${getCharContent(info.name,64,84,'12px',false)}</div>
-      <div><div class="char-nm">${info.name}</div><div class="char-lv">Niveau ${niv} / 100</div><div class="char-desc">${info.desc}</div></div>
-    </div>
-    <div class="char-card" style="opacity:0.5;">
-      <div class="char-img">${getCharContent(nextInfo.name,64,84,'12px',true)}</div>
-      <div><div class="char-nm" style="color:var(--muted)">${nextInfo.name}</div><div class="char-lv">Niveau ${nextNiv}</div><div class="char-desc">${nextInfo.desc}</div></div>
-    </div>`;
+    <div class="char-card"><div class="char-img">${getCharContent(info.name,64,84,'12px',false)}</div><div><div class="char-nm">${info.name}</div><div class="char-lv">Niveau ${niv}</div><div class="char-desc">${info.desc}</div></div></div>
+    <div class="char-card" style="opacity:0.5;"><div class="char-img">${getCharContent(nextInfo.name,64,84,'12px',true)}</div><div><div class="char-nm" style="color:var(--muted)">${nextInfo.name}</div><div class="char-lv">Niveau ${nextNiv}</div><div class="char-desc">${nextInfo.desc}</div></div></div>`;
 
-
-
+  updateTodayLabels();
+  renderCoachPhrase();
   renderDashHabits();
   setTimeout(()=>{renderActChart();renderRadar();},50);
 }
 
-// ════════════════════════════════
+// ══════════════════════════════════════════
 // RENDER PILIERS
-// ════════════════════════════════
+// ══════════════════════════════════════════
 function renderPiliers(){
   const wd=getWeekData();
-  document.getElementById('piliers-wrap').innerHTML=PILLARS.map(p=>{
-    const ppct=getPillarTodayPct(p.id),plv=getPillarLv(p.id);
-    const pxp2=getPillarXP(p.id);
-    const nextT4=LV_THRESHOLDS.find(t=>pxp2<t.xp);
-    const ringPct2=nextT4?Math.round(pxp2/nextT4.xp*100):100;
-    const c=2*Math.PI*20,off=c-(c*ringPct2/100);
-    const habHtml=p.habits.map(h=>{
+  updateTodayLabels();
+  document.getElementById('piliers-wrap').innerHTML=S.pillars.map(p=>{
+    const habitsXP=computeHabitXP(p);
+    const plv=getPillarLv(p.id),pxp=getPillarXP(p.id);
+    const nT=LV_THRESHOLDS.find(t=>pxp<t.xp);
+    const rPct=nT?Math.round(pxp/nT.xp*100):100;
+    const c=2*Math.PI*20,off=c-(c*rPct/100);
+
+    const habHtml=habitsXP.map(h=>{
       if(h.freq==='daily'){
         const done=!!getDayData().checked[h.id];
         return `<div class="phrow">
           <div class="phchk ${done?'done':''}" onclick="toggleDaily('${h.id}')"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div class="phi2"><div class="phnm ${done?'done':''}">${h.name}</div><div class="phfq">${h.freq==='daily'?'Quotidien':h.freq}</div></div>
+          <div class="phi2">
+            <div class="phnm ${done?'done':''}">${h.name}</div>
+            <div class="phfq">Quotidien · poids ${h.weight||1}</div>
+          </div>
+          <button class="icon-btn" onclick="openEditHabit('${p.id}','${h.id}')" title="Modifier"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
           <div class="phpts ${done?'earned':''}">+${h.pts} XP</div>
         </div>`;
       } else {
-        const cnt=wd[h.id]||0;const done=cnt>=h.weeklyTarget;
+        const cnt=wd[h.id]||0,done=cnt>=h.weeklyTarget;
         return `<div class="phrow">
           <div class="phchk ${done?'done':''}" style="cursor:default"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
           <div class="phi2"><div class="phnm ${done?'done':''}">${h.name}</div><div class="phfq">${h.weeklyTarget}x/semaine</div></div>
           <div class="wk-pill" style="color:${done?'var(--green)':'var(--muted)'}">
             ${cnt}/${h.weeklyTarget}
             <button class="wk-minus" onclick="incrWeekly('${h.id}',-1)">−</button>
-            <button class="wk-plus" onclick="incrWeekly('${h.id}',1)" style="background:${done?'#34d399':'var(--border2)'};color:${done?'#0a0a0a':'var(--text)'}">${done?'✓':'+' }</button>
+            <button class="wk-plus" onclick="incrWeekly('${h.id}',1)" style="background:${done?'#34d399':'var(--border2)'};color:${done?'#0a0a0a':'var(--text)'}">${done?'✓':'+'}</button>
           </div>
-          <div class="phpts ${done?'earned':''}" style="margin-left:6px">+${h.pts} XP</div>
+          <button class="icon-btn" onclick="openEditHabit('${p.id}','${h.id}')" title="Modifier"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+          <div class="phpts ${done?'earned':''}">+3 XP</div>
         </div>`;
       }
     }).join('');
+
     return `<div class="psec">
       <div class="phdr" style="background:${p.bg}">
-        <div class="phr"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="none" stroke="#111" stroke-width="4"/><circle cx="24" cy="24" r="20" fill="none" stroke="${p.color}" stroke-width="4" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" transform="rotate(-90 24 24)"/></svg><div class="phpct" style="color:${p.color};font-size:9px">${pxp2}</div></div>
+        <div class="phr"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="none" stroke="#111" stroke-width="4"/><circle cx="24" cy="24" r="20" fill="none" stroke="${p.color}" stroke-width="4" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}" transform="rotate(-90 24 24)"/></svg><div class="phpct" style="color:${p.color};font-size:9px">${pxp}</div></div>
         <div class="phi">
           <div class="phn" style="color:${p.color}">${p.name}</div>
-          <div class="phs">${p.habits.filter(h=>h.freq==='daily'&&getDayData().checked[h.id]).length}/${p.habits.filter(h=>h.freq==='daily').length} auj. · ${pxp2} XP cumulés</div>
-          ${nextT4?`<div style="font-size:10px;color:#555;margin-top:2px">${nextT4.xp-pxp2} XP pour niv.${nextT4.lv}</div>`:''}
+          <div class="phs">${habitsXP.filter(h=>h.freq==='daily'&&getDayData().checked[h.id]).length}/${habitsXP.filter(h=>h.freq==='daily').length} auj. · <b style="color:${p.color}">${pxp} XP cumulés</b></div>
+          ${nT?`<div style="font-size:10px;color:#555;margin-top:2px">${nT.xp-pxp} XP pour niv.${nT.lv}</div>`:''}
         </div>
         <div class="phlv" style="color:${p.color}">niv.${plv}</div>
       </div>
       <div class="pchart"><div class="pclbl">Activité 30 derniers jours</div><div style="position:relative;height:65px;"><canvas id="pchart-${p.id}"></canvas></div></div>
       ${p.penalty?`<div class="ppenalty"><b>⚠ Règle critique :</b> ${p.penalty}</div>`:''}
       <div class="phabs">${habHtml}</div>
+      <button class="add-habit-btn" onclick="openAddHabit('${p.id}')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Ajouter une habitude
+      </button>
     </div>`;
   }).join('');
-  setTimeout(()=>PILLARS.forEach(p=>renderPillarChart(p.id)),50);
+  setTimeout(()=>S.pillars.forEach(p=>renderPillarChart(p.id)),50);
 }
 
-// ════════════════════════════════
+// ══════════════════════════════════════════
 // RENDER NIVEAU
-// ════════════════════════════════
+// ══════════════════════════════════════════
 function renderNiveau(){
-  const niv2=getGlobalLv(),info2=getLvInfo(niv2);
-  const nextT3=LV_THRESHOLDS.find(t=>t.lv>niv2);
-  // Ring shows min pillar progress toward next threshold
-  const minPillarPct=nextT3?Math.min(...PILLARS.map(p=>Math.round(Math.min(100,(S.pillarXP&&S.pillarXP[p.id]||0)/nextT3.xp*100)))):100;
-  document.getElementById('niv-ring').style.strokeDashoffset=390-(390*minPillarPct/100);
-  document.getElementById('niv-n').textContent=niv2;
-  document.getElementById('niv-nm').textContent=info2.name;
-  document.getElementById('niv-ds').textContent=info2.desc;
+  const niv=getGlobalLv(),info=getLvInfo(niv);
+  const nextT=LV_THRESHOLDS.find(t=>t.lv>niv);
+  const minPct=nextT?Math.min(...S.pillars.map(p=>Math.round(Math.min(100,(S.pillarXP[p.id]||0)/nextT.xp*100)))):100;
+  document.getElementById('niv-ring').style.strokeDashoffset=390-(390*minPct/100);
+  document.getElementById('niv-n').textContent=niv;
+  document.getElementById('niv-nm').textContent=info.name;
+  document.getElementById('niv-ds').textContent=info.desc;
   document.getElementById('niv-cur').textContent=S.totalXP.toLocaleString('fr-FR')+' XP total';
-  document.getElementById('niv-bar').style.width=minPillarPct+'%';
-  document.getElementById('niv-img').innerHTML=getCharContent(info2.name,140,185,'14px',false);
-  // Show next threshold info
-  if(nextT3){
+  document.getElementById('niv-bar').style.width=minPct+'%';
+  document.getElementById('niv-img').innerHTML=getCharContent(info.name,140,185,'14px',false);
+  if(nextT){
     const bl=getBottleneck();
     document.getElementById('niv-nxt-lbl').textContent=bl?'Pilier en retard: '+bl.name:'Prochain palier';
-    document.getElementById('niv-nxt').textContent=nextT3.xp+' XP → Niv.'+nextT3.lv;
+    document.getElementById('niv-nxt').textContent=nextT.xp+' XP → Niv.'+nextT.lv;
   }
-
   document.getElementById('prog-wrap').innerHTML=LEVELS.map(l=>{
-    const isCur=niv2>=l.r[0]&&niv2<=l.r[1],isDone=niv2>l.r[1];
+    const isCur=niv>=l.r[0]&&niv<=l.r[1],isDone=niv>l.r[1];
     const dc=l.diff==='extreme'?'extreme':l.diff==='hard'?'hard':'';
     const dl=l.diff==='extreme'?'Extrême':l.diff==='hard'?'Difficile':l.diff==='normal'?'Normal':'Facile';
     return `<div class="prog-item ${isCur?'cur':''} ${!isDone&&!isCur?'locked':''}">
@@ -1169,32 +1245,28 @@ function renderNiveau(){
       <div class="diff ${dc}">${dl}</div>
     </div>`;
   }).join('');
-
   document.getElementById('unlock-wrap').innerHTML=UNLOCKS.map(u=>{
     const ok=u.check(S);
-    return `<div class="unl-item">
-      <div class="unl-ico">${u.ico}</div>
-      <div class="unl-inf"><div class="unl-nm">${u.name}</div><div class="unl-rq">${u.req}</div></div>
-      <div class="unl-st ${ok?'ok':'no'}">${ok?'✓ Débloqué':'Verrouillé'}</div>
-    </div>`;
+    return `<div class="unl-item"><div class="unl-ico">${u.ico}</div><div class="unl-inf"><div class="unl-nm">${u.name}</div><div class="unl-rq">${u.req}</div></div><div class="unl-st ${ok?'ok':'no'}">${ok?'✓ Débloqué':'Verrouillé'}</div></div>`;
   }).join('');
 }
 
-// ════════════════════════════════
+// ══════════════════════════════════════════
 // COACH IA
-// ════════════════════════════════
+// ══════════════════════════════════════════
 let coachH=[{role:'assistant',content:'Je suis là pour te dire la vérité sur ta semaine. Clique sur Analyser.'}];
 let mindH=[{role:'assistant',content:"Bonsoir Monsef. Qu'est-ce qui pèse ce soir ?"}];
 
 function buildCtx(){
   const niv=getGlobalLv(),info=getLvInfo(niv),avg7=getAvgPct(7),avg30=getAvgPct(30),streak=getStreak();
-  const doneH=PILLARS.flatMap(p=>p.habits.filter(h=>h.freq==='daily')).filter(h=>getDayData().checked[h.id]).length;
-  const totalH=PILLARS.flatMap(p=>p.habits.filter(h=>h.freq==='daily')).length;
-  return `Monsef niv.${niv} (${info.name}). Avg7: ${avg7}%. Avg30: ${avg30}%. Streak: ${streak}j. Auj: ${doneH}/${totalH}. Corps: ${getPillarTodayPct('corps')}% niv.${getLv7('corps')}. Esprit: ${getPillarTodayPct('esprit')}% niv.${getLv7('esprit')}. Argent: niv.${getLv7('argent')}. Hygiène: niv.${getLv7('hygiene')}. XP total: ${S.totalXP}.`;
+  const doneH=S.pillars.flatMap(p=>p.habits.filter(h=>h.freq==='daily')).filter(h=>getDayData().checked[h.id]).length;
+  const totalH=S.pillars.flatMap(p=>p.habits.filter(h=>h.freq==='daily')).length;
+  const pSummary=S.pillars.map(p=>`${p.name}: ${getPillarXP(p.id)}XP niv.${getPillarLv(p.id)}`).join(', ');
+  return `Monsef niv.${niv} (${info.name}). Avg7:${avg7}%. Avg30:${avg30}%. Streak:${streak}j. Auj:${doneH}/${totalH}. ${pSummary}. XP total:${S.totalXP}.`;
 }
 
 async function coachAnalyse(){
-  addCoachMsg('Analyse ma semaine et dis-moi la vérité.','user');
+  addCoachMsg('Analyse ma semaine.','user');
   coachH.push({role:'user',content:'Analyse ma semaine. '+buildCtx()});
   const t=addCoachMsg('...','typing');
   try{
@@ -1215,14 +1287,12 @@ async function sendCoach(){
     t.remove();addCoachMsg(rep,'ai');coachH.push({role:'assistant',content:rep});
   }catch(e){t.textContent='(hors ligne)';t.className='cmsg ai';}
 }
-
 function addCoachMsg(txt,type){const w=document.getElementById('coach-msgs');const d=document.createElement('div');d.className='cmsg '+type;d.textContent=txt;w.appendChild(d);w.scrollTop=w.scrollHeight;return d;}
 function onCoachKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendCoach();}}
 
 async function sendMind(){
   const inp=document.getElementById('mind-in');const txt=inp.value.trim();if(!txt)return;
-  inp.value='';addMindMsg(txt,'user');
-  mindH.push({role:'user',content:txt});
+  inp.value='';addMindMsg(txt,'user');mindH.push({role:'user',content:txt});
   const t=addMindMsg('...','typing');
   try{
     const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,system:MIND_SYS,messages:mindH})});
@@ -1233,272 +1303,470 @@ async function sendMind(){
 function addMindMsg(txt,type){const w=document.getElementById('mind-msgs');const d=document.createElement('div');d.className='cmsg '+type;d.textContent=txt;w.appendChild(d);w.scrollTop=w.scrollHeight;return d;}
 function onMindKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMind();}}
 
-// ════════════════════════════════
+// ══════════════════════════════════════════
 // MIND
-// ════════════════════════════════
+// ══════════════════════════════════════════
 let selMood=0;
 function renderMoodBtns(){document.getElementById('mood-btns').innerHTML=[1,2,3,4,5,6,7,8,9,10].map(n=>`<button class="mood-btn ${selMood===n?'sel':''}" onclick="setMood(${n})">${n}</button>`).join('');}
-function setMood(n){selMood=n;renderMoodBtns();
-_lastGlobalLv=getGlobalLv();}
-function clearWrite(){document.getElementById('write-ta').value='';selMood=0;renderMoodBtns();
-_lastGlobalLv=getGlobalLv();}
+function setMood(n){selMood=n;renderMoodBtns();}
+function clearWrite(){document.getElementById('write-ta').value='';selMood=0;renderMoodBtns();}
 function saveEntry(){const txt=document.getElementById('write-ta').value.trim();if(!txt){alert('Écris quelque chose.');return;}S.entries.unshift({id:Date.now(),date:new Date().toLocaleDateString('fr-FR'),text:txt,mood:selMood});save();clearWrite();alert('Sauvegardé ✓');}
 
-// ════════════════════════════════
+// ══════════════════════════════════════════
 // TRADING
-// ════════════════════════════════
-let smcCk=S.smcCk||new Array(SMC.length).fill(false);
-function renderSMC(){document.getElementById('smc-list').innerHTML=SMC.map((c,i)=>`<div class="cli" onclick="toggleSMC(${i})"><div class="clb ${smcCk[i]?'done':''}"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><span class="clt ${smcCk[i]?'done':''}">${c}</span></div>`).join('');}
-function toggleSMC(i){smcCk[i]=!smcCk[i];S.smcCk=smcCk;save();renderSMC();}
-function submitTrade(){
-  const dir=document.getElementById('tr-dir').value,date=document.getElementById('tr-date').value,entry=parseFloat(document.getElementById('tr-entry').value),result=parseFloat(document.getElementById('tr-result').value)||0,outcome=document.getElementById('tr-outcome').value;
-  if(!date||!entry){alert('Date et entrée requis');return;}
-  S.trades.unshift({id:Date.now(),dir,date,entry,result,outcome});save();closeModals();renderTrades();
-}
-function renderTrades(){
-  if(!S.trades.length){document.getElementById('trade-list').innerHTML='<div style="text-align:center;padding:20px;color:var(--muted);font-size:12px;">Aucun trade.</div>';document.getElementById('t-wr').textContent='—%';document.getElementById('t-pnl').textContent='—';document.getElementById('t-total').textContent='0';return;}
-  const wins=S.trades.filter(t=>t.outcome==='win').length,closed=S.trades.filter(t=>t.outcome).length,wr=closed?Math.round(wins/closed*100):0,pnl=S.trades.reduce((s,t)=>s+t.result,0);
-  document.getElementById('t-wr').textContent=wr+'%';
-  document.getElementById('t-pnl').innerHTML=`<span style="color:${pnl>=0?'var(--green)':'var(--red)'}">${pnl>=0?'+':''}${pnl.toFixed(2)}$</span>`;
-  document.getElementById('t-total').textContent=S.trades.length;
-  document.getElementById('trade-list').innerHTML=S.trades.map(t=>`<div class="trow"><span class="tag ${t.dir==='long'?'tag-l':'tag-s'}">${t.dir.toUpperCase()}</span><span style="flex:1;color:var(--muted)">${t.date}·${t.entry}</span><span class="tag ${t.outcome==='win'?'tag-w':'tag-lo'}">${t.outcome==='win'?'WIN':'LOSS'}</span><span style="font-weight:700;color:${t.result>=0?'var(--green)':'var(--red)'}">${t.result>=0?'+':''}${t.result.toFixed(2)}$</span></div>`).join('');
-}
-function saveNotes(){S.tradeNotes=document.getElementById('trade-notes').value;save();alert('Sauvegardé ✓');}
+// ══════════════════════════════════════════
 
-// ════════════════════════════════
-// CALENDAR + GOOGLE OAUTH
-// ════════════════════════════════
-const GCAL_CLIENT_ID = '412205079062-8bss52a9pdi11l212g1prmic1p8q32gs.apps.googleusercontent.com';
-const GCAL_SCOPE = 'https://www.googleapis.com/auth/calendar';
-let calW=getMonday(new Date()),localEvts=[],gcalEvts=[],gToken=null;
 
-function getMonday(d){const c=new Date(d),day=c.getDay(),diff=c.getDate()-day+(day===0?-6:1);return new Date(c.setDate(diff));}
-function fmtD(d){return d.toISOString().slice(0,10);}
-function addDays(d,n){const r=new Date(d);r.setDate(r.getDate()+n);return r;}
-function calNav(dir){calW=addDays(calW,dir*7);renderCal();}
-function calToday(){calW=getMonday(new Date());renderCal();}
 
-function handleGcalAuth(){
-  if(gToken){fetchGcalEvents();return;}
-  const redirectUri=location.origin+location.pathname;
-  const url=`https://accounts.google.com/o/oauth2/v2/auth`+
-    `?client_id=${GCAL_CLIENT_ID}`+
-    `&redirect_uri=${encodeURIComponent(redirectUri)}`+
-    `&response_type=token`+
-    `&scope=${encodeURIComponent(GCAL_SCOPE)}`+
-    `&prompt=consent`;
-  window.location.href=url;
-}
 
-function checkGcalToken(){
-  const hash=window.location.hash;
-  if(hash&&hash.includes('access_token')){
-    const params=new URLSearchParams(hash.slice(1));
-    gToken=params.get('access_token');
-    window.history.replaceState(null,'',location.pathname);
-    updateGcalUI(true);
-    fetchGcalEvents();
-  }
-  // Also check sessionStorage for persisted token
-  const stored=sessionStorage.getItem('gcal_token');
-  if(stored&&!gToken){gToken=stored;updateGcalUI(true);fetchGcalEvents();}
-}
 
-function updateGcalUI(connected){
-  const dot=document.getElementById('gcal-dot');
-  const status=document.getElementById('gcal-status');
-  const btn=document.getElementById('gcal-btn');
-  if(!dot||!status||!btn) return;
-  if(connected){
-    dot.style.background='#34d399';
-    status.textContent='Google connecté';
-    btn.textContent='Synchroniser';
-    if(gToken) sessionStorage.setItem('gcal_token',gToken);
-  } else {
-    dot.style.background='#333';
-    status.textContent='Non connecté';
-    btn.textContent='Connecter Google';
-  }
-}
-
-async function fetchGcalEvents(){
-  if(!gToken) return;
-  updateGcalUI(true);
-  try{
-    const min=new Date();min.setMonth(min.getMonth()-1);
-    const max=new Date();max.setMonth(max.getMonth()+3);
-    const url=`https://www.googleapis.com/calendar/v3/calendars/primary/events`+
-      `?timeMin=${min.toISOString()}&timeMax=${max.toISOString()}`+
-      `&singleEvents=true&orderBy=startTime&maxResults=500`;
-    const r=await fetch(url,{headers:{Authorization:'Bearer '+gToken}});
-    if(r.status===401){gToken=null;sessionStorage.removeItem('gcal_token');updateGcalUI(false);return;}
-    const data=await r.json();
-    if(data.items){
-      gcalEvts=data.items.map(e=>({
-        id:e.id,
-        title:e.summary||'(Sans titre)',
-        date:(e.start.dateTime||e.start.date).slice(0,10),
-        ts:e.start.dateTime?e.start.dateTime.slice(11,16):'',
-        te:e.end.dateTime?e.end.dateTime.slice(11,16):'',
-        source:'gcal'
-      }));
-      renderCal();
-    }
-  }catch(err){console.error('GCal error',err);}
-}
-
-async function createGcalEvent(title,date,ts,te){
-  if(!gToken) return;
-  try{
-    const tz='Europe/Paris';
-    const start=ts?{dateTime:date+'T'+ts+':00',timeZone:tz}:{date};
-    const end=te?{dateTime:date+'T'+te+':00',timeZone:tz}:
-      ts?{dateTime:date+'T'+String(parseInt(ts.split(':')[0])+1).padStart(2,'0')+':'+ts.split(':')[1]+':00',timeZone:tz}:{date};
-    await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events',{
-      method:'POST',
-      headers:{Authorization:'Bearer '+gToken,'Content-Type':'application/json'},
-      body:JSON.stringify({summary:title,start,end})
-    });
-    fetchGcalEvents();
-  }catch(e){console.error('Create event error',e);}
-}
-
-function renderCal(){
-  const today=fmtD(new Date()),we=addDays(calW,6);
-  document.getElementById('cal-period').textContent=calW.toLocaleDateString('fr-FR',{day:'numeric',month:'long'})+' – '+we.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
-  const allEvts=[...localEvts,...gcalEvts];
-  const days=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
-  let html='<div class="wh-corner"></div>';
-  for(let i=0;i<7;i++){
-    const d=addDays(calW,i),ds=fmtD(d),isT=ds===today;
-    html+=`<div class="wh-day ${isT?'today':''}" onclick="openAddEvent('${ds}')"><div class="wh-day-name">${days[i]}</div><div class="wh-day-num">${d.getDate()}</div></div>`;
-  }
-  html+='<div class="time-col">';
-  for(let h=0;h<24;h++) html+=`<div class="tslot">${h===0?'':String(h).padStart(2,'0')+':00'}</div>`;
-  html+='</div>';
-  for(let i=0;i<7;i++){
-    const d=addDays(calW,i),ds=fmtD(d);
-    const de=allEvts.filter(e=>e.date===ds&&e.ts);
-    html+=`<div class="day-col">`;
-    for(let h=0;h<24;h++) html+=`<div class="day-hr"></div>`;
-    de.forEach(e=>{
-      const[sh,sm]=e.ts.split(':').map(Number);
-      const[eh,em]=e.te?e.te.split(':').map(Number):[sh+1,sm];
-      const top=sh*44+(sm/60)*44,ht=Math.max(((eh*60+em)-(sh*60+sm))/60*44,22);
-      const color=e.source==='gcal'?'#1a73e8':'var(--purple)';
-      html+=`<div class="gcal-ev" style="top:${top}px;height:${ht}px;background:${color}" onclick="event.stopPropagation();alert('${e.title.replace(/'/g,"\'")}')">${e.ts} ${e.title}</div>`;
-    });
-    html+='</div>';
-  }
-  document.getElementById('week-grid').innerHTML=html;
-  setTimeout(()=>{const g=document.getElementById('week-grid');if(g)g.scrollTop=7*44;},50);
-}
-
-function openAddEvent(date){
-  document.getElementById('ev-date').value=date||fmtD(new Date());
-  document.getElementById('ev-title').value='';
-  document.getElementById('ev-ts').value='';
-  document.getElementById('ev-te').value='';
-  openM('event-modal');
-}
-
-function submitEvent(){
-  const t=document.getElementById('ev-title').value.trim();
-  const d=document.getElementById('ev-date').value;
-  const ts=document.getElementById('ev-ts').value;
-  const te=document.getElementById('ev-te').value;
-  if(!t||!d){alert('Titre requis');return;}
-  localEvts.unshift({id:'l'+Date.now(),title:t,date:d,ts,te,source:'local'});
-  if(gToken) createGcalEvent(t,d,ts,te);
-  closeModals();renderCal();
-}
-
-// ════════════════════════════════
-// NAVIGATION
-// ════════════════════════════════
-const TITLES={dashboard:'Bonjour, Monsef',piliers:'Mes Piliers',niveau:"L'Homme Idéal",trading:'Trading Journal',mind:'Mind Dump',calendar:'Calendrier'};
-
-function goTo(p,el){
-  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll('.sn').forEach(x=>x.classList.remove('active'));
-  const pg=document.getElementById('page-'+p);
-  if(!pg){console.warn('page not found:',p);return;}
-  pg.classList.add('active');
-  if(el) el.classList.add('active');
-  else{const btn=document.querySelector('.sn[onclick*="\''+p+'\'"]');if(btn)btn.classList.add('active');}
-  document.getElementById('page-title').textContent=TITLES[p]||'JARVIS OS';
-  document.getElementById('scroll').scrollTop=0;
-  if(p==='dashboard') renderDashboard();
-  else if(p==='piliers') renderPiliers();
-  else if(p==='niveau') renderNiveau();
-  else if(p==='trading'){renderTrades();renderSMC();}
-  else if(p==='calendar') renderCal();
-}
-
-function renderCurrent(){
-  const cur=document.querySelector('.page.active');
-  if(!cur) return;
-  const id=cur.id.replace('page-','');
-  if(id==='dashboard') renderDashboard();
-  else if(id==='piliers') renderPiliers();
-  else if(id==='niveau') renderNiveau();
-}
-
-// ════════════════════════════════
-// MODALS + UTILS
-// ════════════════════════════════
-function openM(id){document.getElementById(id).classList.add('open');document.getElementById('overlay').classList.add('open');}
-function closeModals(){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open'));document.getElementById('overlay').classList.remove('open');}
-function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
-
-// ════════════════════════════════
-// INIT
-// ════════════════════════════════
-
+// ══════════════════════════════════════════
+// DASH HABITS
+// ══════════════════════════════════════════
 function renderDashHabits(){
-  var wd=getWeekData();
-  var el=document.getElementById('dash-habits-list');
-  if(!el) return;
-  var rows=[];
-  PILLARS.forEach(function(p){
-    p.habits.forEach(function(h){
+  const wd=getWeekData();
+  const el=document.getElementById('dash-habits-list');if(!el)return;
+  el.innerHTML='';
+  S.pillars.forEach(p=>{
+    const habitsXP=computeHabitXP(p);
+    habitsXP.forEach(h=>{
+      const div=document.createElement('div');div.className='hrow';
       if(h.freq==='daily'){
-        var done=!!getDayData().checked[h.id];
-        var div=document.createElement('div');
-        div.className='hrow';
-        div.onclick=function(){toggleDaily(h.id);};
-        div.innerHTML='<div class="hchk '+(done?'done':'')+'"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>'+
-          '<div class="hnm '+(done?'done':'')+'">'+h.name+'</div>'+
-          '<span class="hbadge" style="background:'+p.bg+';color:'+p.color+'">'+p.name+'</span>'+
-          '<span style="font-size:11px;color:'+(done?'#34d399':'#555')+'">+'+h.pts+' XP</span>';
-        rows.push(div);
+        const done=!!getDayData().checked[h.id];
+        div.onclick=()=>toggleDaily(h.id);
+        div.innerHTML=`<div class="hchk ${done?'done':''}"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div class="hnm ${done?'done':''}">${h.name}</div><span class="hbadge" style="background:${p.bg};color:${p.color}">${p.name}</span><span style="font-size:11px;color:${done?'#34d399':'#555'}">+${h.pts} XP</span>`;
       } else {
-        var cnt=wd[h.id]||0;
-        var done2=cnt>=h.weeklyTarget;
-        var div=document.createElement('div');
-        div.className='hrow';
-        div.innerHTML='<div class="hchk '+(done2?'done':'')+'"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>'+
-          '<div class="hnm '+(done2?'done':'')+'">'+h.name+'</div>'+
-          '<span class="hbadge" style="background:'+p.bg+';color:'+p.color+'">'+p.name+'</span>'+
-          '<div class="wctr">'+
-            '<button class="wctr-btn">−</button>'+
-            '<span class="wctr-val '+(done2?'done':'')+'">'+cnt+'/'+h.weeklyTarget+'</span>'+
-            '<button class="wctr-btn">+</button>'+
-          '</div>';
-        var btns=div.querySelectorAll('.wctr-btn');
-        (function(hid){
-          btns[0].onclick=function(){incrWeekly(hid,-1);};
-          btns[1].onclick=function(){incrWeekly(hid,1);};
-        })(h.id);
-        rows.push(div);
+        const cnt=wd[h.id]||0,done=cnt>=h.weeklyTarget;
+        div.innerHTML=`<div class="hchk ${done?'done':''}"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div class="hnm ${done?'done':''}">${h.name}</div><span class="hbadge" style="background:${p.bg};color:${p.color}">${p.name}</span><div class="wctr"><button class="wctr-btn" onclick="incrWeekly('${h.id}',-1)">−</button><span class="wctr-val ${done?'done':''}">${cnt}/${h.weeklyTarget}</span><button class="wctr-btn" onclick="incrWeekly('${h.id}',1)">+</button></div>`;
       }
+      el.appendChild(div);
     });
   });
-  el.innerHTML='';
-  rows.forEach(function(r){el.appendChild(r);});
 }
 
 
+// ══════════════════════════════════════════
+// MISSIONS
+// ══════════════════════════════════════════
+
+function missionXPBalance() {
+  // Apply daily malus for overdue missions (run once per day)
+  const today = todayK();
+  if (S.lastMissionCheck === today) return;
+  S.lastMissionCheck = today;
+  S.missions.forEach(m => {
+    if (!m.done && m.deadline && m.deadline < today) {
+      // -1 XP per day overdue (cap at 0)
+      S.totalXP = Math.max(0, S.totalXP - 1);
+      // Malus sur Esprit (discipline)
+      S.pillarXP['esprit'] = Math.max(0, (S.pillarXP['esprit']||0) - 1);
+      if (!m.malusCount) m.malusCount = 0;
+      m.malusCount++;
+    }
+  });
+  save();
+}
+
+function completeMission(id) {
+  const m = S.missions.find(x => x.id === id); if (!m) return;
+  const today = todayK();
+  m.done = true;
+  m.doneDate = today;
+  // Bonus XP if done before or on deadline
+  let bonus = 0;
+  if (!m.deadline || today <= m.deadline) {
+    bonus = m.bonusXP || 10;
+    // Early bonus: +50% if done with 2+ days to spare
+    if (m.deadline && m.deadline > today) {
+      const daysLeft = Math.round((new Date(m.deadline) - new Date(today)) / 86400000);
+      if (daysLeft >= 2) bonus = Math.round(bonus * 1.5);
+    }
+    S.totalXP += bonus;
+    // Give bonus to weakest pillar
+    const minPid = S.pillars.reduce((a, b) => (S.pillarXP[a.id]||0) < (S.pillarXP[b.id]||0) ? a : b).id;
+    S.pillarXP[minPid] = (S.pillarXP[minPid]||0) + bonus;
+    m.earnedXP = bonus;
+  }
+  const prevLv = _lastGlobalLv;
+  save(); renderMissions(); checkLevelUp(prevLv);
+  if (bonus > 0) showXPToast('+' + bonus + ' XP · Mission accomplie !');
+}
+
+function showXPToast(msg) {
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#a78bfa;color:#fff;padding:8px 18px;border-radius:20px;font-size:12px;font-weight:600;z-index:9998;animation:fadeUp 2.5s ease forwards;pointer-events:none;';
+  document.body.appendChild(t);
+  const style = document.createElement('style');
+  style.textContent = '@keyframes fadeUp{0%{opacity:0;transform:translateX(-50%) translateY(10px)}20%{opacity:1;transform:translateX(-50%) translateY(0)}80%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-10px)}}';
+  document.head.appendChild(style);
+  setTimeout(() => t.remove(), 2500);
+}
+
+
+function uncompleteMission(id) {
+  const m = S.missions.find(x => x.id === id); if (!m) return;
+  // Retirer les XP gagnés
+  const xpToRemove = m.earnedXP || 0;
+  if (xpToRemove > 0) {
+    S.totalXP = Math.max(0, S.totalXP - xpToRemove);
+    // Retirer du pilier le plus fort (celui qui avait reçu le bonus)
+    const maxPid = S.pillars.reduce((a, b) =>
+      (S.pillarXP[a.id]||0) > (S.pillarXP[b.id]||0) ? a : b).id;
+    S.pillarXP[maxPid] = Math.max(0, (S.pillarXP[maxPid]||0) - xpToRemove);
+  }
+  m.done = false;
+  m.doneDate = null;
+  m.earnedXP = 0;
+  save(); renderMissions();
+  showXPToast(xpToRemove > 0 ? `-${xpToRemove} XP · Mission réouverte` : 'Mission réouverte');
+}
+
+function openAddMission() {
+  document.getElementById('mission-modal-title').textContent = 'Nouvelle mission';
+  document.getElementById('mm-title').value = '';
+  document.getElementById('mm-desc').value = '';
+  document.getElementById('mm-date').value = '';
+  document.getElementById('mm-xp').value = '10';
+  document.getElementById('mm-id').value = '';
+  document.getElementById('mm-delete-btn').style.display = 'none';
+  openM('mission-modal');
+}
+
+function openEditMission(id) {
+  const m = S.missions.find(x => x.id === id); if (!m) return;
+  document.getElementById('mission-modal-title').textContent = 'Modifier la mission';
+  document.getElementById('mm-title').value = m.title;
+  document.getElementById('mm-desc').value = m.desc || '';
+  document.getElementById('mm-date').value = m.deadline || '';
+  document.getElementById('mm-xp').value = m.bonusXP || 10;
+  document.getElementById('mm-id').value = id;
+  document.getElementById('mm-delete-btn').style.display = 'inline-flex';
+  openM('mission-modal');
+}
+
+function saveMission() {
+  const title = document.getElementById('mm-title').value.trim();
+  if (!title) { alert('Titre requis'); return; }
+  const id = document.getElementById('mm-id').value;
+  const deadline = document.getElementById('mm-date').value;
+  const bonusXP = parseInt(document.getElementById('mm-xp').value) || 10;
+  const desc = document.getElementById('mm-desc').value.trim();
+  if (id) {
+    const m = S.missions.find(x => x.id === id);
+    if (m) { m.title = title; m.desc = desc; m.deadline = deadline; m.bonusXP = bonusXP; }
+  } else {
+    S.missions.unshift({ id: 'ms' + Date.now(), title, desc, deadline, bonusXP, done: false, createdAt: todayK() });
+  }
+  save(); closeModals(); renderMissions();
+}
+
+function deleteMission() {
+  const id = document.getElementById('mm-id').value;
+  S.missions = S.missions.filter(x => x.id !== id);
+  save(); closeModals(); renderMissions();
+}
+
+function renderMissions() {
+  missionXPBalance();
+  const today = todayK();
+  const active = (S.missions||[]).filter(m => !m.done);
+  const done = (S.missions||[]).filter(m => m.done).slice(0, 15);
+
+  active.sort((a, b) => {
+    const aOver = a.deadline && a.deadline < today;
+    const bOver = b.deadline && b.deadline < today;
+    if (aOver && !bOver) return -1;
+    if (!aOver && bOver) return 1;
+    if (a.deadline && b.deadline) return a.deadline.localeCompare(b.deadline);
+    if (a.deadline) return -1;
+    if (b.deadline) return 1;
+    return 0;
+  });
+
+  const listEl = document.getElementById('missions-list');
+  const doneEl = document.getElementById('missions-done-list');
+  if (!listEl || !doneEl) return;
+
+  // ── ACTIVE MISSIONS ──
+  listEl.innerHTML = '';
+  if (active.length === 0) {
+    listEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:12px;">Aucune mission en cours. Ajoute-en une.</div>';
+  } else {
+    active.forEach(m => {
+      const overdue = m.deadline && m.deadline < today;
+      const daysLeft = m.deadline ? Math.round((new Date(m.deadline) - new Date(today)) / 86400000) : null;
+      const urgent = daysLeft !== null && daysLeft <= 1 && daysLeft >= 0;
+      const borderColor = overdue ? 'rgba(248,113,113,0.3)' : urgent ? 'rgba(251,191,36,0.2)' : 'var(--border)';
+      const circleColor = overdue ? 'var(--red)' : urgent ? 'var(--amber)' : 'var(--green)';
+
+      let deadlineText = '';
+      if (overdue) deadlineText = `<span style="color:var(--red);font-size:10px;">⚠ ${Math.abs(daysLeft)}j de retard · -${m.malusCount||0} XP</span>`;
+      else if (daysLeft === 0) deadlineText = `<span style="color:var(--amber);font-size:10px;">⏰ Dernier jour</span>`;
+      else if (daysLeft !== null) deadlineText = `<span style="color:var(--muted);font-size:10px;">${daysLeft}j restants</span>`;
+
+      const div = document.createElement('div');
+      div.style.cssText = `background:var(--bg3);border-radius:12px;border:1px solid ${borderColor};padding:14px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start;`;
+
+      const circle = document.createElement('div');
+      circle.style.cssText = `width:22px;height:22px;border-radius:50%;border:1.5px solid ${circleColor};flex-shrink:0;cursor:pointer;margin-top:1px;transition:all 0.2s;`;
+      circle.title = 'Marquer comme terminée';
+      circle.addEventListener('click', () => completeMission(m.id));
+
+      const info = document.createElement('div');
+      info.style.cssText = 'flex:1;min-width:0;';
+      info.innerHTML = `
+        <div style="font-size:13px;font-weight:500;margin-bottom:3px;">${m.title}</div>
+        ${m.desc ? `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">${m.desc}</div>` : ''}
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          ${deadlineText}
+          <span style="font-size:10px;color:var(--purple);">+${m.bonusXP} XP bonus</span>
+        </div>`;
+
+      const editBtn = document.createElement('button');
+      editBtn.className = 'icon-btn';
+      editBtn.title = 'Modifier';
+      editBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
+      editBtn.addEventListener('click', () => openEditMission(m.id));
+
+      div.appendChild(circle);
+      div.appendChild(info);
+      div.appendChild(editBtn);
+      listEl.appendChild(div);
+    });
+  }
+
+  // ── DONE MISSIONS ──
+  doneEl.innerHTML = '';
+  if (done.length === 0) {
+    doneEl.innerHTML = '<div style="font-size:11px;color:var(--muted);padding:4px 0;">Aucune mission terminée pour l\'instant.</div>';
+  } else {
+    done.forEach(m => {
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);';
+
+      // Cercle vert cliquable pour décocher
+      const circle = document.createElement('div');
+      circle.style.cssText = 'width:20px;height:20px;border-radius:50%;background:var(--green);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;';
+      circle.title = 'Décocher (reprendre la mission)';
+      circle.innerHTML = `<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+      circle.addEventListener('mouseenter', () => { circle.style.background = 'transparent'; circle.style.border = '1.5px solid var(--green)'; circle.querySelector('svg').style.display='none'; });
+      circle.addEventListener('mouseleave', () => { circle.style.background = 'var(--green)'; circle.style.border = 'none'; circle.querySelector('svg').style.display='block'; });
+      circle.addEventListener('click', () => uncompleteMission(m.id));
+
+      const title = document.createElement('div');
+      title.style.cssText = 'flex:1;font-size:12px;color:var(--muted);text-decoration:line-through;';
+      title.textContent = m.title;
+
+      const xpEl = document.createElement('div');
+      xpEl.style.cssText = 'font-size:10px;color:var(--green);white-space:nowrap;';
+      xpEl.textContent = `+${m.earnedXP||0} XP`;
+
+      const dateEl = document.createElement('div');
+      dateEl.style.cssText = 'font-size:10px;color:var(--muted);white-space:nowrap;';
+      dateEl.textContent = m.doneDate || '';
+
+      row.appendChild(circle);
+      row.appendChild(title);
+      row.appendChild(xpEl);
+      row.appendChild(dateEl);
+      doneEl.appendChild(row);
+    });
+  }
+}
+
+
+function getDashboardPhrase() {
+  const avg7 = getAvgPct(7);
+  const avg30 = getAvgPct(30);
+  const streak = getStreak();
+  const today = todayK();
+  const dayData = getDayData(today);
+  const allDailyHabits = S.pillars.flatMap(p => p.habits.filter(h => h.freq === 'daily'));
+  const todayChecked = allDailyHabits.filter(h => dayData.checked[h.id]).length;
+  const totalHabits = allDailyHabits.length;
+  const todayPct = totalHabits > 0 ? Math.round(todayChecked / totalHabits * 100) : 0;
+
+  // Derniers jours
+  const getPastDay = (n) => {
+    const d = new Date(); d.setDate(d.getDate() - n);
+    const k = d.toISOString().slice(0,10);
+    return Object.values((S.days[k]||{checked:{}}).checked).filter(Boolean).length;
+  };
+  const y1done = getPastDay(1);
+  const y2done = getPastDay(2);
+  const y3done = getPastDay(3);
+  const inactiveDays = [y1done===0,y2done===0,y3done===0].filter(Boolean).length;
+
+  // Analyse par pilier aujourd'hui
+  const pillarStats = S.pillars.map(p => {
+    const dailyH = p.habits.filter(h => h.freq === 'daily');
+    const doneCount = dailyH.filter(h => dayData.checked[h.id]).length;
+    const pct = dailyH.length > 0 ? Math.round(doneCount / dailyH.length * 100) : 100;
+    return { id: p.id, name: p.name, pct, doneCount, total: dailyH.length, color: p.color };
+  }).filter(p => p.total > 0);
+
+  const neglected = pillarStats.filter(p => p.pct === 0);
+  const partial = pillarStats.filter(p => p.pct > 0 && p.pct < 100);
+  const perfect = pillarStats.filter(p => p.pct === 100);
+  const weakest = [...pillarStats].sort((a,b) => a.pct - b.pct)[0];
+  const strongest = [...pillarStats].sort((a,b) => b.pct - a.pct)[0];
+
+  // XP par pilier
+  const pillarXPList = S.pillars.map(p => ({
+    name: p.name, xp: S.pillarXP[p.id]||0, lv: getPillarLv(p.id)
+  }));
+  const lowestXP = [...pillarXPList].sort((a,b) => a.xp - b.xp)[0];
+  const highestXP = [...pillarXPList].sort((a,b) => b.xp - a.xp)[0];
+
+  // Tendance
+  const trendUp = avg7 > avg30 + 8;
+  const trendDown = avg7 < avg30 - 8;
+  const trendFlat = !trendUp && !trendDown;
+
+  // Missions en retard
+  const overdueMissions = (S.missions||[]).filter(m => !m.done && m.deadline && m.deadline < today);
+
+  // Heure actuelle
+  const hour = new Date().getHours();
+  const timeOfDay = hour < 12 ? 'matin' : hour < 18 ? 'après-midi' : 'soir';
+
+  const rnd = (arr) => arr[Math.floor(new Date().getMinutes() / (60/arr.length)) % arr.length];
+
+  // Construire un bloc de stats réel
+  const statsLine = `${todayChecked}/${totalHabits} habitudes · ${avg7}% sur 7j · streak ${streak}j · niv.${getGlobalLv()}`;
+  const pillarLine = pillarStats.map(p => `${p.name} ${p.pct}%`).join(' | ');
+
+  // ── SITUATIONS ──────────────────────────────────────────────────
+
+  // MORT — 3 jours ou plus sans rien
+  if (inactiveDays >= 3) {
+    return { text: rnd([
+      `${statsLine}\n3 jours sans rien cocher. T'appelles ça quoi toi ? Une pause ? Non. C'est de l'abandon. ${lowestXP.name} à ${lowestXP.xp} XP. ${highestXP.name} à ${highestXP.xp} XP. Le déséquilibre s'aggrave chaque jour que tu fous rien. Pendant que tu glandes, ton niveau stagne. L'homme que tu veux devenir dans 2 ans, il est pas en train de se reposer lui.`,
+      `${statsLine}\n3 jours. Tu réalises ce que ça représente ? C'est 3 jours de moins dans une vie qui est déjà courte. Ton père a bossé toute sa vie sans se plaindre. Toi tu peux même pas cocher une case. ${pillarLine}. Regarde ces chiffres. C'est ta réalité. Pas ce que tu te racontes dans ta tête.`,
+      `${statsLine}\nT'as disparu 3 jours. Pas de maladie, pas d'urgence. Juste… rien. C'est ça le problème avec toi — quand c'est difficile tu t'éclipses. ${overdueMissions.length > 0 ? overdueMissions.length+' mission(s) en retard en plus.' : ''} Le niveau global avance pas parce que toi t'avances pas.`
+    ]), color:'var(--red)', icon:'💀'};
+  }
+
+  // MORT — 2 jours sans rien + aujourd'hui toujours à 0
+  if (inactiveDays >= 2 && todayChecked === 0) {
+    return { text: rnd([
+      `${statsLine}\n2 jours à zéro et aujourd'hui pareil. C'est pas une mauvaise passe, c'est une décision. Inconsciemment t'as décidé que c'était optionnel. ${pillarLine}. Tous à 0%. Magnifique. L'homme idéal il commence par ça lui ?`,
+      `${statsLine}\nDeux jours disparu, le troisième qui commence pareil. ${avg7}% sur la semaine. En dessous de ta moyenne de ${avg30}%. T'es en train de te saboter en direct et tu regardes. ${lowestXP.name} c'est ton pilier le plus faible depuis le début — et t'en fais rien.`,
+      `${statsLine}\nTa copine te voit. Elle dit rien mais elle enregistre tout. 2 jours sans effort, aujourd'hui à ${todayPct}%. C'est l'image que tu donnes. ${overdueMissions.length > 0 ? overdueMissions.length+' mission(s) qui prennent du retard.' : ''} Commence maintenant ou explique-moi pourquoi tu peux pas.`
+    ]), color:'var(--red)', icon:'🔴'};
+  }
+
+  // Hier à 0, aujourd'hui à 0
+  if (y1done === 0 && todayChecked === 0) {
+    return { text: rnd([
+      `${statsLine}\nHier absent. Aujourd'hui le même film. ${timeOfDay} et t'as encore rien touché. C'est quoi l'excuse aujourd'hui ? Parce que demain ça sera encore une autre. Le cycle c'est toi qui le crées.`,
+      `${statsLine}\nDeux journées de suite à zéro. ${avg7}% sur 7 jours. Tu construis une habitude — celle de rien faire. C'est exactement comme ça que les années passent sans que rien change.`,
+    ]), color:'var(--red)', icon:'🔴'};
+  }
+
+  // Certains piliers à 100% mais d'autres totalement ignorés (cherry picking)
+  if (todayChecked > 0 && neglected.length >= 2) {
+    const names = neglected.map(p => p.name).join(' et ');
+    return { text: rnd([
+      `${statsLine}\nT'as coché ${strongest.name} à ${strongest.pct}% mais ${names} à 0%. Tu fais du tri. Tu choisis ce qui est confortable et t'évites le reste. C'est exactement ça le problème — la discipline ça se choisit pas à la carte.`,
+      `${statsLine}\n${names} complètement ignorés aujourd'hui. ${strongest.name} bien coché par contre. Pratique de faire ce qu'on aime et d'éviter ce qui demande un effort. Le niveau global lui il attend pas tes préférences.`,
+      `${statsLine}\nPiliers actifs : ${perfect.map(p=>p.name).join(', ')||'aucun'}. Piliers ignorés : ${names}. Un système de 4 piliers où t'en gères 2 c'est pas un système. C'est une illusion de discipline.`
+    ]), color:'var(--amber)', icon:'⚠️'};
+  }
+
+  // Fort déséquilibre XP entre piliers
+  if (highestXP.xp > lowestXP.xp * 3 && highestXP.xp > 100) {
+    return { text: rnd([
+      `${statsLine}\n${highestXP.name} à ${highestXP.xp} XP. ${lowestXP.name} à ${lowestXP.xp} XP. C'est un déséquilibre de ${highestXP.xp - lowestXP.xp} XP. Rappel : le niveau global c'est le pilier le plus faible. Tout ce que tu construis ailleurs est bloqué par ${lowestXP.name}.`,
+      `${statsLine}\nTu sur-investis ${highestXP.name} et tu négliges ${lowestXP.name}. niv.${getPillarLv(highestXP.name.toLowerCase())} vs niv.${getPillarLv(lowestXP.name.toLowerCase())}. Le niveau global plafonne à cause de ça. Tu peux pas avancer sur une seule jambe.`
+    ]), color:'var(--amber)', icon:'⚖️'};
+  }
+
+  // Missions en retard
+  if (overdueMissions.length > 0 && todayChecked === 0) {
+    const m = overdueMissions[0];
+    return { text: rnd([
+      `${statsLine}\n"${m.title}" en retard depuis ${m.malusCount||1} jour(s). ${overdueMissions.length > 1 ? overdueMissions.length+' missions en retard au total.' : ''} Et aujourd'hui t'as rien coché en plus. C'est pas de la malchance, c'est de la gestion.`,
+    ]), color:'var(--amber)', icon:'⏰'};
+  }
+
+  // Journée parfaite tous les piliers
+  if (perfect.length === pillarStats.length && todayChecked > 0) {
+    return { text: rnd([
+      `${statsLine}\nJournée parfaite. ${todayChecked}/${totalHabits}. ${pillarLine}. C'est ça la version de toi dont tu parles. Pas la motivation, pas l'envie — juste l'exécution. Demain tu recommences exactement comme ça.`,
+      `${statsLine}\nTout coché. ${streak > 3 ? streak+'j de streak.' : ''} ${avg7 > avg30 ? 'Meilleure semaine que d\'habitude.' : ''} Ce que tu fais aujourd\'hui c\'est ce que tu deviendras dans 6 mois. Continue.`,
+      `${statsLine}\n${pillarLine}. 100% partout. Les gens qui te voient dans 2 ans vont se demander ce qui s'est passé. Toi tu seras en train de faire exactement ce que tu fais là.`
+    ]), color:'var(--green)', icon:'🔥'};
+  }
+
+  // En forte progression vs habitude
+  if (trendUp && avg7 >= 70) {
+    return { text: rnd([
+      `${statsLine}\n${avg7}% cette semaine vs ${avg30}% en moyenne. +${avg7-avg30}%. Tu montes. ${strongest.name} à ${strongest.pct}% aujourd'hui. ${weakest && weakest.pct < 60 ? 'Mais '+weakest.name+' à '+weakest.pct+'% — protège pas seulement tes points forts.' : 'Garde cette dynamique.'} Streak ${streak}j.`,
+      `${statsLine}\nMeilleure semaine que d'habitude. ${avg7}% vs ${avg30}% normalement. C'est pas de la chance. C'est toi qui as décidé. ${pillarLine}. Continue exactement comme ça.`
+    ]), color:'var(--green)', icon:'📈'};
+  }
+
+  // En baisse vs habitude
+  if (trendDown) {
+    return { text: rnd([
+      `${statsLine}\n${avg7}% cette semaine. ${avg30}% d'habitude. -${avg30-avg7}% de baisse. Quelque chose te freine. ${weakest ? weakest.name+' à '+weakest.pct+'% aujourd\'hui — c\'est là que ça se passe.' : ''} Les chiffres mentent pas.`,
+      `${statsLine}\nTendance à la baisse. ${avg7}% vs ${avg30}% sur 30 jours. C'est maintenant qu'il faut réagir — pas quand t'auras touché le fond. ${pillarLine}.`
+    ]), color:'var(--red)', icon:'📉'};
+  }
+
+  // Bonne journée en cours 70%+
+  if (todayPct >= 70) {
+    return { text: rnd([
+      `${statsLine}\n${todayChecked}/${totalHabits} coché. ${pillarLine}. Bonne journée. ${totalHabits - todayChecked > 0 ? (totalHabits-todayChecked)+' habitudes restantes — finis ce que t\'as commencé.' : 'Tout fait.'} ${streak > 2 ? streak+'j de suite.' : ''}`,
+      `${statsLine}\n${todayPct}% aujourd'hui. Au-dessus de ta moyenne de ${avg7}%. ${perfect.length > 0 ? perfect.map(p=>p.name).join(', ')+' à 100%.' : ''} ${weakest && weakest.pct < 50 ? weakest.name+' encore en retard à '+weakest.pct+'%.' : 'Continue.'}`,
+    ]), color:'var(--green)', icon:'🟢'};
+  }
+
+  // En cours, entre 30% et 70%
+  if (todayPct >= 30) {
+    return { text: rnd([
+      `${statsLine}\n${todayChecked}/${totalHabits} coché, ${todayPct}%. ${pillarLine}. T'as commencé. Maintenant finis. Il reste ${totalHabits - todayChecked} habitude(s) — c'est pas grand chose.`,
+      `${statsLine}\nMi-journée à ${todayPct}%. ${weakest ? weakest.name+' à '+weakest.pct+'% — c\'est là que tu perds des points.' : ''} ${partial.length > 0 ? partial.map(p=>p.name+' '+p.pct+'%').join(', ')+' pas terminés.' : ''} Finis ce que t\'as commencé.`,
+    ]), color:'var(--amber)', icon:'🔶'};
+  }
+
+  // Rien coché aujourd'hui, hier c'était bien
+  if (todayChecked === 0 && y1done >= Math.ceil(totalHabits * 0.5)) {
+    return { text: rnd([
+      `${statsLine}\nHier ${y1done}/${totalHabits} coché. Aujourd'hui à ${todayPct}% et il est ${timeOfDay}. La régularité c'est pas faire bien un jour sur deux. Recommence.`,
+    ]), color:'var(--amber)', icon:'🟡'};
+  }
+
+  // Rien coché du tout aujourd'hui
+  return { text: rnd([
+    `${statsLine}\n${pillarLine}. Tout à 0%. Il est ${timeOfDay} et t'as rien fait. C'est pas un hasard — c'est un choix. Chaque case non cochée c'est un jour de retard sur qui tu veux être.`,
+    `${statsLine}\nAujourd'hui à zéro. ${avg7}% sur 7 jours. ${avg7 < 50 ? 'En dessous de la moitié de ce que tu pourrais faire.' : ''} ${lowestXP.name} c'est ton talon d'Achille depuis le début. Commence par là.`,
+    `${statsLine}\n0 habitude cochée. ${timeOfDay} bien avancé. T'attends quoi exactement ? La motivation ? Elle vient pas. L'action vient d'abord. Toujours.`
+  ]), color:'var(--red)', icon:'🔴'};
+}
+
+function renderCoachPhrase() {
+  const el = document.getElementById('coach-phrase');
+  if (!el) return;
+  const { text, color, icon } = getDashboardPhrase();
+  const parts = text.split('\n');
+  const statsLine = parts[0];
+  const mainText = parts.slice(1).join(' ');
+  el.innerHTML = `
+    <div style="width:100%;">
+      <div style="font-size:9px;color:var(--muted);letter-spacing:0.06em;margin-bottom:6px;font-family:monospace;">${icon} ${statsLine}</div>
+      <div style="color:${color};font-size:12px;line-height:1.7;font-style:italic;">${mainText}</div>
+    </div>`;
+}
+
+// Mise à jour toutes les 3 minutes
+setInterval(renderCoachPhrase, 180000);
+
+// ══════════════════════════════════════════
+// LEVEL UP ANIMATION
+// ══════════════════════════════════════════
 let _lastGlobalLv=null;
 function checkLevelUp(prevLv){
   const newLv=getGlobalLv();
@@ -1506,43 +1774,68 @@ function checkLevelUp(prevLv){
   if(newLv>prevLv){_lastGlobalLv=newLv;showLevelUp(newLv);}
 }
 function showLevelUp(niv){
-  const info=getLvInfo(niv);
-  const el=document.getElementById('levelup-overlay');
-  if(!el) return;
+  const info=getLvInfo(niv),el=document.getElementById('levelup-overlay');if(!el)return;
   document.getElementById('lu-lv').textContent=niv;
   document.getElementById('lu-name').textContent=info.name.toUpperCase();
   document.getElementById('lu-desc').textContent=info.desc;
-  var ch=CHAR_IMGS[info.name]||{url:null,fallback:'👤'};
-  var imgEl=document.getElementById('lu-img');
-  if(ch.url) imgEl.innerHTML='<img src="'+ch.url+'" width="180" height="240" style="width:180px;height:240px;object-fit:cover;object-position:top center;border-radius:20px;display:block;">';
+  const ch=CHAR_IMGS[info.name]||{url:null,fallback:'👤'};
+  const imgEl=document.getElementById('lu-img');
+  if(ch.url)imgEl.innerHTML=`<img src="${ch.url}" width="180" height="240" style="width:180px;height:240px;object-fit:cover;object-position:top center;border-radius:20px;display:block;">`;
   else imgEl.textContent=ch.fallback;
-  el.querySelectorAll('.lu-lv,.lu-name,.lu-desc').forEach(function(x){x.style.animation='none';x.offsetHeight;x.style.animation='';});
-  var line=el.querySelector('.lu-line');
-  if(line){line.style.animation='none';line.offsetHeight;line.style.animation='';}
-  el.classList.add('show');
-  setTimeout(function(){closeLevelUp();},5000);
+  el.classList.add('show');setTimeout(()=>closeLevelUp(),5000);
 }
-function closeLevelUp(){
-  var el=document.getElementById('levelup-overlay');
-  if(el) el.classList.remove('show');
+function closeLevelUp(){const el=document.getElementById('levelup-overlay');if(el)el.classList.remove('show');}
+
+// ══════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════
+const TITLES={dashboard:'Bonjour, Monsef',piliers:'Mes Piliers',historique:'Historique',niveau:"L'Homme Idéal",missions:'Missions',mind:'Mind Dump',calendar:'Calendrier'};
+
+function goTo(p,el){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.sn').forEach(x=>x.classList.remove('active'));
+  const pg=document.getElementById('page-'+p);if(!pg)return;
+  pg.classList.add('active');
+  if(el)el.classList.add('active');
+  else{const btn=document.querySelector(`.sn[onclick*="'${p}'"]`);if(btn)btn.classList.add('active');}
+  document.getElementById('page-title').textContent=TITLES[p]||'JARVIS OS';
+  document.getElementById('scroll').scrollTop=0;
+  if(p==='dashboard')renderDashboard();
+  else if(p==='piliers')renderPiliers();
+  else if(p==='historique')renderHistorique();
+  else if(p==='niveau')renderNiveau();
+  else if(p==='missions')renderMissions();
 }
 
+function renderCurrent(){
+  const cur=document.querySelector('.page.active');if(!cur)return;
+  const id=cur.id.replace('page-','');
+  if(id==='dashboard')renderDashboard();
+  else if(id==='piliers')renderPiliers();
+  else if(id==='historique')renderHistorique();
+  else if(id==='niveau')renderNiveau();
+}
+
+function openM(id){document.getElementById(id).classList.add('open');document.getElementById('overlay').classList.add('open');}
+function closeModals(){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open'));document.getElementById('overlay').classList.remove('open');}
+function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
 document.getElementById('datechip').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
-document.getElementById('tr-date').value=new Date().toISOString().slice(0,10);
-if(S.tradeNotes) document.getElementById('trade-notes').value=S.tradeNotes;
 const wta=document.getElementById('write-ta');
-if(wta) wta.addEventListener('input',function(){const n=this.value.trim().split(/\s+/).filter(w=>w).length;document.getElementById('wcount').textContent=n+' mot'+(n>1?'s':'');});
+if(wta)wta.addEventListener('input',function(){const n=this.value.trim().split(/\s+/).filter(w=>w).length;document.getElementById('wcount').textContent=n+' mot'+(n>1?'s':'');});
 renderMoodBtns();
 _lastGlobalLv=getGlobalLv();
-checkGcalToken();
+updateTodayLabels();
 renderDashboard();
-renderSMC();
-renderTrades();
 setTimeout(()=>{const s=document.getElementById('splash');if(s){s.style.opacity='0';setTimeout(()=>s.remove(),500);}},1400);
 </script>
 
+
 <div id="levelup-overlay" onclick="closeLevelUp()">
-  <div class="lu-img" id="lu-img"><img src="img/boy.jpg"></div>
+  <div class="lu-img" id="lu-img"><img src="img/boy.jpg" alt=""></div>
   <div class="lu-line"></div>
   <div class="lu-lv" id="lu-lv">1</div>
   <div class="lu-name" id="lu-name">THE BOY</div>
