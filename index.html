@@ -8,6 +8,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;">
 <title>JARVIS OS — Monsef</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -300,6 +301,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     <div class="topbar-title" id="page-title">Bonjour, Monsef</div>
     <div class="topbar-right">
       <div class="datechip" id="datechip"></div>
+      <div id="sync-status" style="font-size:10px;color:var(--green);padding:4px 8px;border-radius:20px;background:var(--bg3);border:1px solid var(--border);cursor:pointer;" onclick="syncLoad()" title="Cliquer pour forcer la sync">✓ Sync</div>
       <div class="avatar">M</div>
     </div>
   </div>
@@ -661,7 +663,10 @@ try {
 const todayK = () => new Date().toISOString().slice(0,10);
 function getMonday(d){const c=new Date(d),day=c.getDay(),diff=c.getDate()-day+(day===0?-6:1);return new Date(c.setDate(diff));}
 const weekK = () => { const d=new Date(),m=getMonday(d); return m.toISOString().slice(0,10); };
-function save() { try { localStorage.setItem('jarvis_v5', JSON.stringify(S)); } catch(e) {} }
+function save() {
+  try { localStorage.setItem('jarvis_v5', JSON.stringify(S)); } catch(e) {}
+  if (typeof syncSave === 'function') syncSave();
+}
 function getDayData(dateKey) { const k=dateKey||todayK(); if(!S.days[k]) S.days[k]={checked:{}}; return S.days[k]; }
 function getWeekData() { const wk=weekK(); if(!S.weeklyData[wk]) S.weeklyData[wk]={}; return S.weeklyData[wk]; }
 
@@ -1823,6 +1828,137 @@ function toggleFS(){if(!document.fullscreenElement)document.documentElement.requ
 // ══════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════
+
+// ══════════════════════════════════════════
+// JSONBIN SYNC — CORS compatible
+// ══════════════════════════════════════════
+const JSONBIN_KEY = '$2a$10$placeholder'; // remplacé après création
+let JSONBIN_BIN_ID = localStorage.getItem('jarvis_bin_id') || null;
+let _syncPending = false;
+let _syncTimer = null;
+const JSONBIN_MASTER_KEY = '$2a$10$e7ym7/8bwZFFNu2OM6XKlelv8eGvtAVzcdeAiyFhyoZyDh.xAf1pq';
+
+function syncSetStatus(status) {
+  const el = document.getElementById('sync-status');
+  if (!el) return;
+  const map = {
+    ok:      { text: '✓ Sync', color: 'var(--green)' },
+    saving:  { text: '↑ Sync…', color: 'var(--amber)' },
+    loading: { text: '↓ Sync…', color: 'var(--amber)' },
+    error:   { text: '⚠ Sync', color: 'var(--red)' },
+  };
+  const s = map[status] || map.ok;
+  el.textContent = s.text;
+  el.style.color = s.color;
+}
+
+async function syncLoad() {
+  syncSetStatus('loading');
+  try {
+    if (!JSONBIN_BIN_ID) {
+      syncSetStatus('ok');
+      await _doSyncSave();
+      return;
+    }
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+      headers: { 'X-Master-Key': JSONBIN_MASTER_KEY }
+    });
+    if (!r.ok) { syncSetStatus('error'); return; }
+    const json = await r.json();
+    const data = json.record;
+    const localTs = S._ts || 0;
+    const remoteTs = data._ts || 0;
+    if (remoteTs >= localTs) {
+      S = { ...S, ...data };
+      if (!S.pillars) S.pillars = JSON.parse(JSON.stringify(DEFAULT_PILLARS));
+      if (!S.pillarXP) S.pillarXP = {};
+      if (!S.missions) S.missions = [];
+      save();
+      renderCurrent();
+      renderDashboard();
+    }
+    syncSetStatus('ok');
+  } catch(e) {
+    syncSetStatus('error');
+    console.error('syncLoad error', e);
+  }
+}
+
+function syncSave() {
+  clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(_doSyncSave, 2000);
+}
+
+async function _doSyncSave() {
+  if (_syncPending) { syncSave(); return; }
+  _syncPending = true;
+  syncSetStatus('saving');
+  try {
+    S._ts = Date.now();
+    localStorage.setItem('jarvis_v5', JSON.stringify(S));
+    if (!JSONBIN_BIN_ID) {
+      // Créer un nouveau bin
+      const r = await fetch('https://api.jsonbin.io/v3/b', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': JSONBIN_MASTER_KEY,
+          'X-Bin-Name': 'JARVIS-OS-Data',
+          'X-Bin-Private': 'true'
+        },
+        body: JSON.stringify(S)
+      });
+      if (r.ok) {
+        const json = await r.json();
+        JSONBIN_BIN_ID = json.metadata.id;
+        localStorage.setItem('jarvis_bin_id', JSONBIN_BIN_ID);
+        syncSetStatus('ok');
+      } else { syncSetStatus('error'); }
+    } else {
+      // Mettre à jour le bin existant
+      const r = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': JSONBIN_MASTER_KEY
+        },
+        body: JSON.stringify(S)
+      });
+      if (r.ok) { syncSetStatus('ok'); }
+      else { syncSetStatus('error'); }
+    }
+  } catch(e) {
+    syncSetStatus('error');
+    console.error('syncSave error', e);
+    // Show detail in status
+    const el = document.getElementById('sync-status');
+    if(el) el.title = e.message || String(e);
+  }
+  _syncPending = false;
+}
+
+// Pull silencieux toutes les 30s
+setInterval(async () => {
+  if (!JSONBIN_BIN_ID || _syncPending) return;
+  try {
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+      headers: { 'X-Master-Key': JSONBIN_MASTER_KEY }
+    });
+    if (!r.ok) return;
+    const json = await r.json();
+    const data = json.record;
+    const remoteTs = data._ts || 0;
+    const localTs = S._ts || 0;
+    if (remoteTs > localTs) {
+      S = { ...S, ...data };
+      if (!S.pillars) S.pillars = JSON.parse(JSON.stringify(DEFAULT_PILLARS));
+      save();
+      renderCurrent();
+      renderDashboard();
+    }
+  } catch(e) {}
+}, 30000);
+
 document.getElementById('datechip').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
 const wta=document.getElementById('write-ta');
 if(wta)wta.addEventListener('input',function(){const n=this.value.trim().split(/\s+/).filter(w=>w).length;document.getElementById('wcount').textContent=n+' mot'+(n>1?'s':'');});
@@ -1830,6 +1966,7 @@ renderMoodBtns();
 _lastGlobalLv=getGlobalLv();
 updateTodayLabels();
 renderDashboard();
+syncLoad();
 setTimeout(()=>{const s=document.getElementById('splash');if(s){s.style.opacity='0';setTimeout(()=>s.remove(),500);}},1400);
 </script>
 
