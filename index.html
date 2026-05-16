@@ -332,6 +332,11 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
         <div class="scard"><div class="scard-val" id="d-7avg">0%</div><div class="scard-lbl">Moyenne 7 jours</div></div>
         <div class="scard"><div class="scard-val" id="d-30avg">0%</div><div class="scard-lbl">Moyenne 30 jours</div></div>
       </div>
+      <!-- PHRASE COACH -->
+      <div style="background:var(--bg3);border-radius:var(--rc);border:1px solid var(--border);padding:16px;margin-bottom:12px;" id="coach-phrase-wrap">
+        <div id="coach-phrase" style="font-size:12px;color:var(--muted);">Chargement...</div>
+      </div>
+
       <div class="g4" id="d-pillars"></div>
       <div class="char-cards" id="d-chars"></div>
       <div class="habits-card">
@@ -611,7 +616,7 @@ const UNLOCKS=[
 
 
 const COACH_SYS=`Tu es le coach de Monsef, 22 ans, trader à Toulouse. Dis la vérité brutale. Leviers: son père qui a travaillé toute sa vie, sa copine qui le regarde, le temps qui passe, l'argent perdu (5000€). Français, phrases courtes, brutal.`;
-var MIND_SYS='Tu es IA journal Monsef. Resume cash style Tugan Bara 3-5 phrases. Score EXCELLENTE/BONNE/MOYENNE/DIFFICILE/MAUVAISE. JSON: {"score":"BONNE","resume":"..."}' ;
+var MIND_SYS = "Tu es le journal intime de Monsef, 22 ans, trader a Toulouse. Lis ce qu il ecrit. Produis un resume de 3 a 5 phrases cash, style Tugan Bara, sans enrobage. Dis la verite. Evalue la journee avec un score parmi: EXCELLENTE, BONNE, MOYENNE, DIFFICILE, MAUVAISE. Reponds UNIQUEMENT avec du JSON valide, sans backticks, sans texte avant ou apres. Format exact: {" + '"score"' + ":" + '"BONNE"' + "," + '"resume"' + ":" + '"Ton resume ici."' + "}";
 
 // ══════════════════════════════════════════
 // STATE
@@ -628,14 +633,19 @@ let S = {
 };
 
 try {
-  const saved = localStorage.getItem('jarvis_v5');
-  if (saved) {
-    const parsed = JSON.parse(saved);
+  // Migrate from v4 if v5 doesn't exist yet
+  const v5data = localStorage.getItem('jarvis_v5');
+  const v4data = localStorage.getItem('jarvis_v4');
+  const raw = v5data || v4data;
+  if (raw) {
+    const parsed = JSON.parse(raw);
     S = { ...S, ...parsed };
-    if (!S.pillarXP) S.pillarXP = {};
-    if (!S.pillars) S.pillars = JSON.parse(JSON.stringify(DEFAULT_PILLARS));
-    // Migrate old pillars: add weight field if missing
-    S.pillars.forEach(p => p.habits.forEach(h => { if (!h.weight) h.weight = 1; }));
+    if(!S.pillarXP)S.pillarXP={};
+    if(!S.missions)S.missions=[];
+    if(!S.entries)S.entries=[];
+    if(!S.pillars)S.pillars=JSON.parse(JSON.stringify(DEFAULT_PILLARS));
+    // Save under v5 key if we loaded from v4
+    if(!v5data && v4data) localStorage.setItem('jarvis_v5', raw);
   }
 } catch(e) {}
 
@@ -1140,6 +1150,7 @@ function renderDashboard(){
     <div class="char-card" style="opacity:0.5;"><div class="char-img">${getCharContent(nextInfo.name,64,84,'12px',true)}</div><div><div class="char-nm" style="color:var(--muted)">${nextInfo.name}</div><div class="char-lv">Niveau ${nextNiv}</div><div class="char-desc">${nextInfo.desc}</div></div></div>`;
 
   updateTodayLabels();
+  renderCoachPhrase();
   renderDashHabits();
   setTimeout(()=>{renderActChart();renderRadar();},50);
 }
@@ -1281,8 +1292,94 @@ async function sendCoach(){
 function addCoachMsg(txt,type){const w=document.getElementById('coach-msgs');const d=document.createElement('div');d.className='cmsg '+type;d.textContent=txt;w.appendChild(d);w.scrollTop=w.scrollHeight;return d;}
 function onCoachKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendCoach();}}
 
-function renderEntries(){var el=document.getElementById('entries-list');var cEl=document.getElementById('entries-count');if(!el)return;var entries=S.entries||[];if(cEl)cEl.textContent=entries.length+' entree'+(entries.length>1?'s':'');if(entries.length===0){el.innerHTML='<div style="padding:24px;text-align:center;color:var(--muted);font-size:12px;">Aucune entree.</div>';return;}el.innerHTML='';var cols={EXCELLENTE:'#34d399',BONNE:'#60a5fa',MOYENNE:'#fbbf24',DIFFICILE:'#f87171',MAUVAISE:'#666'};entries.forEach(function(e,idx){var col=cols[e.score]||cols.MOYENNE;var div=document.createElement('div');div.style.cssText='border-bottom:1px solid var(--border);padding:14px 16px;background:'+(idx===0?'var(--bg4)':'transparent')+';';var hdr=document.createElement('div');hdr.style.cssText='display:flex;align-items:center;gap:8px;margin-bottom:8px;';hdr.innerHTML='<span style="font-size:11px;font-weight:700;color:'+col+';padding:2px 8px;border-radius:20px;border:1px solid '+col+'33;background:'+col+'11;">'+e.score+'</span><span style="font-size:10px;color:var(--muted);margin-left:auto;">'+e.date+'</span>'+(e.mood?'<span style="font-size:10px;color:var(--muted);"> humeur '+e.mood+'/10</span>':'');var rsm=document.createElement('div');rsm.style.cssText='border-left:2px solid '+col+';padding:10px 12px;font-size:12px;line-height:1.7;color:var(--text);margin-bottom:6px;font-style:italic;background:'+col+'0d;border-radius:0 8px 8px 0;';rsm.textContent=e.resume||'Resume non disponible.';var tog=document.createElement('button');tog.style.cssText='background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0;font-family:inherit;';tog.textContent='Voir texte original';var orig=document.createElement('div');orig.style.cssText='display:none;font-size:11px;color:var(--muted);line-height:1.7;margin-top:6px;padding:8px;background:var(--bg);border-radius:8px;white-space:pre-wrap;';orig.textContent=e.text;tog.onclick=function(){var o=orig.style.display==='block';orig.style.display=o?'none':'block';tog.textContent=o?'Voir texte original':'Masquer';};div.appendChild(hdr);div.appendChild(rsm);div.appendChild(tog);div.appendChild(orig);el.appendChild(div);});}
-async function saveEntry(){var txt=document.getElementById('write-ta').value.trim();if(!txt){alert('Ecris quelque chose.');return;}var btn=document.getElementById('save-entry-btn');if(btn){btn.textContent='Analyse...';btn.disabled=true;}var score='MOYENNE',resume='Analyse indisponible.';try{var r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,system:MIND_SYS,messages:[{role:'user',content:txt}]})});var d=await r.json();var raw=d.content&&d.content[0]?d.content[0].text:'{}';var parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());score=parsed.score||'MOYENNE';resume=parsed.resume||raw;}catch(err){console.error('IA',err);}if(!S.entries)S.entries=[];S.entries.unshift({id:Date.now(),date:new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}),dateKey:new Date().toISOString().slice(0,10),text:txt,mood:selMood,score:score,resume:resume});save();clearWrite();if(btn){btn.textContent='Analyser + Sauvegarder';btn.disabled=false;}renderEntries();}
+
+function openEditEntry(id){
+  var e=S.entries.find(function(x){return String(x.id)===String(id);});if(!e)return;
+  document.getElementById('ee-text').value=e.text;
+  document.getElementById('ee-id').value=id;
+  openM('entry-edit-modal');
+}
+function saveEditEntry(){
+  var id=parseInt(document.getElementById('ee-id').value)||document.getElementById('ee-id').value;
+  var txt=document.getElementById('ee-text').value.trim();
+  if(!txt){alert('Texte vide.');return;}
+  var e=S.entries.find(function(x){return String(x.id)===String(id);});
+  if(!e){closeModals();return;}
+  e.text=txt;
+  save();closeModals();renderEntries();
+}
+
+function renderEntries(){var el=document.getElementById('entries-list');var cEl=document.getElementById('entries-count');if(!el)return;var entries=S.entries||[];if(cEl)cEl.textContent=entries.length+' entree'+(entries.length>1?'s':'');if(entries.length===0){el.innerHTML='<div style="padding:24px;text-align:center;color:var(--muted);font-size:12px;">Aucune entree.</div>';return;}el.innerHTML='';var cols={EXCELLENTE:'#34d399',BONNE:'#60a5fa',MOYENNE:'#fbbf24',DIFFICILE:'#f87171',MAUVAISE:'#666'};entries.forEach(function(e,idx){var col=cols[e.score]||cols.MOYENNE;var div=document.createElement('div');div.style.cssText='border-bottom:1px solid var(--border);padding:14px 16px;background:'+(idx===0?'var(--bg4)':'transparent')+';';var hdr=document.createElement('div');hdr.style.cssText='display:flex;align-items:center;gap:8px;margin-bottom:8px;';hdr.innerHTML='<span style="font-size:11px;font-weight:700;color:'+col+';padding:2px 8px;border-radius:20px;border:1px solid '+col+'33;background:'+col+'11;">'+(e.score&&e.score!=='undefined'?e.score:'MOYENNE')+'</span><span style="font-size:10px;color:var(--muted);margin-left:auto;">'+e.date+'</span>'+(e.mood?'<span style="font-size:10px;color:var(--muted);"> humeur '+e.mood+'/10</span>':'');var rsm=document.createElement('div');rsm.style.cssText='border-left:2px solid '+col+';padding:10px 12px;font-size:12px;line-height:1.7;color:var(--text);margin-bottom:6px;font-style:italic;background:'+col+'0d;border-radius:0 8px 8px 0;';rsm.textContent=e.resume||'Resume non disponible.';var tog=document.createElement('button');tog.style.cssText='background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0;font-family:inherit;';tog.textContent='Voir texte original';var orig=document.createElement('div');orig.style.cssText='display:none;font-size:11px;color:var(--muted);line-height:1.7;margin-top:6px;padding:8px;background:var(--bg);border-radius:8px;white-space:pre-wrap;';orig.textContent=e.text;tog.onclick=function(){var o=orig.style.display==='block';orig.style.display=o?'none':'block';tog.textContent=o?'Voir texte original':'Masquer';};
+
+    // Boutons actions
+    var actions=document.createElement('div');
+    actions.style.cssText='display:flex;gap:6px;margin-top:8px;';
+    var delBtn=document.createElement('button');
+    delBtn.className='btn btn-g';
+    delBtn.style.cssText='font-size:10px;color:var(--red);border-color:rgba(248,113,113,0.3);';
+    delBtn.textContent='Supprimer';
+    (function(eid){delBtn.addEventListener('click',function(){S.entries=S.entries.filter(function(x){return String(x.id)!==String(eid);});save();renderEntries();});})(e.id);
+    var editBtn2=document.createElement('button');
+    editBtn2.className='btn btn-g';
+    editBtn2.style.cssText='font-size:10px;';
+    editBtn2.textContent='Modifier';
+    (function(eid){editBtn2.addEventListener('click',function(){openEditEntry(eid);});})(e.id);
+    actions.appendChild(editBtn2);actions.appendChild(delBtn);
+    div.appendChild(hdr);div.appendChild(rsm);div.appendChild(tog);div.appendChild(orig);div.appendChild(actions);el.appendChild(div);});}
+async function saveEntry(){
+  var ta=document.getElementById('write-ta');
+  var txt=ta?ta.value.trim():'';
+  if(!txt){alert('Ecris quelque chose.');return;}
+  var btn=document.getElementById('save-entry-btn');
+  if(btn){btn.textContent='Analyse en cours...';btn.disabled=true;}
+  var score='MOYENNE', resume='Analyse IA indisponible.';
+  // Sauvegarde le texte et l'humeur AVANT l'appel IA
+  var savedTxt=txt, savedMood=selMood;
+  try{
+    var r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,system:MIND_SYS,messages:[{role:'user',content:txt}]})
+    });
+    if(r.ok){
+      var d=await r.json();
+      var raw=d.content&&d.content[0]?d.content[0].text:'{}';
+      try{
+        // Extraire score et resume sans JSON.parse (plus compatible Safari)
+        var clean=raw.replace(/```json/g,'').replace(/```/g,'').trim();
+        var scoreMatch=clean.match(/"score"\s*:\s*"([^"]+)"/);
+        var resumeMatch=clean.match(/"resume"\s*:\s*"([\s\S]+?)"\s*\}?$/);
+        if(scoreMatch) score=scoreMatch[1];
+        if(resumeMatch) resume=resumeMatch[1].replace(/\\n/g,' ').replace(/\\"/g,'"');
+        if(!scoreMatch&&!resumeMatch) resume=clean.slice(0,400);
+      }catch(parseErr){
+        score='MOYENNE';
+        resume=raw?raw.slice(0,400):'Analyse indisponible.';
+      }
+    }
+  }catch(err){
+    console.error('IA error',err);
+    resume='Analyse IA indisponible - entree sauvegardee.';
+  }
+  // Sauvegarde dans tous les cas
+  if(!S.entries)S.entries=[];
+  S.entries.unshift({
+    id:Date.now(),
+    date:new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}),
+    dateKey:new Date().toISOString().slice(0,10),
+    text:savedTxt,
+    mood:savedMood,
+    score:score,
+    resume:resume
+  });
+  save();
+  // Vider le formulaire
+  if(ta)ta.value='';
+  selMood=0;
+  renderMoodBtns();
+  if(btn){btn.textContent='Analyser + Sauvegarder';btn.disabled=false;}
+  try{renderEntries();}catch(e){console.error('renderEntries error',e);}
+}
 function initMindPage(){var label=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});var el=document.getElementById('mind-today-label');if(el)el.textContent=label;renderEntries();}
 
 // ══════════════════════════════════════════
@@ -1292,19 +1389,7 @@ let selMood=0;
 function renderMoodBtns(){document.getElementById('mood-btns').innerHTML=[1,2,3,4,5,6,7,8,9,10].map(n=>`<button class="mood-btn ${selMood===n?'sel':''}" onclick="setMood(${n})">${n}</button>`).join('');}
 function setMood(n){selMood=n;renderMoodBtns();}
 function clearWrite(){document.getElementById('write-ta').value='';selMood=0;renderMoodBtns();}
-function saveEntry(){const txt=document.getElementById('write-ta').value.trim();if(!txt){alert('Écris quelque chose.');return;}S.entries.unshift({id:Date.now(),date:new Date().toLocaleDateString('fr-FR'),text:txt,mood:selMood});save();clearWrite();alert('Sauvegardé ✓');}
 
-// ══════════════════════════════════════════
-// TRADING
-// ══════════════════════════════════════════
-
-
-
-
-
-// ══════════════════════════════════════════
-// DASH HABITS
-// ══════════════════════════════════════════
 function renderDashHabits(){
   const wd=getWeekData();
   const el=document.getElementById('dash-habits-list');if(!el)return;
@@ -1672,6 +1757,18 @@ renderDashboard();
 setTimeout(()=>{const s=document.getElementById('splash');if(s){s.style.opacity='0';setTimeout(()=>s.remove(),500);}},1400);
 </script>
 
+
+
+<!-- Entry edit modal -->
+<div class="modal" id="entry-edit-modal">
+  <div class="modal-title">Modifier l'entrée</div>
+  <textarea class="mi" id="ee-text" rows="8" style="resize:vertical;line-height:1.6;"></textarea>
+  <input type="hidden" id="ee-id">
+  <div class="mbtns">
+    <button class="btn btn-g" onclick="closeModals()">Annuler</button>
+    <button class="btn btn-p" onclick="saveEditEntry()">Sauvegarder</button>
+  </div>
+</div>
 
 <div id="levelup-overlay" onclick="closeLevelUp()">
   <div class="lu-img" id="lu-img"><img src="img/boy.jpg" alt=""></div>
