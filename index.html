@@ -8,7 +8,6 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:;">
 <title>JARVIS OS — Monsef</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -301,7 +300,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     <div class="topbar-title" id="page-title">Bonjour, Monsef</div>
     <div class="topbar-right">
       <div class="datechip" id="datechip"></div>
-      <div id="sync-status" style="font-size:10px;color:var(--green);padding:4px 8px;border-radius:20px;background:var(--bg3);border:1px solid var(--border);cursor:pointer;" onclick="syncLoad()" title="Cliquer pour forcer la sync">✓ Sync</div>
       <div class="avatar">M</div>
     </div>
   </div>
@@ -334,11 +332,6 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
         <div class="scard"><div class="scard-val" id="d-7avg">0%</div><div class="scard-lbl">Moyenne 7 jours</div></div>
         <div class="scard"><div class="scard-val" id="d-30avg">0%</div><div class="scard-lbl">Moyenne 30 jours</div></div>
       </div>
-      <!-- PHRASE COACH -->
-      <div style="background:var(--bg3);border-radius:var(--rc);border:1px solid var(--border);padding:16px;margin-bottom:12px;" id="coach-phrase-wrap">
-        <div id="coach-phrase" style="flex:1;font-size:12px;color:var(--muted);">Chargement...</div>
-      </div>
-
       <div class="g4" id="d-pillars"></div>
       <div class="char-cards" id="d-chars"></div>
       <div class="habits-card">
@@ -437,29 +430,30 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
 
     <!-- MIND -->
     <div class="page" id="page-mind">
-      <div class="mind-g">
-        <div class="coach-card" style="margin-bottom:0;display:flex;flex-direction:column;">
-          <div class="coach-hd"><div class="coach-dot"></div><div class="coach-ti">JARVIS · Réflexion guidée</div></div>
-          <div class="coach-msgs" id="mind-msgs" style="flex:1;max-height:none;"><div class="cmsg ai">Bonsoir Monsef. Qu'est-ce qui pèse ce soir ?</div></div>
-          <div class="coach-ft"><textarea class="coach-in" id="mind-in" placeholder="Tape ce qui te traverse..." rows="1" onkeydown="onMindKey(event)"></textarea><button class="coach-send" onclick="sendMind()">↑</button></div>
-        </div>
-        <div class="write-card">
-          <div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;"><div style="font-size:11px;font-weight:600;">Journal libre</div><div style="font-size:10px;color:var(--muted);" id="wcount">0 mots</div></div>
-          <textarea class="write-ta" id="write-ta" placeholder="Écris sans filtre..."></textarea>
-          <div class="write-ft">
-            <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:10px;color:var(--muted);">Humeur</span><div class="mood-btns" id="mood-btns"></div></div>
-            <div style="display:flex;gap:6px;"><button class="btn btn-g" onclick="clearWrite()">Effacer</button><button class="btn btn-p" onclick="saveEntry()">Sauvegarder</button></div>
-          </div>
-        </div>
+      <div style="background:var(--bg3);border-radius:var(--rc);border:1px solid var(--border);margin-bottom:12px;overflow:hidden;">
+        <div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;"><div style="font-size:13px;font-weight:600;">Journal du jour</div><div style="display:flex;align-items:center;gap:8px;"><div style="font-size:10px;color:var(--muted);" id="wcount">0 mots</div><div class="day-badge"><div class="day-badge-dot"></div><span id="mind-today-label">--</span></div></div></div>
+        <textarea class="write-ta" id="write-ta" placeholder="Ecris ta journee sans filtre..." style="height:190px;"></textarea>
+        <div style="padding:10px 14px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;"><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:10px;color:var(--muted);">Humeur</span><div class="mood-btns" id="mood-btns"></div></div><div style="display:flex;gap:6px;"><button class="btn btn-g" onclick="clearWrite()">Effacer</button><button class="btn btn-p" id="save-entry-btn" onclick="saveEntry()">Analyser + Sauvegarder</button></div></div>
+      </div>
+      <div style="background:var(--bg3);border-radius:var(--rc);border:1px solid var(--border);overflow:hidden;">
+        <div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;"><div style="font-size:11px;font-weight:600;">Historique</div><div style="font-size:10px;color:var(--muted);" id="entries-count">0 entree</div></div>
+        <div id="entries-list" style="max-height:520px;overflow-y:auto;"></div>
       </div>
     </div>
 
-  </div>
+      </div>
 </div>
 </div>
 
 <!-- MODALS -->
 <div class="overlay" id="overlay" onclick="closeModals()"></div>
+
+  <div class="mrow"><select class="mi" id="tr-dir"><option value="long">Long</option><option value="short">Short</option></select><input class="mi" id="tr-date" type="date"></div>
+  <div class="mrow"><input class="mi" id="tr-entry" placeholder="Entrée" type="number" step="0.01"><input class="mi" id="tr-sl" placeholder="SL" type="number" step="0.01"><input class="mi" id="tr-tp" placeholder="TP" type="number" step="0.01"></div>
+  <div class="mrow"><input class="mi" id="tr-result" placeholder="Résultat ($)" type="number" step="0.01"><select class="mi" id="tr-outcome"><option value="">Résultat...</option><option value="win">Win ✅</option><option value="loss">Loss ❌</option><option value="be">Break Even</option></select></div>
+  <input class="mi" id="tr-notes2" placeholder="Notes">
+  <div class="mbtns"><button class="btn btn-g" onclick="closeModals()">Annuler</button><button class="btn btn-p" onclick="submitTrade()">Enregistrer</button></div>
+</div>
 
   <input class="mi" id="ev-title" placeholder="Titre">
   <div class="mrow"><input class="mi" id="ev-date" type="date"><input class="mi" id="ev-ts" type="time"><input class="mi" id="ev-te" type="time"></div>
@@ -617,7 +611,7 @@ const UNLOCKS=[
 
 
 const COACH_SYS=`Tu es le coach de Monsef, 22 ans, trader à Toulouse. Dis la vérité brutale. Leviers: son père qui a travaillé toute sa vie, sa copine qui le regarde, le temps qui passe, l'argent perdu (5000€). Français, phrases courtes, brutal.`;
-const MIND_SYS=`Tu es JARVIS, assistant de Monsef. Direct, sobre. Français.`;
+var MIND_SYS='Tu es IA journal Monsef. Resume cash style Tugan Bara 3-5 phrases. Score EXCELLENTE/BONNE/MOYENNE/DIFFICILE/MAUVAISE. JSON: {"score":"BONNE","resume":"..."}' ;
 
 // ══════════════════════════════════════════
 // STATE
@@ -626,6 +620,7 @@ let S = {
   totalXP: 0, streak: 0,
   days: {}, weeklyData: {},
   trades: [], entries: [],
+  tradeNotes: '',
   pillarXP: {},
   pillars: JSON.parse(JSON.stringify(DEFAULT_PILLARS)),
   missions: [],
@@ -653,7 +648,8 @@ try {
     S.weeklyData = old.weeklyData || {};
     S.trades = old.trades || [];
     S.entries = old.entries || [];
-
+    S.tradeNotes = old.tradeNotes || '';
+    S.smcCk = old.smcCk || new Array(SMC.length).fill(false);
     // Recalculate totalXP and pillarXP from scratch
     recalcAllXP();
     save();
@@ -663,10 +659,7 @@ try {
 const todayK = () => new Date().toISOString().slice(0,10);
 function getMonday(d){const c=new Date(d),day=c.getDay(),diff=c.getDate()-day+(day===0?-6:1);return new Date(c.setDate(diff));}
 const weekK = () => { const d=new Date(),m=getMonday(d); return m.toISOString().slice(0,10); };
-function save() {
-  try { localStorage.setItem('jarvis_v5', JSON.stringify(S)); } catch(e) {}
-  if (typeof syncSave === 'function') syncSave();
-}
+function save() { try { localStorage.setItem('jarvis_v5', JSON.stringify(S)); } catch(e) {} }
 function getDayData(dateKey) { const k=dateKey||todayK(); if(!S.days[k]) S.days[k]={checked:{}}; return S.days[k]; }
 function getWeekData() { const wk=weekK(); if(!S.weeklyData[wk]) S.weeklyData[wk]={}; return S.weeklyData[wk]; }
 
@@ -844,7 +837,7 @@ function incrWeekly(hid, delta) {
   const prev=Math.min(cur,h.weeklyTarget);
   const next=Math.min(newVal,h.weeklyTarget);
   wd[hid]=newVal;
-  if(!S.pillarXP)S.pillarXP={};
+  if(!S.pillarXP)S.pillarXP={};if(!S.missions)S.missions=[];if(!S.entries)S.entries=[];
   if(next>prev){S.totalXP+=3;S.pillarXP[p.id]=(S.pillarXP[p.id]||0)+3;}
   else if(next<prev){S.totalXP=Math.max(0,S.totalXP-3);S.pillarXP[p.id]=Math.max(0,(S.pillarXP[p.id]||0)-3);}
   save();renderCurrent();
@@ -1115,14 +1108,9 @@ function renderDashboard(){
   document.getElementById('d-xp-today').textContent='+'+todayXP+' XP';
 
   if(nextT){
-    const xpPct = Math.round(Math.min(100, S.totalXP / nextT.xp * 100));
-    document.getElementById('xp-bar').style.width=xpPct+'%';
-    document.getElementById('xp-lbl-l').textContent='Niveau '+niv+' → '+nextT.lv;
-    document.getElementById('xp-lbl-r').textContent=S.totalXP.toLocaleString('fr-FR')+' / '+nextT.xp+' XP';
+    var xpPct=Math.round(Math.min(100,S.totalXP/nextT.xp*100));document.getElementById('xp-bar').style.width=xpPct+'%';document.getElementById('xp-lbl-l').textContent='Niv.'+niv+' → '+nextT.lv;document.getElementById('xp-lbl-r').textContent=S.totalXP.toLocaleString('fr-FR')+' / '+nextT.xp+' XP';
   } else {
-    document.getElementById('xp-bar').style.width='100%';
-    document.getElementById('xp-lbl-l').textContent='Niveau maximum atteint';
-    document.getElementById('xp-lbl-r').textContent=S.totalXP.toLocaleString('fr-FR')+' XP';
+    document.getElementById('xp-bar').style.width='100%';document.getElementById('xp-lbl-l').textContent='Niveau max';document.getElementById('xp-lbl-r').textContent=S.totalXP.toLocaleString('fr-FR')+' XP';
   }
 
   const nextTd=LV_THRESHOLDS.find(t=>t.lv>niv);
@@ -1152,7 +1140,6 @@ function renderDashboard(){
     <div class="char-card" style="opacity:0.5;"><div class="char-img">${getCharContent(nextInfo.name,64,84,'12px',true)}</div><div><div class="char-nm" style="color:var(--muted)">${nextInfo.name}</div><div class="char-lv">Niveau ${nextNiv}</div><div class="char-desc">${nextInfo.desc}</div></div></div>`;
 
   updateTodayLabels();
-  renderCoachPhrase();
   renderDashHabits();
   setTimeout(()=>{renderActChart();renderRadar();},50);
 }
@@ -1260,7 +1247,6 @@ function renderNiveau(){
 // COACH IA
 // ══════════════════════════════════════════
 let coachH=[{role:'assistant',content:'Je suis là pour te dire la vérité sur ta semaine. Clique sur Analyser.'}];
-let mindH=[{role:'assistant',content:"Bonsoir Monsef. Qu'est-ce qui pèse ce soir ?"}];
 
 function buildCtx(){
   const niv=getGlobalLv(),info=getLvInfo(niv),avg7=getAvgPct(7),avg30=getAvgPct(30),streak=getStreak();
@@ -1295,18 +1281,9 @@ async function sendCoach(){
 function addCoachMsg(txt,type){const w=document.getElementById('coach-msgs');const d=document.createElement('div');d.className='cmsg '+type;d.textContent=txt;w.appendChild(d);w.scrollTop=w.scrollHeight;return d;}
 function onCoachKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendCoach();}}
 
-async function sendMind(){
-  const inp=document.getElementById('mind-in');const txt=inp.value.trim();if(!txt)return;
-  inp.value='';addMindMsg(txt,'user');mindH.push({role:'user',content:txt});
-  const t=addMindMsg('...','typing');
-  try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,system:MIND_SYS,messages:mindH})});
-    const d=await r.json();const rep=d.content?.[0]?.text||'Je suis là.';
-    t.remove();addMindMsg(rep,'ai');mindH.push({role:'assistant',content:rep});
-  }catch(e){t.textContent='(hors ligne)';t.className='cmsg ai';}
-}
-function addMindMsg(txt,type){const w=document.getElementById('mind-msgs');const d=document.createElement('div');d.className='cmsg '+type;d.textContent=txt;w.appendChild(d);w.scrollTop=w.scrollHeight;return d;}
-function onMindKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMind();}}
+function renderEntries(){var el=document.getElementById('entries-list');var cEl=document.getElementById('entries-count');if(!el)return;var entries=S.entries||[];if(cEl)cEl.textContent=entries.length+' entree'+(entries.length>1?'s':'');if(entries.length===0){el.innerHTML='<div style="padding:24px;text-align:center;color:var(--muted);font-size:12px;">Aucune entree.</div>';return;}el.innerHTML='';var cols={EXCELLENTE:'#34d399',BONNE:'#60a5fa',MOYENNE:'#fbbf24',DIFFICILE:'#f87171',MAUVAISE:'#666'};entries.forEach(function(e,idx){var col=cols[e.score]||cols.MOYENNE;var div=document.createElement('div');div.style.cssText='border-bottom:1px solid var(--border);padding:14px 16px;background:'+(idx===0?'var(--bg4)':'transparent')+';';var hdr=document.createElement('div');hdr.style.cssText='display:flex;align-items:center;gap:8px;margin-bottom:8px;';hdr.innerHTML='<span style="font-size:11px;font-weight:700;color:'+col+';padding:2px 8px;border-radius:20px;border:1px solid '+col+'33;background:'+col+'11;">'+e.score+'</span><span style="font-size:10px;color:var(--muted);margin-left:auto;">'+e.date+'</span>'+(e.mood?'<span style="font-size:10px;color:var(--muted);"> humeur '+e.mood+'/10</span>':'');var rsm=document.createElement('div');rsm.style.cssText='border-left:2px solid '+col+';padding:10px 12px;font-size:12px;line-height:1.7;color:var(--text);margin-bottom:6px;font-style:italic;background:'+col+'0d;border-radius:0 8px 8px 0;';rsm.textContent=e.resume||'Resume non disponible.';var tog=document.createElement('button');tog.style.cssText='background:transparent;border:none;color:var(--muted);font-size:10px;cursor:pointer;padding:0;font-family:inherit;';tog.textContent='Voir texte original';var orig=document.createElement('div');orig.style.cssText='display:none;font-size:11px;color:var(--muted);line-height:1.7;margin-top:6px;padding:8px;background:var(--bg);border-radius:8px;white-space:pre-wrap;';orig.textContent=e.text;tog.onclick=function(){var o=orig.style.display==='block';orig.style.display=o?'none':'block';tog.textContent=o?'Voir texte original':'Masquer';};div.appendChild(hdr);div.appendChild(rsm);div.appendChild(tog);div.appendChild(orig);el.appendChild(div);});}
+async function saveEntry(){var txt=document.getElementById('write-ta').value.trim();if(!txt){alert('Ecris quelque chose.');return;}var btn=document.getElementById('save-entry-btn');if(btn){btn.textContent='Analyse...';btn.disabled=true;}var score='MOYENNE',resume='Analyse indisponible.';try{var r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,system:MIND_SYS,messages:[{role:'user',content:txt}]})});var d=await r.json();var raw=d.content&&d.content[0]?d.content[0].text:'{}';var parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());score=parsed.score||'MOYENNE';resume=parsed.resume||raw;}catch(err){console.error('IA',err);}if(!S.entries)S.entries=[];S.entries.unshift({id:Date.now(),date:new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}),dateKey:new Date().toISOString().slice(0,10),text:txt,mood:selMood,score:score,resume:resume});save();clearWrite();if(btn){btn.textContent='Analyser + Sauvegarder';btn.disabled=false;}renderEntries();}
+function initMindPage(){var label=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});var el=document.getElementById('mind-today-label');if(el)el.textContent=label;renderEntries();}
 
 // ══════════════════════════════════════════
 // MIND
@@ -1353,6 +1330,7 @@ function renderDashHabits(){
 // ══════════════════════════════════════════
 // MISSIONS
 // ══════════════════════════════════════════
+if (!S.missions) S.missions = [];
 
 function missionXPBalance() {
   // Apply daily malus for overdue missions (run once per day)
@@ -1363,8 +1341,9 @@ function missionXPBalance() {
     if (!m.done && m.deadline && m.deadline < today) {
       // -1 XP per day overdue (cap at 0)
       S.totalXP = Math.max(0, S.totalXP - 1);
-      // Malus sur Esprit (discipline)
-      S.pillarXP['esprit'] = Math.max(0, (S.pillarXP['esprit']||0) - 1);
+      // Distribute malus equally across pillars (smallest gets it)
+      const minPid = S.pillars.reduce((a, b) => (S.pillarXP[a.id]||0) < (S.pillarXP[b.id]||0) ? a : b).id;
+      S.pillarXP[minPid] = Math.max(0, (S.pillarXP[minPid]||0) - 1);
       if (!m.malusCount) m.malusCount = 0;
       m.malusCount++;
     }
@@ -1408,24 +1387,7 @@ function showXPToast(msg) {
   setTimeout(() => t.remove(), 2500);
 }
 
-
-function uncompleteMission(id) {
-  const m = S.missions.find(x => x.id === id); if (!m) return;
-  // Retirer les XP gagnés
-  const xpToRemove = m.earnedXP || 0;
-  if (xpToRemove > 0) {
-    S.totalXP = Math.max(0, S.totalXP - xpToRemove);
-    // Retirer du pilier le plus fort (celui qui avait reçu le bonus)
-    const maxPid = S.pillars.reduce((a, b) =>
-      (S.pillarXP[a.id]||0) > (S.pillarXP[b.id]||0) ? a : b).id;
-    S.pillarXP[maxPid] = Math.max(0, (S.pillarXP[maxPid]||0) - xpToRemove);
-  }
-  m.done = false;
-  m.doneDate = null;
-  m.earnedXP = 0;
-  save(); renderMissions();
-  showXPToast(xpToRemove > 0 ? `-${xpToRemove} XP · Mission réouverte` : 'Mission réouverte');
-}
+function uncompleteMission(id){var m=S.missions.find(function(x){return x.id===id;});if(!m)return;var xpR=m.earnedXP||0;if(xpR>0){S.totalXP=Math.max(0,S.totalXP-xpR);var maxPid=S.pillars.reduce(function(a,b){return (S.pillarXP[a.id]||0)>(S.pillarXP[b.id]||0)?a:b;}).id;S.pillarXP[maxPid]=Math.max(0,(S.pillarXP[maxPid]||0)-xpR);}m.done=false;m.doneDate=null;m.earnedXP=0;save();renderMissions();showXPToast(xpR>0?'-'+xpR+' XP':'Mission reuverte');}
 
 function openAddMission() {
   document.getElementById('mission-modal-title').textContent = 'Nouvelle mission';
@@ -1475,9 +1437,10 @@ function deleteMission() {
 function renderMissions() {
   missionXPBalance();
   const today = todayK();
-  const active = (S.missions||[]).filter(m => !m.done);
-  const done = (S.missions||[]).filter(m => m.done).slice(0, 15);
+  const active = S.missions.filter(m => !m.done);
+  const done = S.missions.filter(m => m.done).slice(0, 10);
 
+  // Sort: overdue first, then by deadline, then no deadline
   active.sort((a, b) => {
     const aOver = a.deadline && a.deadline < today;
     const bOver = b.deadline && b.deadline < today;
@@ -1493,277 +1456,149 @@ function renderMissions() {
   const doneEl = document.getElementById('missions-done-list');
   if (!listEl || !doneEl) return;
 
-  // ── ACTIVE MISSIONS ──
-  listEl.innerHTML = '';
   if (active.length === 0) {
     listEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:12px;">Aucune mission en cours. Ajoute-en une.</div>';
   } else {
-    active.forEach(m => {
+    listEl.innerHTML = active.map(m => {
       const overdue = m.deadline && m.deadline < today;
       const daysLeft = m.deadline ? Math.round((new Date(m.deadline) - new Date(today)) / 86400000) : null;
       const urgent = daysLeft !== null && daysLeft <= 1 && daysLeft >= 0;
-      const borderColor = overdue ? 'rgba(248,113,113,0.3)' : urgent ? 'rgba(251,191,36,0.2)' : 'var(--border)';
-      const circleColor = overdue ? 'var(--red)' : urgent ? 'var(--amber)' : 'var(--green)';
-
+      const color = overdue ? 'var(--red)' : urgent ? 'var(--amber)' : 'var(--green)';
       let deadlineText = '';
       if (overdue) deadlineText = `<span style="color:var(--red);font-size:10px;">⚠ ${Math.abs(daysLeft)}j de retard · -${m.malusCount||0} XP</span>`;
       else if (daysLeft === 0) deadlineText = `<span style="color:var(--amber);font-size:10px;">⏰ Dernier jour</span>`;
       else if (daysLeft !== null) deadlineText = `<span style="color:var(--muted);font-size:10px;">${daysLeft}j restants</span>`;
 
-      const div = document.createElement('div');
-      div.style.cssText = `background:var(--bg3);border-radius:12px;border:1px solid ${borderColor};padding:14px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start;`;
-
-      const circle = document.createElement('div');
-      circle.style.cssText = `width:22px;height:22px;border-radius:50%;border:1.5px solid ${circleColor};flex-shrink:0;cursor:pointer;margin-top:1px;transition:all 0.2s;`;
-      circle.title = 'Marquer comme terminée';
-      circle.addEventListener('click', () => completeMission(m.id));
-
-      const info = document.createElement('div');
-      info.style.cssText = 'flex:1;min-width:0;';
-      info.innerHTML = `
-        <div style="font-size:13px;font-weight:500;margin-bottom:3px;">${m.title}</div>
-        ${m.desc ? `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">${m.desc}</div>` : ''}
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-          ${deadlineText}
-          <span style="font-size:10px;color:var(--purple);">+${m.bonusXP} XP bonus</span>
-        </div>`;
-
-      const editBtn = document.createElement('button');
-      editBtn.className = 'icon-btn';
-      editBtn.title = 'Modifier';
-      editBtn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
-      editBtn.addEventListener('click', () => openEditMission(m.id));
-
-      div.appendChild(circle);
-      div.appendChild(info);
-      div.appendChild(editBtn);
-      listEl.appendChild(div);
-    });
+      return `<div style="background:var(--bg3);border-radius:12px;border:1px solid ${overdue?'rgba(248,113,113,0.3)':urgent?'rgba(251,191,36,0.2)':'var(--border)'};padding:14px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start;">
+        <div onclick="completeMission('${m.id}')" style="width:22px;height:22px;border-radius:50%;border:1.5px solid ${color};flex-shrink:0;cursor:pointer;margin-top:1px;transition:all 0.2s;" onmouseover="this.style.background='${color}33'" onmouseout="this.style.background='transparent'"></div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;font-weight:500;margin-bottom:3px;">${m.title}</div>
+          ${m.desc ? `<div style="font-size:11px;color:var(--muted);margin-bottom:4px;">${m.desc}</div>` : ''}
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            ${deadlineText}
+            <span style="font-size:10px;color:var(--purple);">+${m.bonusXP} XP bonus</span>
+          </div>
+        </div>
+        <button class="icon-btn" onclick="openEditMission('${m.id}')" title="Modifier"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+      </div>`;
+    }).join('');
   }
 
-  // ── DONE MISSIONS ──
-  doneEl.innerHTML = '';
   if (done.length === 0) {
     doneEl.innerHTML = '<div style="font-size:11px;color:var(--muted);padding:4px 0;">Aucune mission terminée pour l\'instant.</div>';
   } else {
-    done.forEach(m => {
-      const row = document.createElement('div');
-      row.style.cssText = 'display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);';
-
-      // Cercle vert cliquable pour décocher
-      const circle = document.createElement('div');
-      circle.style.cssText = 'width:20px;height:20px;border-radius:50%;background:var(--green);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;';
-      circle.title = 'Décocher (reprendre la mission)';
-      circle.innerHTML = `<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`;
-      circle.addEventListener('mouseenter', () => { circle.style.background = 'transparent'; circle.style.border = '1.5px solid var(--green)'; circle.querySelector('svg').style.display='none'; });
-      circle.addEventListener('mouseleave', () => { circle.style.background = 'var(--green)'; circle.style.border = 'none'; circle.querySelector('svg').style.display='block'; });
-      circle.addEventListener('click', () => uncompleteMission(m.id));
-
-      const title = document.createElement('div');
-      title.style.cssText = 'flex:1;font-size:12px;color:var(--muted);text-decoration:line-through;';
-      title.textContent = m.title;
-
-      const xpEl = document.createElement('div');
-      xpEl.style.cssText = 'font-size:10px;color:var(--green);white-space:nowrap;';
-      xpEl.textContent = `+${m.earnedXP||0} XP`;
-
-      const dateEl = document.createElement('div');
-      dateEl.style.cssText = 'font-size:10px;color:var(--muted);white-space:nowrap;';
-      dateEl.textContent = m.doneDate || '';
-
-      row.appendChild(circle);
-      row.appendChild(title);
-      row.appendChild(xpEl);
-      row.appendChild(dateEl);
-      doneEl.appendChild(row);
-    });
+    doneEl.innerHTML = done.map(m => `
+      <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);">
+        <div style="width:18px;height:18px;border-radius:50%;background:var(--green);flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div style="flex:1;font-size:12px;color:var(--muted);text-decoration:line-through;">${m.title}</div>
+        <div style="font-size:10px;color:var(--green);">+${m.earnedXP||0} XP</div>
+        <div style="font-size:10px;color:var(--muted);">${m.doneDate||''}</div>
+      </div>`).join('');
   }
 }
 
 
+// ══════════════════════════════════════════
+// PHRASE COACH DASHBOARD
+// ══════════════════════════════════════════
 function getDashboardPhrase() {
   const avg7 = getAvgPct(7);
-  const avg30 = getAvgPct(30);
   const streak = getStreak();
   const today = todayK();
-  const dayData = getDayData(today);
-  const allDailyHabits = S.pillars.flatMap(p => p.habits.filter(h => h.freq === 'daily'));
-  const todayChecked = allDailyHabits.filter(h => dayData.checked[h.id]).length;
-  const totalHabits = allDailyHabits.length;
-  const todayPct = totalHabits > 0 ? Math.round(todayChecked / totalHabits * 100) : 0;
+  const todayDone = getDayData(today);
+  const todayChecked = Object.values(todayDone.checked || {}).filter(Boolean).length;
+  const totalHabits = S.pillars.flatMap(p => p.habits.filter(h => h.freq === 'daily')).length;
 
-  // Derniers jours
-  const getPastDay = (n) => {
-    const d = new Date(); d.setDate(d.getDate() - n);
-    const k = d.toISOString().slice(0,10);
-    return Object.values((S.days[k]||{checked:{}}).checked).filter(Boolean).length;
-  };
-  const y1done = getPastDay(1);
-  const y2done = getPastDay(2);
-  const y3done = getPastDay(3);
-  const inactiveDays = [y1done===0,y2done===0,y3done===0].filter(Boolean).length;
+  // Check last 2 days activity
+  const yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
+  const yKey = yesterday.toISOString().slice(0,10);
+  const twoDaysAgo = new Date(); twoDaysAgo.setDate(twoDaysAgo.getDate()-2);
+  const tdKey = twoDaysAgo.toISOString().slice(0,10);
+  const yChecked = Object.values((S.days[yKey]||{checked:{}}).checked).filter(Boolean).length;
+  const tdChecked = Object.values((S.days[tdKey]||{checked:{}}).checked).filter(Boolean).length;
+  const inactiveDays = [yChecked === 0, tdChecked === 0].filter(Boolean).length;
 
-  // Analyse par pilier aujourd'hui
-  const pillarStats = S.pillars.map(p => {
-    const dailyH = p.habits.filter(h => h.freq === 'daily');
-    const doneCount = dailyH.filter(h => dayData.checked[h.id]).length;
-    const pct = dailyH.length > 0 ? Math.round(doneCount / dailyH.length * 100) : 100;
-    return { id: p.id, name: p.name, pct, doneCount, total: dailyH.length, color: p.color };
-  }).filter(p => p.total > 0);
-
-  const neglected = pillarStats.filter(p => p.pct === 0);
-  const partial = pillarStats.filter(p => p.pct > 0 && p.pct < 100);
-  const perfect = pillarStats.filter(p => p.pct === 100);
-  const weakest = [...pillarStats].sort((a,b) => a.pct - b.pct)[0];
-  const strongest = [...pillarStats].sort((a,b) => b.pct - a.pct)[0];
-
-  // XP par pilier
-  const pillarXPList = S.pillars.map(p => ({
-    name: p.name, xp: S.pillarXP[p.id]||0, lv: getPillarLv(p.id)
-  }));
-  const lowestXP = [...pillarXPList].sort((a,b) => a.xp - b.xp)[0];
-  const highestXP = [...pillarXPList].sort((a,b) => b.xp - a.xp)[0];
-
-  // Tendance
-  const trendUp = avg7 > avg30 + 8;
-  const trendDown = avg7 < avg30 - 8;
-  const trendFlat = !trendUp && !trendDown;
-
-  // Missions en retard
-  const overdueMissions = (S.missions||[]).filter(m => !m.done && m.deadline && m.deadline < today);
-
-  // Heure actuelle
-  const hour = new Date().getHours();
-  const timeOfDay = hour < 12 ? 'matin' : hour < 18 ? 'après-midi' : 'soir';
-
-  const rnd = (arr) => arr[Math.floor(new Date().getMinutes() / (60/arr.length)) % arr.length];
-
-  // Construire un bloc de stats réel
-  const statsLine = `${todayChecked}/${totalHabits} habitudes · ${avg7}% sur 7j · streak ${streak}j · niv.${getGlobalLv()}`;
-  const pillarLine = pillarStats.map(p => `${p.name} ${p.pct}%`).join(' | ');
-
-  // ── SITUATIONS ──────────────────────────────────────────────────
-
-  // MORT — 3 jours ou plus sans rien
-  if (inactiveDays >= 3) {
-    return { text: rnd([
-      `${statsLine}\n3 jours sans rien cocher. T'appelles ça quoi toi ? Une pause ? Non. C'est de l'abandon. ${lowestXP.name} à ${lowestXP.xp} XP. ${highestXP.name} à ${highestXP.xp} XP. Le déséquilibre s'aggrave chaque jour que tu fous rien. Pendant que tu glandes, ton niveau stagne. L'homme que tu veux devenir dans 2 ans, il est pas en train de se reposer lui.`,
-      `${statsLine}\n3 jours. Tu réalises ce que ça représente ? C'est 3 jours de moins dans une vie qui est déjà courte. Ton père a bossé toute sa vie sans se plaindre. Toi tu peux même pas cocher une case. ${pillarLine}. Regarde ces chiffres. C'est ta réalité. Pas ce que tu te racontes dans ta tête.`,
-      `${statsLine}\nT'as disparu 3 jours. Pas de maladie, pas d'urgence. Juste… rien. C'est ça le problème avec toi — quand c'est difficile tu t'éclipses. ${overdueMissions.length > 0 ? overdueMissions.length+' mission(s) en retard en plus.' : ''} Le niveau global avance pas parce que toi t'avances pas.`
-    ]), color:'var(--red)', icon:'💀'};
-  }
-
-  // MORT — 2 jours sans rien + aujourd'hui toujours à 0
+  // DANGER — inactif depuis 2 jours
   if (inactiveDays >= 2 && todayChecked === 0) {
-    return { text: rnd([
-      `${statsLine}\n2 jours à zéro et aujourd'hui pareil. C'est pas une mauvaise passe, c'est une décision. Inconsciemment t'as décidé que c'était optionnel. ${pillarLine}. Tous à 0%. Magnifique. L'homme idéal il commence par ça lui ?`,
-      `${statsLine}\nDeux jours disparu, le troisième qui commence pareil. ${avg7}% sur la semaine. En dessous de ta moyenne de ${avg30}%. T'es en train de te saboter en direct et tu regardes. ${lowestXP.name} c'est ton pilier le plus faible depuis le début — et t'en fais rien.`,
-      `${statsLine}\nTa copine te voit. Elle dit rien mais elle enregistre tout. 2 jours sans effort, aujourd'hui à ${todayPct}%. C'est l'image que tu donnes. ${overdueMissions.length > 0 ? overdueMissions.length+' mission(s) qui prennent du retard.' : ''} Commence maintenant ou explique-moi pourquoi tu peux pas.`
-    ]), color:'var(--red)', icon:'🔴'};
+    const phrases = [
+      "2 jours sans rien. Ton futur toi te regarde et il a honte.",
+      "Pendant que tu faisais rien, d'autres construisaient. C'est aussi simple que ça.",
+      "Ta copine voit tout. Elle dit rien. Mais elle voit.",
+      "Ton père s'est levé à 6h toute sa vie. Toi tu peux même pas cocher une case.",
+      "L'homme que tu veux devenir existera pas si tu continues comme ça.",
+      "2 jours perdus. L'argent que t'as perdu en trading, c'était peut-être ta dernière chance. Prouve que non."
+    ];
+    return { text: phrases[new Date().getMinutes() % phrases.length], color: 'var(--red)', icon: '🔴' };
   }
 
-  // Hier à 0, aujourd'hui à 0
-  if (y1done === 0 && todayChecked === 0) {
-    return { text: rnd([
-      `${statsLine}\nHier absent. Aujourd'hui le même film. ${timeOfDay} et t'as encore rien touché. C'est quoi l'excuse aujourd'hui ? Parce que demain ça sera encore une autre. Le cycle c'est toi qui le crées.`,
-      `${statsLine}\nDeux journées de suite à zéro. ${avg7}% sur 7 jours. Tu construis une habitude — celle de rien faire. C'est exactement comme ça que les années passent sans que rien change.`,
-    ]), color:'var(--red)', icon:'🔴'};
+  // WARNING — inactif hier
+  if (inactiveDays >= 1 && todayChecked === 0) {
+    const phrases = [
+      "Hier t'étais absent. Aujourd'hui t'as encore rien coché. C'est maintenant.",
+      "Une journée loupée ça arrive. Deux ça devient une habitude. T'en es où ?",
+      "Le momentum se perd vite. Reprends maintenant ou t'explique demain pourquoi t'as pas commencé.",
+      "T'as pas ouvert JARVIS hier. Qu'est-ce qui s'est passé ?"
+    ];
+    return { text: phrases[new Date().getMinutes() % phrases.length], color: 'var(--amber)', icon: '🟡' };
   }
 
-  // Certains piliers à 100% mais d'autres totalement ignorés (cherry picking)
-  if (todayChecked > 0 && neglected.length >= 2) {
-    const names = neglected.map(p => p.name).join(' et ');
-    return { text: rnd([
-      `${statsLine}\nT'as coché ${strongest.name} à ${strongest.pct}% mais ${names} à 0%. Tu fais du tri. Tu choisis ce qui est confortable et t'évites le reste. C'est exactement ça le problème — la discipline ça se choisit pas à la carte.`,
-      `${statsLine}\n${names} complètement ignorés aujourd'hui. ${strongest.name} bien coché par contre. Pratique de faire ce qu'on aime et d'éviter ce qui demande un effort. Le niveau global lui il attend pas tes préférences.`,
-      `${statsLine}\nPiliers actifs : ${perfect.map(p=>p.name).join(', ')||'aucun'}. Piliers ignorés : ${names}. Un système de 4 piliers où t'en gères 2 c'est pas un système. C'est une illusion de discipline.`
-    ]), color:'var(--amber)', icon:'⚠️'};
+  // AUJOURD'HUI EN COURS
+  if (todayChecked > 0 && todayChecked < totalHabits * 0.6) {
+    const phrases = [
+      `${todayChecked}/${totalHabits} coché. Bien commencé. Finis ce que t'as commencé.`,
+      "T'es lancé. Maintenant arrête pas avant d'avoir tout coché.",
+      "En chemin. Reste focus jusqu'au bout.",
+    ];
+    return { text: phrases[new Date().getMinutes() % phrases.length], color: 'var(--amber)', icon: '🔶' };
   }
 
-  // Fort déséquilibre XP entre piliers
-  if (highestXP.xp > lowestXP.xp * 3 && highestXP.xp > 100) {
-    return { text: rnd([
-      `${statsLine}\n${highestXP.name} à ${highestXP.xp} XP. ${lowestXP.name} à ${lowestXP.xp} XP. C'est un déséquilibre de ${highestXP.xp - lowestXP.xp} XP. Rappel : le niveau global c'est le pilier le plus faible. Tout ce que tu construis ailleurs est bloqué par ${lowestXP.name}.`,
-      `${statsLine}\nTu sur-investis ${highestXP.name} et tu négliges ${lowestXP.name}. niv.${getPillarLv(highestXP.name.toLowerCase())} vs niv.${getPillarLv(lowestXP.name.toLowerCase())}. Le niveau global plafonne à cause de ça. Tu peux pas avancer sur une seule jambe.`
-    ]), color:'var(--amber)', icon:'⚖️'};
+  // BONNE JOURNÉE EN COURS
+  if (todayChecked >= totalHabits * 0.6) {
+    const phrases = [
+      `${todayChecked}/${totalHabits} coché aujourd'hui. Tu construis quelque chose de réel.`,
+      "Bonne journée. C'est exactement comme ça qu'on change.",
+      "T'as fait ce que 90% des gens n'ont pas fait aujourd'hui. En silence.",
+      `Streak de ${streak} jour${streak > 1 ? 's' : ''}. Continue.`
+    ];
+    return { text: phrases[new Date().getMinutes() % phrases.length], color: 'var(--green)', icon: '🟢' };
   }
 
-  // Missions en retard
-  if (overdueMissions.length > 0 && todayChecked === 0) {
-    const m = overdueMissions[0];
-    return { text: rnd([
-      `${statsLine}\n"${m.title}" en retard depuis ${m.malusCount||1} jour(s). ${overdueMissions.length > 1 ? overdueMissions.length+' missions en retard au total.' : ''} Et aujourd'hui t'as rien coché en plus. C'est pas de la malchance, c'est de la gestion.`,
-    ]), color:'var(--amber)', icon:'⏰'};
+  // BONNE MOYENNE
+  if (avg7 >= 70) {
+    const phrases = [
+      `${avg7}% sur 7 jours. C'est la discipline qui parle, pas la motivation.`,
+      "Semaine solide. L'homme que tu veux devenir commence à exister.",
+      `Streak ${streak}j. Chaque jour compte. Protège ça.`
+    ];
+    return { text: phrases[new Date().getMinutes() % phrases.length], color: 'var(--green)', icon: '🟢' };
   }
 
-  // Journée parfaite tous les piliers
-  if (perfect.length === pillarStats.length && todayChecked > 0) {
-    return { text: rnd([
-      `${statsLine}\nJournée parfaite. ${todayChecked}/${totalHabits}. ${pillarLine}. C'est ça la version de toi dont tu parles. Pas la motivation, pas l'envie — juste l'exécution. Demain tu recommences exactement comme ça.`,
-      `${statsLine}\nTout coché. ${streak > 3 ? streak+'j de streak.' : ''} ${avg7 > avg30 ? 'Meilleure semaine que d\'habitude.' : ''} Ce que tu fais aujourd\'hui c\'est ce que tu deviendras dans 6 mois. Continue.`,
-      `${statsLine}\n${pillarLine}. 100% partout. Les gens qui te voient dans 2 ans vont se demander ce qui s'est passé. Toi tu seras en train de faire exactement ce que tu fais là.`
-    ]), color:'var(--green)', icon:'🔥'};
+  // MOYENNE PASSABLE
+  if (avg7 >= 40) {
+    const phrases = [
+      `${avg7}% de moyenne. Pas mauvais. Pas suffisant non plus.`,
+      "T'es régulier mais t'es pas à fond. La différence entre 60% et 90% c'est juste la décision.",
+      "Semaine correcte. Mais correct c'est pas ce que tu vises."
+    ];
+    return { text: phrases[new Date().getMinutes() % phrases.length], color: 'var(--amber)', icon: '🔶' };
   }
 
-  // En forte progression vs habitude
-  if (trendUp && avg7 >= 70) {
-    return { text: rnd([
-      `${statsLine}\n${avg7}% cette semaine vs ${avg30}% en moyenne. +${avg7-avg30}%. Tu montes. ${strongest.name} à ${strongest.pct}% aujourd'hui. ${weakest && weakest.pct < 60 ? 'Mais '+weakest.name+' à '+weakest.pct+'% — protège pas seulement tes points forts.' : 'Garde cette dynamique.'} Streak ${streak}j.`,
-      `${statsLine}\nMeilleure semaine que d'habitude. ${avg7}% vs ${avg30}% normalement. C'est pas de la chance. C'est toi qui as décidé. ${pillarLine}. Continue exactement comme ça.`
-    ]), color:'var(--green)', icon:'📈'};
-  }
-
-  // En baisse vs habitude
-  if (trendDown) {
-    return { text: rnd([
-      `${statsLine}\n${avg7}% cette semaine. ${avg30}% d'habitude. -${avg30-avg7}% de baisse. Quelque chose te freine. ${weakest ? weakest.name+' à '+weakest.pct+'% aujourd\'hui — c\'est là que ça se passe.' : ''} Les chiffres mentent pas.`,
-      `${statsLine}\nTendance à la baisse. ${avg7}% vs ${avg30}% sur 30 jours. C'est maintenant qu'il faut réagir — pas quand t'auras touché le fond. ${pillarLine}.`
-    ]), color:'var(--red)', icon:'📉'};
-  }
-
-  // Bonne journée en cours 70%+
-  if (todayPct >= 70) {
-    return { text: rnd([
-      `${statsLine}\n${todayChecked}/${totalHabits} coché. ${pillarLine}. Bonne journée. ${totalHabits - todayChecked > 0 ? (totalHabits-todayChecked)+' habitudes restantes — finis ce que t\'as commencé.' : 'Tout fait.'} ${streak > 2 ? streak+'j de suite.' : ''}`,
-      `${statsLine}\n${todayPct}% aujourd'hui. Au-dessus de ta moyenne de ${avg7}%. ${perfect.length > 0 ? perfect.map(p=>p.name).join(', ')+' à 100%.' : ''} ${weakest && weakest.pct < 50 ? weakest.name+' encore en retard à '+weakest.pct+'%.' : 'Continue.'}`,
-    ]), color:'var(--green)', icon:'🟢'};
-  }
-
-  // En cours, entre 30% et 70%
-  if (todayPct >= 30) {
-    return { text: rnd([
-      `${statsLine}\n${todayChecked}/${totalHabits} coché, ${todayPct}%. ${pillarLine}. T'as commencé. Maintenant finis. Il reste ${totalHabits - todayChecked} habitude(s) — c'est pas grand chose.`,
-      `${statsLine}\nMi-journée à ${todayPct}%. ${weakest ? weakest.name+' à '+weakest.pct+'% — c\'est là que tu perds des points.' : ''} ${partial.length > 0 ? partial.map(p=>p.name+' '+p.pct+'%').join(', ')+' pas terminés.' : ''} Finis ce que t\'as commencé.`,
-    ]), color:'var(--amber)', icon:'🔶'};
-  }
-
-  // Rien coché aujourd'hui, hier c'était bien
-  if (todayChecked === 0 && y1done >= Math.ceil(totalHabits * 0.5)) {
-    return { text: rnd([
-      `${statsLine}\nHier ${y1done}/${totalHabits} coché. Aujourd'hui à ${todayPct}% et il est ${timeOfDay}. La régularité c'est pas faire bien un jour sur deux. Recommence.`,
-    ]), color:'var(--amber)', icon:'🟡'};
-  }
-
-  // Rien coché du tout aujourd'hui
-  return { text: rnd([
-    `${statsLine}\n${pillarLine}. Tout à 0%. Il est ${timeOfDay} et t'as rien fait. C'est pas un hasard — c'est un choix. Chaque case non cochée c'est un jour de retard sur qui tu veux être.`,
-    `${statsLine}\nAujourd'hui à zéro. ${avg7}% sur 7 jours. ${avg7 < 50 ? 'En dessous de la moitié de ce que tu pourrais faire.' : ''} ${lowestXP.name} c'est ton talon d'Achille depuis le début. Commence par là.`,
-    `${statsLine}\n0 habitude cochée. ${timeOfDay} bien avancé. T'attends quoi exactement ? La motivation ? Elle vient pas. L'action vient d'abord. Toujours.`
-  ]), color:'var(--red)', icon:'🔴'};
+  // FAIBLE
+  const phrases = [
+    `${avg7}% sur 7 jours. T'es en dessous de toi-même.`,
+    "Les chiffres mentent pas. Cette semaine t'as lâché.",
+    "Qu'est-ce qui t'a arrêté cette semaine ? La vraie raison."
+  ];
+  return { text: phrases[new Date().getMinutes() % phrases.length], color: 'var(--red)', icon: '🔴' };
 }
 
 function renderCoachPhrase() {
   const el = document.getElementById('coach-phrase');
   if (!el) return;
   const { text, color, icon } = getDashboardPhrase();
-  const parts = text.split('\n');
-  const statsLine = parts[0];
-  const mainText = parts.slice(1).join(' ');
-  el.innerHTML = `
-    <div style="width:100%;">
-      <div style="font-size:9px;color:var(--muted);letter-spacing:0.06em;margin-bottom:6px;font-family:monospace;">${icon} ${statsLine}</div>
-      <div style="color:${color};font-size:12px;line-height:1.7;font-style:italic;">${mainText}</div>
-    </div>`;
+  el.innerHTML = `<span style="margin-right:6px;font-size:10px;">${icon}</span><span style="color:${color};font-size:12px;line-height:1.6;font-style:italic;">${text}</span>`;
 }
 
 // Mise à jour toutes les 3 minutes
@@ -1794,7 +1629,7 @@ function closeLevelUp(){const el=document.getElementById('levelup-overlay');if(e
 // ══════════════════════════════════════════
 // NAVIGATION
 // ══════════════════════════════════════════
-const TITLES={dashboard:'Bonjour, Monsef',piliers:'Mes Piliers',historique:'Historique',niveau:"L'Homme Idéal",missions:'Missions',mind:'Mind Dump',calendar:'Calendrier'};
+const TITLES={dashboard:'Bonjour, Monsef',piliers:'Mes Piliers',historique:'Historique',niveau:"L'Homme Idéal",mind:'Mind Dump',calendar:'Calendrier'};
 
 function goTo(p,el){
   document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
@@ -1809,7 +1644,6 @@ function goTo(p,el){
   else if(p==='piliers')renderPiliers();
   else if(p==='historique')renderHistorique();
   else if(p==='niveau')renderNiveau();
-  else if(p==='missions')renderMissions();
 }
 
 function renderCurrent(){
@@ -1828,137 +1662,6 @@ function toggleFS(){if(!document.fullscreenElement)document.documentElement.requ
 // ══════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════
-
-// ══════════════════════════════════════════
-// JSONBIN SYNC — CORS compatible
-// ══════════════════════════════════════════
-const JSONBIN_KEY = '$2a$10$placeholder'; // remplacé après création
-let JSONBIN_BIN_ID = localStorage.getItem('jarvis_bin_id') || null;
-let _syncPending = false;
-let _syncTimer = null;
-const JSONBIN_MASTER_KEY = '$2a$10$e7ym7/8bwZFFNu2OM6XKlelv8eGvtAVzcdeAiyFhyoZyDh.xAf1pq';
-
-function syncSetStatus(status) {
-  const el = document.getElementById('sync-status');
-  if (!el) return;
-  const map = {
-    ok:      { text: '✓ Sync', color: 'var(--green)' },
-    saving:  { text: '↑ Sync…', color: 'var(--amber)' },
-    loading: { text: '↓ Sync…', color: 'var(--amber)' },
-    error:   { text: '⚠ Sync', color: 'var(--red)' },
-  };
-  const s = map[status] || map.ok;
-  el.textContent = s.text;
-  el.style.color = s.color;
-}
-
-async function syncLoad() {
-  syncSetStatus('loading');
-  try {
-    if (!JSONBIN_BIN_ID) {
-      syncSetStatus('ok');
-      await _doSyncSave();
-      return;
-    }
-    const r = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
-      headers: { 'X-Master-Key': JSONBIN_MASTER_KEY }
-    });
-    if (!r.ok) { syncSetStatus('error'); return; }
-    const json = await r.json();
-    const data = json.record;
-    const localTs = S._ts || 0;
-    const remoteTs = data._ts || 0;
-    if (remoteTs >= localTs) {
-      S = { ...S, ...data };
-      if (!S.pillars) S.pillars = JSON.parse(JSON.stringify(DEFAULT_PILLARS));
-      if (!S.pillarXP) S.pillarXP = {};
-      if (!S.missions) S.missions = [];
-      save();
-      renderCurrent();
-      renderDashboard();
-    }
-    syncSetStatus('ok');
-  } catch(e) {
-    syncSetStatus('error');
-    console.error('syncLoad error', e);
-  }
-}
-
-function syncSave() {
-  clearTimeout(_syncTimer);
-  _syncTimer = setTimeout(_doSyncSave, 2000);
-}
-
-async function _doSyncSave() {
-  if (_syncPending) { syncSave(); return; }
-  _syncPending = true;
-  syncSetStatus('saving');
-  try {
-    S._ts = Date.now();
-    localStorage.setItem('jarvis_v5', JSON.stringify(S));
-    if (!JSONBIN_BIN_ID) {
-      // Créer un nouveau bin
-      const r = await fetch('https://api.jsonbin.io/v3/b', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Master-Key': JSONBIN_MASTER_KEY,
-          'X-Bin-Name': 'JARVIS-OS-Data',
-          'X-Bin-Private': 'true'
-        },
-        body: JSON.stringify(S)
-      });
-      if (r.ok) {
-        const json = await r.json();
-        JSONBIN_BIN_ID = json.metadata.id;
-        localStorage.setItem('jarvis_bin_id', JSONBIN_BIN_ID);
-        syncSetStatus('ok');
-      } else { syncSetStatus('error'); }
-    } else {
-      // Mettre à jour le bin existant
-      const r = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Master-Key': JSONBIN_MASTER_KEY
-        },
-        body: JSON.stringify(S)
-      });
-      if (r.ok) { syncSetStatus('ok'); }
-      else { syncSetStatus('error'); }
-    }
-  } catch(e) {
-    syncSetStatus('error');
-    console.error('syncSave error', e);
-    // Show detail in status
-    const el = document.getElementById('sync-status');
-    if(el) el.title = e.message || String(e);
-  }
-  _syncPending = false;
-}
-
-// Pull silencieux toutes les 30s
-setInterval(async () => {
-  if (!JSONBIN_BIN_ID || _syncPending) return;
-  try {
-    const r = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
-      headers: { 'X-Master-Key': JSONBIN_MASTER_KEY }
-    });
-    if (!r.ok) return;
-    const json = await r.json();
-    const data = json.record;
-    const remoteTs = data._ts || 0;
-    const localTs = S._ts || 0;
-    if (remoteTs > localTs) {
-      S = { ...S, ...data };
-      if (!S.pillars) S.pillars = JSON.parse(JSON.stringify(DEFAULT_PILLARS));
-      save();
-      renderCurrent();
-      renderDashboard();
-    }
-  } catch(e) {}
-}, 30000);
-
 document.getElementById('datechip').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
 const wta=document.getElementById('write-ta');
 if(wta)wta.addEventListener('input',function(){const n=this.value.trim().split(/\s+/).filter(w=>w).length;document.getElementById('wcount').textContent=n+' mot'+(n>1?'s':'');});
@@ -1966,7 +1669,6 @@ renderMoodBtns();
 _lastGlobalLv=getGlobalLv();
 updateTodayLabels();
 renderDashboard();
-syncLoad();
 setTimeout(()=>{const s=document.getElementById('splash');if(s){s.style.opacity='0';setTimeout(()=>s.remove(),500);}},1400);
 </script>
 
