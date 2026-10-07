@@ -290,6 +290,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
     <button class="sn" onclick="goTo('niveau',this)" title="Niveau"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button>
     <button class="sn" onclick="goTo('mind',this)" title="Mind"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></button>
     <button class="sn" onclick="goTo('missions',this)" title="Missions"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></button>
+    <button class="sn" onclick="goTo('corps',this)" title="Corps"><svg viewBox="0 0 24 24"><circle cx="12" cy="4.5" r="2.3"/><path d="M12 7v7M7 9.5l5 1.5 5-1.5M12 14l-3 7M12 14l3 7"/></svg></button>
   </div>
   <div class="sb-bot">
     <button class="sn" onclick="toggleFS()" title="Plein écran"><svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg></button>
@@ -433,6 +434,11 @@ html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);fon
         <div class="slbl">Missions terminées</div>
         <div id="missions-done-list"></div>
       </div>
+    </div>
+
+    <!-- CORPS -->
+    <div class="page" id="page-corps">
+      <iframe id="corps-frame" title="Corps 3D" loading="lazy" style="width:100%;height:calc(100vh - 150px);min-height:620px;border:0;border-radius:16px;background:#0a0a0a;display:block"></iframe>
     </div>
 
     <!-- MIND -->
@@ -1759,7 +1765,7 @@ function closeLevelUp(){const el=document.getElementById('levelup-overlay');if(e
 // ══════════════════════════════════════════
 // NAVIGATION
 // ══════════════════════════════════════════
-const TITLES={dashboard:'Bonjour, Monsef',piliers:'Mes Piliers',historique:'Historique',niveau:"L'Homme Idéal",mind:'Mind Dump',calendar:'Calendrier'};
+const TITLES={dashboard:'Bonjour, Monsef',piliers:'Mes Piliers',historique:'Historique',niveau:"L'Homme Idéal",mind:'Mind Dump',calendar:'Calendrier',corps:'Corps 3D'};
 
 function goTo(p,el){
   document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
@@ -1774,6 +1780,7 @@ function goTo(p,el){
   else if(p==='piliers')renderPiliers();
   else if(p==='historique')renderHistorique();
   else if(p==='niveau')renderNiveau();
+  else if(p==='corps'){const f=document.getElementById('corps-frame');if(f&&!f.getAttribute('src'))f.setAttribute('src','bioscan.html');}
 }
 
 function renderCurrent(){
