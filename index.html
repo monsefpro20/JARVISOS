@@ -327,8 +327,14 @@ nav.nv button{width:auto;text-align:center;padding:9px 17px}
 body.pj nav.nv{transform:translateX(130%)!important;opacity:1;pointer-events:auto;transition:transform .3s ease}body.pj.topopen nav.nv{transform:none!important}
 #topzone{display:none!important}
 #rzone{position:fixed;right:14px;top:104px;width:46px;height:46px;border-radius:50%;z-index:46;display:none;place-items:center;padding:0;cursor:pointer;color:#fff;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}body.pj #rzone{display:grid}body.pj.topopen #rzone{display:none}
-@media (min-width:1001px){body:not(.pj) nav.nv{left:14px!important;right:auto!important;top:50%!important;transform:translateY(-50%)!important}.wrap{padding-left:128px!important;padding-right:36px!important}}
 nav.nv{border-radius:99px!important;align-items:center!important;padding:5px!important;gap:2px!important}nav.nv button{white-space:nowrap}
+@media (min-width:1001px){
+html body nav.nv{position:fixed!important;left:50%!important;right:auto!important;top:16px!important;transform:translateX(-50%)!important;flex-direction:row!important;border-radius:99px!important;padding:5px!important;gap:2px!important;z-index:45}
+html body .wrap{padding-left:36px!important;padding-right:36px!important;padding-top:34px!important;max-width:1320px!important}
+html body.pj nav.nv{transform:translate(-50%,-160%)!important}html body.pj.topopen nav.nv{transform:translateX(-50%)!important}
+html body.pj nav.nv .fondb{border-top:0;border-left:1px solid rgba(30,30,60,.1);border-radius:0 99px 99px 0}
+#rzone{right:auto!important;left:50%;margin-left:-23px;top:84px!important}
+}
 #topzone{display:none;position:fixed;left:0;right:0;top:0;height:16px;z-index:49;cursor:pointer}
 #topzone::after{content:'';position:absolute;left:50%;top:5px;width:46px;height:4px;margin-left:-23px;border-radius:9px;background:rgba(255,255,255,.28)}
 body.pj #topzone{display:block}body.pj .top:hover~#topzone,body.pj.topopen #topzone{display:none}
