@@ -649,7 +649,38 @@ function initVoiceOrb(){var src=document.getElementById('hudsrc');
  var f=document.createElement('iframe');f.id='vf';f.title='JARVIS : clique pour lui parler';f.setAttribute('allow','microphone *; autoplay *');f.srcdoc=h;document.body.appendChild(f);VF=f;document.body.classList.add('hudorb');
  f.onload=function(){setTimeout(function(){try{f.contentWindow.dispatchEvent(new Event('resize'));}catch(e){}},200);};
  $('vcol').onclick=function(){try{f.contentDocument.getElementById('jcol').click();}catch(e){}};}
-function tickClk(){var e=document.getElementById('clk');if(e){var d=new Date();e.textContent=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);}}setInterval(tickClk,5000);var dockLast='';(function(){var z=document.getElementById('rzone'),nv=document.querySelector('nav.nv'),B=document.body,tm=0,pos=null;
+function tickClk(){var e=document.getElementById('clk');if(e){var d=new Date();e.textContent=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);}}setInterval(tickClk,5000);
+/* ═════ Pont JARVIS (voix) → actions dans l'app ═════ */
+function _nm(x){return String(x||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').trim();}
+function _fz(list,q,key){q=_nm(q);var r=list.filter(function(o){return _nm(key(o))===q;});if(!r.length)r=list.filter(function(o){return _nm(key(o)).indexOf(q)>=0||(q&&q.indexOf(_nm(key(o)))>=0&&_nm(key(o)));});return r[0]||null;}
+window.JARVIS_ACT=function(name,a){a=a||{};try{
+ if(name==='app_naviguer'){var p=_nm(a.page);if(p==='dashboard'||p==='tableau de bord'||p==='home')p='accueil';if(PAGES.indexOf(p)<0)return {ok:false,error:'pages: '+PAGES.join(', ')};go(p);return {ok:true,page:p};}
+ if(name==='app_taches'){var ac=_nm(a.action),t=a.titre||'';
+  if(ac==='lister'){return {ok:true,a_faire:todayItems().map(function(i){return i.title;}),faites:doneItems().map(function(i){return i.title;})};}
+  if(ac==='ajouter'){if(!t)return {ok:false,error:'titre manquant'};addMission(t,a.date||'');return {ok:true,ajoute:t};}
+  var it=ac==='decocher'?_fz(doneItems(),t,function(i){return i.title;}):_fz(todayItems(),t,function(i){return i.title;});
+  if(!it)return {ok:false,error:'tâche introuvable',a_faire:todayItems().map(function(i){return i.title;})};
+  if(ac==='cocher'||ac==='decocher'){toggle(it.kind,it.id);return {ok:true,tache:it.title,etat:ac==='cocher'?'faite':'à faire'};}
+  if(ac==='supprimer'){removeItem(it.kind,it.id);return {ok:true,supprime:it.title};}
+  return {ok:false,error:'action: lister|ajouter|cocher|decocher|supprimer'};}
+ if(name==='app_projets'){var ac2=_nm(a.action),pj=a.projet?_fz(S.projects,a.projet,function(p){return p.name;}):null;
+  if(ac2==='lister')return {ok:true,projets:S.projects.map(function(p){var nx=p.steps.find(function(s){return !s.done;});return {nom:p.name,etapes:p.steps.length,faites:p.steps.filter(function(s){return s.done;}).length,prochaine:nx?nx.t:null};})};
+  if(ac2==='creer'){var nom=a.projet||a.nom;if(!nom)return {ok:false,error:'nom manquant'};S.projects.push({id:'pj'+Date.now(),name:nom,color:PCOL[S.projects.length%PCOL.length],note:'',last:'',steps:[]});save();renderAll();return {ok:true,cree:nom};}
+  if(!pj)return {ok:false,error:'projet introuvable',projets:S.projects.map(function(p){return p.name;})};
+  if(ac2==='supprimer'){S.projects=S.projects.filter(function(p){return p.id!==pj.id;});if(projSel===pj.id)projSel=null;save();renderAll();return {ok:true,supprime:pj.name};}
+  if(ac2==='renommer'){if(!a.nouveau_nom)return {ok:false,error:'nouveau_nom manquant'};pj.name=a.nouveau_nom;save();renderAll();return {ok:true};}
+  if(ac2==='ajouter_etape'){if(!a.etape)return {ok:false,error:'etape manquante'};pj.steps.push({id:'s'+Date.now(),t:a.etape,done:false});save();renderAll();return {ok:true};}
+  if(ac2==='cocher_etape'||ac2==='decocher_etape'||ac2==='supprimer_etape'){var st=_fz(pj.steps,a.etape,function(s){return s.t;});if(!st)return {ok:false,error:'étape introuvable',etapes:pj.steps.map(function(s){return s.t;})};
+   if(ac2==='supprimer_etape')pj.steps=pj.steps.filter(function(s){return s.id!==st.id;});else st.done=ac2==='cocher_etape';save();renderAll();return {ok:true};}
+  if(ac2==='ouvrir'){projSel=pj.id;go('projets');return {ok:true};}
+  return {ok:false,error:'action inconnue'};}
+ if(name==='app_fond'){var on=_nm(a.mode)==='banniere';try{localStorage.setItem('jfond',on?'1':'0');}catch(e){}document.body.classList.toggle('jbg',on);var fb=$('jfond');if(fb)fb.textContent='Fond : '+(on?'bannière':'noir');return {ok:true};}
+ if(name==='app_couleur'){var c=$('vcol');if(c)c.click();return {ok:true};}
+ if(name==='app_minuteur'){go('accueil');var ac3=_nm(a.action);var T=S.timer;
+  var hb=$('heroT');if(!hb)return {ok:false,error:'aucune tâche en cours'};var run=!!(S.timer&&S.timer.run);if((ac3==='demarrer'&&!run)||(ac3==='pause'&&run))hb.click();return {ok:true,en_marche:!!(S.timer&&S.timer.run)};}
+ }catch(e){return {ok:false,error:String(e)};}
+ return {ok:false,error:'action inconnue: '+name};};
+var dockLast='';(function(){var z=document.getElementById('rzone'),nv=document.querySelector('nav.nv'),B=document.body,tm=0,pos=null;
 try{pos=JSON.parse(localStorage.getItem('hbtn')||'null');}catch(e){}
 function place(){if(!z)return;var x=pos?pos.x:innerWidth/2-23,y=pos?pos.y:84;x=Math.max(6,Math.min(innerWidth-52,x));y=Math.max(6,Math.min(innerHeight-52,y));z.style.left=x+'px';z.style.top=y+'px';z.style.right='auto';z.style.marginLeft='0';var w=nv?nv.offsetWidth||520:520,cx=Math.max(w/2+8,Math.min(innerWidth-w/2-8,x+23));B.style.setProperty('--nx',cx+'px');B.style.setProperty('--ny',(y+52+50>innerHeight?y-52-4:y+52)+'px');}
 place();window.addEventListener('resize',place);
