@@ -257,7 +257,7 @@ body.nj .tab{display:none}
 @media (max-width:1000px){.g3,.mi{grid-template-columns:1fr}.cp{grid-template-columns:1fr}.cp .cr{padding:20px 22px 30px}.dock{max-width:60%}}
 @media (max-width:1000px){.win{display:none!important}.dock{display:none}}
 .msg2{grid-template-columns:auto minmax(0,1fr) auto;gap:34px;padding:30px 40px}
-.msg2 .orbbox{width:150px;height:150px}
+.msg2 .orbbox{width:320px;height:320px;margin:-80px -50px -80px -60px}
 .msg2 .txt{font-size:30px}
 .msg2 .chips{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
 .msg2 .acts{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
@@ -268,7 +268,7 @@ body.nj .tab{display:none}
 .tmb .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
 .tmb .adj{display:flex;gap:8px;margin-top:6px}
 .tmb .adj button{border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:99px;font-size:11px;font-weight:600;padding:5px 10px}
-@media (max-width:1000px){.msg.msg2{grid-template-columns:1fr;padding:24px}.tmb{margin:0 auto}}
+@media (max-width:1000px){.msg.msg2{grid-template-columns:1fr;padding:24px}.msg2 .orbbox{width:150px;height:150px;margin:0 auto}.tmb{margin:0 auto}}
 .corpsf{height:calc(100vh - 108px);min-height:520px;border-radius:30px;overflow:hidden;background:#07070d;border:1px solid rgba(255,255,255,.9);box-shadow:0 14px 44px rgba(50,50,100,.16)}.corpsf iframe{width:100%;height:100%;border:0;display:block}
 .cpg{display:grid;grid-template-columns:minmax(0,1fr) clamp(300px,32%,420px);gap:20px;align-items:start}
 .cpg .corpsf{height:calc(100vh - 108px)}
@@ -309,7 +309,7 @@ body.pj #topzone{display:block}body.pj .top:hover~#topzone,body.pj.topopen #topz
 .hudorb #p-jarvis .stage{display:none}
 #vf{transition:left .35s ease,top .35s ease,width .35s ease,height .35s ease}
 #vf.full{transition:none}
-.vcol{width:26px;height:26px;border-radius:50%;border:1px solid rgba(30,30,60,.18);background:rgba(255,255,255,.8);display:grid;place-items:center;padding:0;flex:none}
+.vcol{display:none!important;width:26px;height:26px;border-radius:50%;border:1px solid rgba(30,30,60,.18);background:rgba(255,255,255,.8);display:grid;place-items:center;padding:0;flex:none}
 .vcol i{width:12px;height:12px;border-radius:50%;background:conic-gradient(#40dcff,#8b7cf6,#f0a020,#40dcff);display:block}
 #vf{position:fixed;z-index:31;border:0;background:transparent;left:0;top:0;width:62px;height:62px;color-scheme:normal}
 .hudorb #oB{display:none}
