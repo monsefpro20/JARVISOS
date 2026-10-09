@@ -289,14 +289,28 @@ body.nj .tab{display:none}
 .cpg{grid-template-columns:clamp(320px,36%,500px) minmax(0,1fr)!important}
 .cpg>.col{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:20px;align-items:start}
 @media (max-width:1100px){.cpg{grid-template-columns:1fr!important}.cpg>.col{grid-template-columns:1fr}}
+.brand{background:none}
+.brand .bn{border:0;background:none;text-align:left;color:inherit;display:block}
+.brand .bn b{display:block;font-size:14px;letter-spacing:.18em;font-weight:700}
+.brand .bn span{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--mut);font-weight:500;margin-top:2px}
+.brand .bn span i{width:6px;height:6px;border-radius:50%;background:var(--green);display:block}
+body.night .brand .bn{color:#fff}body.night .brand .bn span{color:rgba(255,255,255,.6)}
+.hslot{width:72px;height:72px;border-radius:24px;flex:none;background:radial-gradient(120% 120% at 30% 20%,#1b1a42,#05050f);box-shadow:0 8px 22px rgba(60,50,160,.3),inset 0 0 0 1px rgba(255,255,255,.12)}
+body.nj .hslot{visibility:hidden}
+.vcol{width:26px;height:26px;border-radius:50%;border:1px solid rgba(30,30,60,.18);background:rgba(255,255,255,.8);display:grid;place-items:center;padding:0;flex:none}
+.vcol i{width:12px;height:12px;border-radius:50%;background:conic-gradient(#40dcff,#8b7cf6,#f0a020,#40dcff);display:block}
+#vf{position:fixed;z-index:31;border:0;background:transparent;left:0;top:0;width:72px;height:72px;color-scheme:normal}
+.hudorb #oB{display:none}
+.hudorb .oB{height:50%!important;top:54%!important}
+.msg2{grid-template-columns:minmax(0,1fr) auto!important}
 </style>
 </head>
 <body>
 <div class="bgf" aria-hidden="true"><i style="left:-8%;top:-16%;width:60%;height:64%;background:radial-gradient(closest-side,rgba(139,124,246,.34),transparent)"></i><i style="right:-10%;top:-6%;width:46%;height:46%;background:radial-gradient(closest-side,rgba(74,154,245,.2),transparent)"></i><i style="right:-6%;bottom:-20%;width:60%;height:60%;background:radial-gradient(closest-side,rgba(251,176,64,.3),transparent)"></i></div>
 <header class="top">
-  <button class="brand" data-go="accueil" aria-label="JARVIS, retour à l'accueil"><span class="orb" style="--s:42px"></span><div><b>JARVIS</b><span><i></i>en ligne</span></div></button>
+  <div class="brand"><div id="hSlot" class="hslot"></div><button class="bn" data-go="accueil" aria-label="JARVIS, retour à l'accueil"><b>JARVIS</b><span><i></i>en ligne</span></button><button id="vcol" class="vcol" title="Changer la couleur de l'orbe" aria-label="Changer la couleur de l'orbe"><i></i></button></div>
   <nav class="glass nv" aria-label="Navigation">
-    <button data-go="accueil">Accueil</button><button data-go="calendrier">Calendrier</button><button data-go="projets">Projets</button><button data-go="jarvis">JARVIS</button><button data-go="mind">Mind</button><button data-go="corps">Corps</button>
+    <button data-go="accueil">Accueil</button><button data-go="calendrier">Calendrier</button><button data-go="projets">Projets</button><button data-go="jarvis">JARVIS</button><button data-go="corps">Corps</button>
   </nav>
   <div class="right"><a class="old glass" href="#" onclick="return useHud()" style="border-radius:99px">Version classique</a></div>
 </header>
@@ -304,7 +318,7 @@ body.nj .tab{display:none}
 <main class="wrap">
   <section class="page" id="p-accueil" aria-label="Accueil">
     <div class="hello" id="hello"></div>
-    <section class="glass msg msg2" id="hero" style="margin-top:18px"><div class="orbbox" style="display:grid;place-items:center"><span class="orb" style="--s:104px"></span></div><div id="heroMid"></div><div id="heroTm" class="tmb"></div></section>
+    <section class="glass msg msg2" id="hero" style="margin-top:18px"><div id="heroMid"></div><div id="heroTm" class="tmb"></div></section>
     <div class="g3">
       <section class="glass card" id="prog"></section>
       <section class="glass card"><h2>Ensuite <small>agenda du jour</small></h2><div id="nextUp"></div></section>
@@ -324,17 +338,16 @@ body.nj .tab{display:none}
         <path id="rA" fill="url(#rb)"/><path id="rB" fill="url(#rv)"/>
         <path id="rC" fill="none" stroke="#fff" stroke-width="5" stroke-opacity=".85" filter="url(#gl)"/>
         <path id="rD" fill="none" stroke="#9fb0ff" stroke-width="3" stroke-opacity=".7" filter="url(#gl)"/></svg>
-      <div class="og"><div class="glow"></div><div class="oB"><canvas id="oB" aria-label="Orbe de JARVIS"></canvas></div></div>
+      <div class="og"><div class="glow"></div><div class="oB" id="oBslot"><canvas id="oB" aria-label="Orbe de JARVIS"></canvas></div></div>
       <div class="sc" id="sc"></div>
       <div class="sp"><div class="lb"><i></i>JARVIS · en ligne</div><div class="hd" id="hd" aria-live="polite"></div></div>
       <form class="cmd" id="ask"><input id="askIn" placeholder="Parle à JARVIS ou écris…" aria-label="Message pour JARVIS" autocomplete="off"><button type="submit">Envoyer</button></form>
       <div class="dock" id="dock"></div>
     </div>
   </section>
-  <section class="page" id="p-mind" aria-label="Mind"></section>
   <section class="page" id="p-corps" aria-label="Corps"></section>
 </main>
-<nav class="glass mnav" aria-label="Navigation mobile"><button data-go="accueil">Accueil</button><button data-go="calendrier">Agenda</button><button data-go="projets">Projets</button><button data-go="jarvis">JARVIS</button><button data-go="mind">Mind</button><button data-go="corps">Corps</button></nav>
+<nav class="glass mnav" aria-label="Navigation mobile"><button data-go="accueil">Accueil</button><button data-go="calendrier">Agenda</button><button data-go="projets">Projets</button><button data-go="jarvis">JARVIS</button><button data-go="corps">Corps</button></nav>
 
 <button class="glass tab" id="tab" aria-label="Ouvrir la liste À faire"><b id="tabN">0</b><span>À faire</span></button>
 <div class="scrim" id="scrim"></div>
@@ -552,14 +565,14 @@ function ribbon(t){var A=14+34*O.lo+10*O.think,w=t*.55;function f(x,k){return Ma
  rC.setAttribute('d','M-40 '+(478+f(-40,0))+' C180 '+(332+f(180,0))+' 380 '+(342+f(380,0))+' 560 '+(450+f(560,0))+' S900 '+(580+f(900,0))+' 1100 '+(440+f(1100,0))+' S1300 '+(362+f(1300,0))+' 1400 '+(410+f(1400,0)));
  rD.setAttribute('d','M-40 '+(612+f(-40,.9))+' C180 '+(462+f(180,.9))+' 380 '+(462+f(380,.9))+' 540 '+(572+f(540,.9))+' S880 '+(682+f(880,.9))+' 1100 '+(552+f(1100,.9))+' S1300 '+(492+f(1300,.9))+' 1400 '+(532+f(1400,.9)));}
 /* ═════ Corps : scan 3D (fond sombre seulement derrière lui) + cartes en verre ═════ */
-var CSSC='html,body{background:transparent!important;overflow:hidden}body{max-width:none!important;padding:0!important;min-height:0!important}header,.lc,#c_po,#row2,footer{display:none!important}#layout,.grid{display:block!important}.mid{border:0!important;border-radius:0!important;margin:0!important}#stage{height:calc(100vh - 66px)!important;min-height:360px!important}';
+var CSSC='html,body{background:transparent!important;overflow:hidden}body{max-width:none!important;padding:0!important;min-height:0!important}header,.lc,#c_po,#row2,footer{display:none!important}#layout,.grid{display:block!important}.mid{border:0!important;border-radius:0!important;margin:0!important}#stage{height:calc(100vh - 92px)!important;min-height:340px!important}.bar{background:transparent!important;border:0!important;padding:14px 10px 16px!important;gap:12px!important;justify-content:center!important;align-items:center}.bar .sep{display:none!important}.pl,#tabs{display:flex!important;gap:2px!important;padding:4px!important;border-radius:99px!important;background:rgba(255,255,255,.07)!important;border:1px solid rgba(255,255,255,.14)!important;flex-wrap:nowrap!important}.bar button{border:0!important;background:transparent!important;color:#c4c4d8!important;border-radius:99px!important;padding:8px 15px!important;min-height:0!important;font:600 12px/1 system-ui,-apple-system,sans-serif!important;letter-spacing:.01em!important;box-shadow:none!important;text-transform:none!important}.bar button:hover{color:#fff!important;background:rgba(255,255,255,.1)!important}#tabs button.on,.bar button[aria-pressed=true]{background:#fff!important;color:#16161d!important;box-shadow:0 2px 10px rgba(0,0,0,.35)!important}';
 function kvRows(doc,sel){return [].map.call(doc.querySelectorAll(sel+' .kv'),function(k){var g=function(q){var e=k.querySelector(q);return e?e.textContent.trim():'';};var em=k.querySelector('em');return {l:g('span'),v:g('b'),s:g('small'),t:em?em.textContent.trim():'',c:em?em.className:''};});}
 function kvHtml(rows,big){return rows.map(function(r){var col=r.c==='n'?'#16a37a':(r.c?'#e0702a':'var(--mut)');var bg=r.c==='n'?'rgba(31,185,129,.14)':'rgba(240,120,40,.14)';return '<div class="kvr"><div><div class="kl">'+esc(r.l)+'</div>'+(r.s?'<div class="ks">'+esc(r.s)+'</div>':'')+'</div><div style="text-align:right">'+(r.v?'<div class="kv2'+(big?' big2':'')+'">'+esc(r.v)+'</div>':'')+(r.t?'<span class="kt" style="color:'+col+';background:'+bg+'">'+esc(r.t.toLowerCase())+'</span>':'')+'</div></div>';}).join('')||'<div class="empty">Chargement…</div>';}
 var corpsTimer=null;
 function renderCorps(){var el=$('p-corps');if(el.dataset.ok)return;el.dataset.ok='1';
  el.innerHTML='<div class="cpg"><div class="corpsf"><iframe id="cf" src="/corps" title="Scan 3D du corps"></iframe></div><div class="col"><section class="glass card"><h2>Composition <small id="cInfo"></small></h2><div id="kComp"></div></section><section class="glass card"><h2>Analyse posturale</h2><div id="kPost"></div></section></div></div>';
  function fill(){try{var d=$('cf').contentDocument;if(!d)return false;var c=kvRows(d,'#comp'),p=kvRows(d,'#post');if(c.length||p.length){$('kComp').innerHTML=kvHtml(c,true);$('kPost').innerHTML=kvHtml(p,false);var ch=[].map.call(d.querySelectorAll('header .chip'),function(x){return x.textContent.trim();});$('cInfo').textContent=ch[ch.length-1]||'';}return c.length>0&&p.length>0;}catch(e){return false;}}
- $('cf').onload=function(){try{var d=$('cf').contentDocument;var st=d.createElement('style');st.textContent=CSSC;d.head.appendChild(st);setTimeout(function(){try{$('cf').contentWindow.dispatchEvent(new Event('resize'));}catch(e){}},150);}catch(e){}
+ $('cf').onload=function(){try{var d=$('cf').contentDocument;var st=d.createElement('style');st.textContent=CSSC;d.head.appendChild(st);try{var bar=d.querySelector('.bar'),gv=[].slice.call(d.querySelectorAll('[data-go]')),gt=[d.getElementById('bMark'),d.getElementById('bSpin')].filter(Boolean);[gt,gv].forEach(function(g){if(!g.length)return;var w=d.createElement('div');w.className='pl';bar.insertBefore(w,g[0]);g.forEach(function(b){w.appendChild(b);});});}catch(e){}setTimeout(function(){try{$('cf').contentWindow.dispatchEvent(new Event('resize'));}catch(e){}},150);}catch(e){}
   var n=0;clearInterval(corpsTimer);corpsTimer=setInterval(function(){if(fill()||++n>40)clearInterval(corpsTimer);},500);};}
 function loadCorps(){}
 /* ═════ Mind : le cerveau de JARVIS ═════ */
@@ -568,13 +581,24 @@ function renderMind(){var el=$('p-mind');
  $('mnF').onsubmit=function(e){e.preventDefault();var t=$('mnT').value.trim();if(!t)return;$('mnE').textContent='';fetch('/api/brain/note',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({texte:t,categorie:$('mnC').value,source:'monsef',sujet:'Divers'})}).then(function(r){return r.json();}).then(function(d){if(d&&d.ok===false)throw new Error(d.error||'refusé');$('mnT').value='';toast('Note enregistrée');}).catch(function(er){$('mnE').textContent='Échec : '+(er.message||'serveur injoignable');});};
  $('msF').onsubmit=function(e){e.preventDefault();var q=$('msT').value.trim();if(!q)return;fetch('/api/brain/search',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({requete:q})}).then(function(r){return r.json();}).then(function(d){var r=d.resultats||[];$('msR').innerHTML=r.length?r.map(function(h){return '<div class="hit"><small>'+esc(h.fichier)+'</small>'+esc(h.ligne)+'</div>';}).join(''):'<div class="empty">Rien trouvé.</div>';}).catch(function(){$('msR').innerHTML='<div class="err">Serveur injoignable.</div>';});};}
 function renderAll(){renderAccueil();if(cur==='calendrier')renderCalendrier();if(cur==='projets')renderProjets();if(cur==='jarvis')renderJarvis();}
+/* ═════ Orbe de la V1 (HUD) : un clic dessus et JARVIS parle ; le bouton rond change sa couleur ═════ */
+var VF=null,ORBCSS=':root,html{color-scheme:light!important}html:root,html:root body{background:transparent!important;overflow:hidden!important;height:100%!important}body::before,body::after{display:none!important}body>*{display:none!important}body>#stage{display:block!important;position:fixed!important;inset:0!important;margin:0!important}#stage>*{display:none!important}#stage>#orb{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;filter:none!important;cursor:pointer!important}';
+function initVoiceOrb(){var src=document.getElementById('hudsrc');
+ if(!src){$('hSlot').innerHTML='<span class="orb" style="--s:44px;margin:12px 20px"></span>';$('vcol').style.display='none';return;}
+ var h=new TextDecoder().decode(Uint8Array.from(atob(src.textContent.trim()),function(c){return c.charCodeAt(0);}));
+ h=h.replace('<head>','<head><base href="'+location.origin+'/"><style>'+ORBCSS+'</style>');
+ var f=document.createElement('iframe');f.id='vf';f.title='JARVIS : clique pour lui parler';f.setAttribute('allow','microphone *; autoplay *');f.srcdoc=h;document.body.appendChild(f);VF=f;document.body.classList.add('hudorb');
+ f.onload=function(){setTimeout(function(){try{f.contentWindow.dispatchEvent(new Event('resize'));}catch(e){}},200);};
+ $('vcol').onclick=function(){try{f.contentDocument.getElementById('jcol').click();}catch(e){}};}
+var dockLast='';
+function dockOrb(){if(!VF)return;var tg=$(cur==='jarvis'?'oBslot':'hSlot'),r=tg.getBoundingClientRect(),k=[r.left,r.top,r.width,r.height].map(Math.round).join(',');if(k===dockLast)return;dockLast=k;var st=VF.style;st.left=Math.round(r.left)+'px';st.top=Math.round(r.top)+'px';st.width=Math.round(r.width)+'px';st.height=Math.round(r.height)+'px';try{VF.contentWindow.dispatchEvent(new Event('resize'));}catch(e){}}
 /* ═════ Navigation ═════ */
-var cur='accueil',PAGES=['accueil','calendrier','projets','jarvis','mind','corps'];
+var cur='accueil',PAGES=['accueil','calendrier','projets','jarvis','corps'];
 function go(p){if(PAGES.indexOf(p)<0)p='accueil';cur=p;[].forEach.call(document.querySelectorAll('.page'),function(x){x.classList.toggle('on',x.id==='p-'+p);});
  [].forEach.call(document.querySelectorAll('[data-go]'),function(b){if(b.closest('.nv')||b.closest('.mnav'))b.classList.toggle('on',b.dataset.go===p);});
  document.body.classList.toggle('night',p==='jarvis');document.body.classList.toggle('nj',p==='jarvis');
  if(history.replaceState)history.replaceState(null,'','#'+p);
- if(p==='accueil')renderAccueil();else if(p==='calendrier'){renderCalendrier();loadCal(true);}else if(p==='projets'){projSel=null;renderProjets();}else if(p==='jarvis'){renderJarvis();loadCal();}else if(p==='mind')renderMind();else if(p==='corps'){renderCorps();loadCorps();}
+ if(p==='accueil')renderAccueil();else if(p==='calendrier'){renderCalendrier();loadCal(true);}else if(p==='projets'){projSel=null;renderProjets();}else if(p==='jarvis'){renderJarvis();loadCal();}else if(p==='corps'){renderCorps();loadCorps();}
  window.scrollTo(0,0);}
 [].forEach.call(document.querySelectorAll('[data-go]'),function(b){b.addEventListener('click',function(){go(b.dataset.go);});});
 $('addM').onsubmit=function(e){e.preventDefault();var t=$('addMt').value.trim();if(!t)return;addMission(t,$('addMd').value);$('addMt').value='';$('addMd').value='';};
@@ -634,7 +658,7 @@ function env(t){var syl=Math.max(0,Math.sin(t*TAU*3.2+Math.sin(t*1.7)*2));var w=
 function ostep(t,dt){var lo,hi;if(O.mode==='speak'){O.speakT+=dt;lo=Math.max(env(O.speakT),O.pulse*.9);hi=cl(lo*(.5+.7*hs(Math.floor(t*22)))+.1*hs(Math.floor(t*40)),0,1);}else if(O.mode==='listen'){lo=.2+.1*Math.sin(t*2.3);hi=.12;}else if(O.mode==='think'){lo=.1;hi=.18+.1*Math.sin(t*6);}else{lo=.04;hi=.03;}
  O.pulse*=.9;O.lo+=(lo-O.lo)*(lo>O.lo?.35:.12);O.hi+=(hi-O.hi)*(hi>O.hi?.45:.15);function ap(k,on){O[k]+=((on?1:0)-O[k])*.06;}ap('listen',O.mode==='listen');ap('think',O.mode==='think');ap('speak',O.mode==='speak');O.yaw+=dt*(.14+1.1*O.think);}
 var t0=performance.now(),last=0;
-function frame(now){var t=(now-t0)/1000,dt=Math.min(.05,t-last);last=t;ostep(t,dt);if(cur==='jarvis')ribbon(t);
+function frame(now){var t=(now-t0)/1000,dt=Math.min(.05,t-last);last=t;ostep(t,dt);dockOrb();if(cur==='jarvis')ribbon(t);
  orbs.forEach(function(o){if(!o.vis||o.cv.offsetParent===null)return;var gl=o.gl,cv=o.cv,r=cv.getBoundingClientRect();var dpr=Math.min(window.devicePixelRatio||1,1.5);var w=Math.max(2,Math.round(r.width*dpr)),h=Math.max(2,Math.round(r.height*dpr));if(cv.width!==w||cv.height!==h){cv.width=w;cv.height=h;}
   gl.viewport(0,0,w,h);gl.useProgram(o.pr);gl.clear(gl.COLOR_BUFFER_BIT);var U=o.U;gl.uniform2f(U.uRes,w,h);gl.uniform1f(U.uTime,t);gl.uniform1f(U.uLo,O.lo);gl.uniform1f(U.uHi,O.hi);gl.uniform1f(U.uListen,O.listen);gl.uniform1f(U.uThink,O.think);gl.uniform1f(U.uSpeak,O.speak);gl.uniform1f(U.uYaw,O.yaw);gl.uniform1f(U.uPitch,O.pitch);gl.uniform3fv(U.uC1,PAL.c1);gl.uniform3fv(U.uC2,PAL.c2);gl.uniform3fv(U.uC3,PAL.c3);gl.uniform1f(U.uS,o.scale);gl.drawArrays(gl.TRIANGLES,0,3);});
  requestAnimationFrame(frame);}
@@ -651,7 +675,7 @@ $('ask').onsubmit=async function(e){e.preventDefault();var inp=$('askIn');var q=
  hist.push({role:'user',parts:[{text:q}]});
  try{var r=await fetch('/api/gemini',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:hist.slice(-10)})});if(!r.ok)throw new Error('http '+r.status);var d=await r.json();var ps=(d.candidates&&d.candidates[0]&&d.candidates[0].content&&d.candidates[0].content.parts)||[];var rep=ps.filter(function(p){return p.text;}).map(function(p){return p.text;}).join(' ').trim();if(!rep)throw new Error('vide');hist.push({role:'model',parts:[{text:rep}]});speak(rep);}
  catch(err){hist.pop();setMode('idle');hdLocked=false;setHd('JARVIS ne répond pas pour l’instant. Vérifie que ton serveur local tourne.');}};
-mkOrb('oH',.9);mkOrb('oM',.76);mkOrb('oB',.58);
+mkOrb('oB',.58);initVoiceOrb();
 initWins();
 requestAnimationFrame(frame);
 renderAccueil();loadCal(true);loadRem();
