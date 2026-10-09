@@ -269,6 +269,7 @@ body.nj .tab{display:none}
 .tmb .adj{display:flex;gap:8px;margin-top:6px}
 .tmb .adj button{border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:99px;font-size:11px;font-weight:600;padding:5px 10px}
 @media (max-width:1000px){.msg.msg2{grid-template-columns:1fr;padding:24px}.tmb{margin:0 auto}}
+.corpsf{height:calc(100vh - 108px);min-height:520px;border-radius:30px;overflow:hidden;background:#07070d;border:1px solid rgba(255,255,255,.9);box-shadow:0 14px 44px rgba(50,50,100,.16)}.corpsf iframe{width:100%;height:100%;border:0;display:block}
 </style>
 </head>
 <body>
@@ -319,7 +320,7 @@ body.nj .tab{display:none}
 <button class="glass tab" id="tab" aria-label="Ouvrir la liste À faire"><b id="tabN">0</b><span>À faire</span></button>
 <div class="scrim" id="scrim"></div>
 <aside class="drawer" id="drawer" aria-label="À faire">
-  <div class="hd2"><h2>À faire</h2><button class="x" id="dClose" aria-label="Fermer" style="font-size:24px">×</button></div>
+  <div class="hd2"><h2>À faire <small style="font-size:12px;font-weight:500;color:var(--mut)">tes Rappels</small></h2><button class="x" id="dClose" aria-label="Fermer" style="font-size:24px">×</button></div>
   <form class="add" id="addM" style="margin:0 0 6px"><input id="addMt" placeholder="Ajouter une mission…" aria-label="Nouvelle mission" autocomplete="off"><input id="addMd" type="date" aria-label="Échéance" style="flex:none;width:136px"><button type="submit">+</button></form>
   <div id="dBody"></div>
 </aside>
@@ -379,34 +380,35 @@ var MON=['janvier','février','mars','avril','mai','juin','juillet','août','sep
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function $(id){return document.getElementById(id);}
 function ring(pct,color,size,sw,r,track){var c=2*Math.PI*r;return '<svg viewBox="0 0 '+size+' '+size+'" width="'+size+'" height="'+size+'" aria-hidden="true"><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="'+(track||'rgba(30,30,60,.07)')+'" stroke-width="'+sw+'"/><circle cx="'+size/2+'" cy="'+size/2+'" r="'+r+'" fill="none" stroke="'+color+'" stroke-width="'+sw+'" stroke-linecap="round" stroke-dasharray="'+c+'" stroke-dashoffset="'+(c*(1-pct))+'" transform="rotate(-90 '+size/2+' '+size/2+')"/></svg>';}
-S.wins=S.wins||{};
+S.wins=S.wins||{};S.rdone=S.rdone||{};S.rhide=S.rhide||{};var R={items:[],ok:null};
+function loadRem(){fetch('/api/tasks').then(function(r){return r.json();}).then(function(d){R.ok=!!(d&&d.ok);R.items=(d&&d.items)||[];renderAll();}).catch(function(){R.ok=false;renderAll();});}
 var FR={ok:null,err:''};
 /* ═════ À faire : cocher, décocher, supprimer ═════ */
 function skipped(){var d=dayData();if(!d.skipped)d.skipped={};return d.skipped;}
 function findM(id){return S.missions.find(function(x){return x.id===id;});}
 function todayItems(){var t=todayK(),day=dayData(),sk=skipped(),items=[];
  S.missions.filter(function(m){return !m.done;}).sort(function(a,b){var ao=a.deadline&&a.deadline<t,bo=b.deadline&&b.deadline<t;if(ao&&!bo)return -1;if(!ao&&bo)return 1;if(a.deadline&&b.deadline)return a.deadline.localeCompare(b.deadline);if(a.deadline)return -1;if(b.deadline)return 1;return 0;}).forEach(function(m){var late=m.deadline&&m.deadline<t;var dl=m.deadline?Math.round((new Date(m.deadline)-new Date(t))/86400000):null;items.push({kind:'m',id:m.id,title:m.title,sub:m.desc||'Mission',color:'#7c6cf0',tag:late?'en retard':(dl===0?'aujourd’hui':(dl!==null?'dans '+dl+' j':'')),late:late});});
- S.pillars.forEach(function(p){p.habits.filter(function(h){return h.freq==='daily'&&!day.checked[h.id]&&!sk[h.id];}).forEach(function(h){items.push({kind:'h',id:h.id,title:h.name,sub:p.name,color:p.color,tag:''});});});
+ (R.items||[]).forEach(function(n){if(S.rdone[n]||S.rhide[n])return;items.push({kind:'r',id:n,title:n,sub:'Rappels',color:'#4a9af5',tag:''});});
  return items;}
 function doneItems(){var t=todayK(),day=dayData(),out=[];
  S.missions.filter(function(m){return m.done&&m.doneDate===t;}).forEach(function(m){out.push({kind:'m',id:m.id,title:m.title,sub:'Mission',color:'#7c6cf0'});});
- S.pillars.forEach(function(p){p.habits.forEach(function(h){if(h.freq==='daily'&&day.checked[h.id])out.push({kind:'h',id:h.id,title:h.name,sub:p.name,color:p.color});});});
+ Object.keys(S.rdone).forEach(function(n){if(S.rdone[n]&&!S.rhide[n]&&(R.items||[]).indexOf(n)>=0)out.push({kind:'r',id:n,title:n,sub:'Rappels',color:'#4a9af5'});});
  return out;}
-function toggle(kind,id){if(kind==='m'){var m=findM(id);if(!m)return;if(m.done){m.done=false;m.doneDate=null;}else{m.done=true;m.doneDate=todayK();}}else{var d=dayData();if(d.checked[id])delete d.checked[id];else d.checked[id]=true;}save();renderAll();}
-function removeItem(kind,id){if(kind==='m'){S.missions=S.missions.filter(function(x){return x.id!==id;});toast('Mission supprimée');}else{skipped()[id]=true;toast('Retirée pour aujourd’hui');}save();renderAll();}
+function toggle(kind,id){if(kind==='m'){var m=findM(id);if(!m)return;if(m.done){m.done=false;m.doneDate=null;}else{m.done=true;m.doneDate=todayK();}}else{if(S.rdone[id])delete S.rdone[id];else S.rdone[id]=true;}save();renderAll();}
+function removeItem(kind,id){if(kind==='m'){S.missions=S.missions.filter(function(x){return x.id!==id;});toast('Mission supprimée');}else{S.rhide[id]=true;toast('Retirée de la liste');}save();renderAll();}
 function addMission(title,date){S.missions.unshift({id:'ms'+Date.now(),title:title,desc:'',deadline:date||'',done:false,createdAt:todayK()});save();renderAll();}
-function rowHtml(i,done){return '<div class="row'+(done?' done':'')+'"><button class="ck'+(done?' on':'')+'" data-k="'+i.kind+'" data-i="'+i.id+'" aria-label="'+(done?'Décocher':'Cocher')+' : '+esc(i.title)+'">'+(done?'✓':'')+'</button><div><b>'+esc(i.title)+'</b><span class="s"><i class="dot" style="background:'+i.color+'"></i>'+esc(i.sub)+'</span></div><span class="tag'+(i.late?' late':'')+'">'+esc(i.tag||'')+'</span><button class="x" data-rm="'+i.kind+':'+i.id+'" aria-label="Supprimer : '+esc(i.title)+'" title="'+(i.kind==='m'?'Supprimer':'Retirer pour aujourd’hui')+'">×</button></div>';}
+function rowHtml(i,done){return '<div class="row'+(done?' done':'')+'"><button class="ck'+(done?' on':'')+'" data-k="'+i.kind+'" data-i="'+i.id+'" aria-label="'+(done?'Décocher':'Cocher')+' : '+esc(i.title)+'">'+(done?'✓':'')+'</button><div><b>'+esc(i.title)+'</b><span class="s"><i class="dot" style="background:'+i.color+'"></i>'+esc(i.sub)+'</span></div><span class="tag'+(i.late?' late':'')+'">'+esc(i.tag||'')+'</span><button class="x" data-rm="'+i.kind+':'+i.id+'" aria-label="Supprimer : '+esc(i.title)+'" title="Supprimer">×</button></div>';}
 function bindRows(el){[].forEach.call(el.querySelectorAll('.ck[data-k]'),function(b){b.onclick=function(){toggle(b.dataset.k,b.dataset.i);};});[].forEach.call(el.querySelectorAll('[data-rm]'),function(b){b.onclick=function(){var p=b.dataset.rm.split(':');removeItem(p[0],p.slice(1).join(':'));};});}
 function confirmBtn(b,label,fn){var orig=b.textContent,armed=false,tm;b.onclick=function(){if(!armed){armed=true;b.textContent=label;tm=setTimeout(function(){armed=false;b.textContent=orig;},3000);}else{clearTimeout(tm);fn();}};}
 function renderDrawer(){var it=todayItems(),dn=doneItems();$('tabN').textContent=it.length;
- $('dBody').innerHTML='<div class="todo">'+(it.map(function(r){return rowHtml(r,false);}).join('')||'<div class="empty">Rien à faire. Ajoute une mission ci-dessus.</div>')+'</div>'+(dn.length?'<div class="lbl" style="margin:20px 0 4px">Fait aujourd’hui · clique pour décocher</div><div class="todo">'+dn.map(function(r){return rowHtml(r,true);}).join('')+'</div>':'');
+ $('dBody').innerHTML='<div class="todo">'+(it.map(function(r){return rowHtml(r,false);}).join('')||(R.ok===false?'<div class="empty">Rappels indisponibles : ton serveur ne répond pas ou l’app Rappels n’est pas accessible.</div>':'<div class="empty">Rien à faire. Ajoute une mission ci-dessus.</div>'))+'</div>'+(dn.length?'<div class="lbl" style="margin:20px 0 4px">Fait aujourd’hui · clique pour décocher</div><div class="todo">'+dn.map(function(r){return rowHtml(r,true);}).join('')+'</div>':'');
  bindRows($('dBody'));}
 function openDrawer(on){$('drawer').classList.toggle('on',on);$('scrim').classList.toggle('on',on);}
 /* modale générique */
 function openModal(html){$('modal').innerHTML=html;$('modal').classList.add('on');$('scrim').classList.add('on');$('scrim').dataset.m='1';}
 function closeModal(){$('modal').classList.remove('on');$('scrim').dataset.m='';if(!$('drawer').classList.contains('on'))$('scrim').classList.remove('on');}
 $('scrim').onclick=function(){closeModal();openDrawer(false);};
-$('tab').onclick=function(){openDrawer(true);};$('dClose').onclick=function(){openDrawer(false);};
+$('tab').onclick=function(){openDrawer(true);loadRem();};$('dClose').onclick=function(){openDrawer(false);};
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeModal();openDrawer(false);}});
 /* ═════ Google Agenda (via ton serveur local) ═════ */
 var G={ev:[],ok:null,err:'',t:0,busy:false};
@@ -530,24 +532,12 @@ function ribbon(t){var A=14+34*O.lo+10*O.think,w=t*.55;function f(x,k){return Ma
  rA.setAttribute('d',top+bot);rB.setAttribute('d',top+bot);
  rC.setAttribute('d','M-40 '+(478+f(-40,0))+' C180 '+(332+f(180,0))+' 380 '+(342+f(380,0))+' 560 '+(450+f(560,0))+' S900 '+(580+f(900,0))+' 1100 '+(440+f(1100,0))+' S1300 '+(362+f(1300,0))+' 1400 '+(410+f(1400,0)));
  rD.setAttribute('d','M-40 '+(612+f(-40,.9))+' C180 '+(462+f(180,.9))+' 380 '+(462+f(380,.9))+' 540 '+(572+f(540,.9))+' S880 '+(682+f(880,.9))+' 1100 '+(552+f(1100,.9))+' S1300 '+(492+f(1300,.9))+' 1400 '+(532+f(1400,.9)));}
-/* ═════ Corps (maquette validée) ═════ */
-var corpsTab='sq',CD=null;
-var SKEL='<svg viewBox="0 0 200 520" height="440" aria-label="Squelette avec repères posturaux"><g fill="none" stroke="#e9e6ff" stroke-opacity=".8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="100" cy="34" rx="17" ry="21" fill="rgba(233,230,255,.1)"/><path d="M100 58v150"/><path d="M100 78c-22 0-40 4-52 12M100 78c22 0 40 4 52 12M100 98c-18 0-32 3-42 9M100 98c18 0 32 3 42 9M100 118c-14 0-26 2-34 7M100 118c14 0 26 2 34 7"/><path d="M48 90l-10 90-6 70M152 90l10 90 6 70"/><path d="M80 206c-8 8-12 20-12 30h64c0-10-4-22-12-30z" fill="rgba(233,230,255,.12)"/><path d="M84 236l-8 130-4 120M116 236l8 130 4 120"/></g><ellipse cx="100" cy="508" rx="80" ry="10" fill="none" stroke="#a78bfa" stroke-opacity=".35"/><line x1="40" y1="90" x2="160" y2="90" stroke="#ff6b6b" stroke-width="2.4" stroke-linecap="round"/><circle cx="48" cy="90" r="4.5" fill="#ff6b6b"/><circle cx="152" cy="90" r="4.5" fill="#ff6b6b"/><line x1="64" y1="234" x2="136" y2="234" stroke="#ff6b6b" stroke-width="2.4" stroke-linecap="round"/><circle cx="68" cy="234" r="4.5" fill="#ff6b6b"/><circle cx="132" cy="234" r="4.5" fill="#ff6b6b"/><circle cx="76" cy="366" r="4.5" fill="#ff6b6b"/><circle cx="124" cy="366" r="4.5" fill="#ff6b6b"/></svg>';
-var POST=[['Tête','Avant 0,5 cm'],['Épaule droite','+1,8 cm'],['Bassin','Antéversion 4,6 cm'],['Genoux','Hyperextension']];
-function fmtD(d){var p=String(d).split('-');return p.length===3?(+p[2])+' '+MON[+p[1]-1]+' '+p[0]:d;}
-function renderCorps(){var el=$('p-corps');var d3=corpsTab==='3d';
- var ms=(CD&&CD.measures)||[];var m=ms.filter(function(x){return x.weight||x.fat||x.muscle;}).slice(-1)[0]||{};
- var big=function(v,u){return '<div style="font-size:60px;font-weight:200;letter-spacing:-.045em;line-height:1.1;margin-top:8px">'+(v==null?'—':String(v).replace('.',','))+'<span style="font-size:20px;color:#b6b6c8;margin-left:4px;letter-spacing:0">'+u+'</span></div>';};
- var al=((CD&&CD.alerts)||[]).map(function(a){return '<div style="padding:12px 16px;border-radius:16px;background:rgba(255,255,255,.06);font-size:13px;line-height:1.45">'+esc(a.txt)+'</div>';}).join('');
- var goal=CD&&CD.goal||{};
- var left='<div class="cl">'+(d3?'<iframe src="/corps" title="Corps 3D"></iframe>':'<div class="glo"></div>'+SKEL)+'<div class="sg" role="tablist"><button class="'+(!d3?'on':'')+'" data-ct="sq">Squelette</button><button class="'+(d3?'on':'')+'" data-ct="3d">Scan 3D</button></div>'+(d3?'':'<div class="sm">Face</div>')+'</div>';
- var right=d3?'':'<div class="cr"><div><div style="font-size:15px;font-weight:600">Scan Visbody</div><div class="sm" style="margin-top:4px">'+(m.d?fmtD(m.d)+' · ':'')+'183 cm'+(m.weight?' · '+String(m.weight).replace('.',',')+' kg':'')+'</div></div>'
-  +'<section class="dg2" style="display:grid;grid-template-columns:1fr 1fr;padding:26px 30px"><div><div style="display:flex;gap:10px;align-items:center"><span class="sm">Graisse</span>'+(m.fat>=20?'<span class="tg" style="background:rgba(251,146,60,.22);color:#ffb37a">Élevé</span>':'')+'</div>'+big(m.fat,'%')+'</div><div><div style="display:flex;gap:10px;align-items:center"><span class="sm">Muscle</span><span class="tg" style="background:rgba(52,211,153,.2);color:#7be7bd">Normal</span></div>'+big(m.muscle,'kg')+'</div></section>'
-  +'<section class="dg2" style="padding:24px 26px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><span class="sm">Posture · à surveiller</span><span class="tg" style="background:rgba(251,146,60,.22);color:#ffb37a">'+POST.length+'</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">'+POST.map(function(p){return '<div style="padding:14px 18px;border-radius:18px;background:rgba(255,255,255,.06)"><div style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600"><i style="width:8px;height:8px;border-radius:50%;background:#ffb37a;display:block"></i>'+p[0]+'</div><div class="sm" style="margin-top:4px">'+p[1]+'</div></div>';}).join('')+'</div><div class="sm" style="margin-top:14px"><i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#7be7bd;margin-right:8px"></i>Colonne et jambes : normal</div></section>'
-  +(al||goal.weight||goal.fat?'<section class="dg2" style="padding:22px 26px"><div class="sm" style="margin-bottom:12px">Objectif'+(goal.weight?' · '+String(goal.weight).replace('.',',')+' kg':'')+(goal.fat?' · '+String(goal.fat).replace('.',',')+' % de graisse':'')+'</div><div style="display:flex;flex-direction:column;gap:8px">'+al+'</div></section>':'')+'</div>';
- el.innerHTML='<section class="cp'+(d3?' d3':'')+'">'+left+right+'</section>';
- [].forEach.call(el.querySelectorAll('[data-ct]'),function(b){b.onclick=function(){corpsTab=b.dataset.ct;renderCorps();};});}
-function loadCorps(){fetch('/api/corps/data').then(function(r){return r.json();}).then(function(d){CD=d;if(cur==='corps')renderCorps();}).catch(function(){});}
+/* ═════ Corps : scan 3D + Composition et Analyse posturale (infos de la première version) ═════ */
+var CSSC='html,body{background:transparent!important}body{max-width:none!important;padding:8px 10px!important}header .back,header h1,header .arc{display:none!important}#hl,#row2,footer{display:none!important}.lc{display:contents!important}#layout .grid,.grid{display:grid!important;grid-template-columns:minmax(0,1fr) clamp(280px,30%,400px)!important;grid-template-rows:auto 1fr!important;gap:12px!important;align-items:start}.mid{grid-column:1!important;grid-row:1/span 2!important}#c_comp{grid-column:2!important;grid-row:1!important}#c_po{grid-column:2!important;grid-row:2!important}#stage{height:calc(100vh - 230px)!important;min-height:440px!important}';
+function renderCorps(){var el=$('p-corps');if(el.dataset.ok)return;el.dataset.ok='1';
+ el.innerHTML='<div class="corpsf"><iframe id="cf" src="/corps" title="Scan 3D du corps"></iframe></div>';
+ $('cf').onload=function(){try{var d=$('cf').contentDocument;var st=d.createElement('style');st.textContent=CSSC;d.head.appendChild(st);setTimeout(function(){try{$('cf').contentWindow.dispatchEvent(new Event('resize'));}catch(e){}},150);}catch(e){}};}
+function loadCorps(){}
 /* ═════ Mind : le cerveau de JARVIS ═════ */
 function renderMind(){var el=$('p-mind');
  el.innerHTML='<div><h1 class="pt">Mind</h1><p class="sub">Le cerveau de JARVIS : ce que tu lui confies est gardé en notes, et il peut le retrouver.</p></div><div class="mi"><section class="glass card"><h2>Noter quelque chose</h2><form id="mnF" style="display:flex;flex-direction:column;gap:12px;margin-top:8px"><textarea id="mnT" placeholder="Une idée, une règle de trading, un fait à retenir…" aria-label="Note"></textarea><select id="mnC" aria-label="Catégorie"><option value="inbox">À trier (inbox)</option><option value="moi">Moi (objectifs, valeurs)</option><option value="trading">Trading</option><option value="business">Business</option><option value="savoir">Savoir</option><option value="corps">Corps</option><option value="journal">Journal</option></select><button class="btn dk" type="submit">Enregistrer</button></form><div class="err" id="mnE"></div></section><section class="glass card"><h2>Chercher dans le cerveau</h2><form id="msF" class="add"><input id="msT" placeholder="Un mot, un sujet…" aria-label="Recherche" autocomplete="off"><button type="submit">Chercher</button></form><div id="msR" style="margin-top:10px"></div></section></div>';
@@ -640,7 +630,7 @@ $('ask').onsubmit=async function(e){e.preventDefault();var inp=$('askIn');var q=
 mkOrb('oH',.9);mkOrb('oM',.76);mkOrb('oB',.58);
 initWins();
 requestAnimationFrame(frame);
-renderAccueil();loadCal(true);
+renderAccueil();loadCal(true);loadRem();
 var h0=(location.hash||'#accueil').slice(1);go(PAGES.indexOf(h0)>=0?h0:'accueil');
 window.__v2={O:O,go:go,setMode:setMode,speak:speak};
 })();
