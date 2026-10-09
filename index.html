@@ -9,6 +9,8 @@
 <meta name="theme-color" content="#eceef3">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>JARVIS OS — Monsef</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
 /* Nouvelle interface : verre clair, une seule page visible à la fois. Même données que la version classique. */
 *{margin:0;padding:0;box-sizing:border-box}
@@ -127,7 +129,7 @@ h1.pt{font-size:40px;font-weight:200;letter-spacing:-.04em}
 .step .ck{width:26px;height:26px;border-radius:50%;border:2px solid rgba(30,30,60,.2);background:transparent;display:grid;place-items:center;font-size:13px;color:#fff;padding:0}
 .step .ck.on{background:var(--ink);border-color:var(--ink)}
 .back{border:0;background:none;font-size:13px;font-weight:600;color:var(--vio);padding:0;margin-bottom:6px}
-/* jarvis */
+/* jarvis : scène noire, ruban qui ondule, fenêtres en verre, orbe au premier plan */
 body.night{background:#070716}
 body.night .bgf{display:none}
 body.night .brand,body.night .old{color:#fff}
@@ -135,26 +137,40 @@ body.night .brand span{color:rgba(255,255,255,.6)}
 body.night .glass.nv,body.night .old.glass,body.night .mnav{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18);box-shadow:none}
 body.night nav.nv button,body.night .mnav button{color:rgba(255,255,255,.7)}
 body.night nav.nv button.on,body.night .mnav button.on{background:#fff;color:#14122f}
-.stage{position:relative;height:calc(100vh - 118px);min-height:560px;border-radius:34px;overflow:hidden;background:radial-gradient(90% 70% at 50% 85%,#241a63 0%,#0f0b2d 55%,#06061a 100%);border:1px solid rgba(255,255,255,.1)}
-.plat{position:absolute;left:50%;bottom:-12%;width:130%;height:46%;transform:translateX(-50%);border-radius:50%/60%;background:linear-gradient(180deg,rgba(150,140,255,.22),rgba(60,50,150,.12) 60%,transparent);box-shadow:inset 0 2px 0 rgba(255,255,255,.18),0 -20px 80px rgba(120,100,255,.18);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.oB{position:absolute;left:50%;bottom:16%;width:min(46vh,420px);aspect-ratio:1;transform:translateX(-50%)}
+.stage{position:relative;height:calc(100vh - 118px);min-height:580px;border-radius:30px;overflow:hidden;background:#000;color:#f2f4ff;font-family:'Space Grotesk',-apple-system,system-ui,sans-serif;border:1px solid rgba(255,255,255,.1)}
+.stage .flr{position:absolute;left:0;right:0;top:64.5%;bottom:0;background:linear-gradient(#0c0c1c,#000);border-top:1px solid rgba(160,170,255,.35)}
+.stage .flr2{position:absolute;left:0;right:0;top:64.5%;height:22%;background:linear-gradient(rgba(90,100,255,.2),transparent);opacity:.7}
+.rib{position:absolute;inset:0;width:100%;height:100%}
+.sc{position:absolute;inset:0;perspective:1300px;perspective-origin:50% 40%}
+.win{position:absolute;overflow:hidden;border-radius:16px;background:linear-gradient(180deg,rgba(20,22,40,.72),rgba(8,8,16,.82));border:1px solid rgba(255,255,255,.12);-webkit-backdrop-filter:blur(26px) saturate(1.4);backdrop-filter:blur(26px) saturate(1.4);box-shadow:0 30px 60px rgba(0,0,0,.6);color:#f2f4ff}
+.win.l{left:3%;top:24%;width:26.5%;min-height:36%;transform:rotateY(16deg) translateZ(40px);transform-origin:left center}
+.win.r{right:3%;top:22%;width:31%;min-height:42%;transform:rotateY(-16deg) translateZ(40px);transform-origin:right center}
+.win .t{display:flex;justify-content:space-between;align-items:center;padding:18px 22px 10px}
+.win h3{font:500 11px 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;color:#9aa4ff}
+.win .x{width:8px;height:8px;border-radius:2px;background:#fff;opacity:.5}
+.win .r2{display:flex;gap:12px;align-items:center;padding:13px 22px;border-top:1px solid rgba(255,255,255,.08)}
+.win .d{width:10px;height:10px;border-radius:50%;flex:none}
+.win .n{flex:1;font-size:16px;font-weight:500;min-width:0}
+.win .n small{display:block;font-size:12px;font-weight:400;color:#7c82a8;margin-top:2px}
+.win .s{color:#7c82a8;font-size:12px;white-space:nowrap}
+.win .fin{padding:12px 22px;border-top:1px solid rgba(255,255,255,.08);color:#7c82a8;font-size:12px}
+.og{position:absolute;inset:0;z-index:3;pointer-events:none}
+.glow{position:absolute;left:50%;top:80.5%;width:34%;height:4%;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(110,120,255,.6),transparent);filter:blur(9px)}
+.oB{position:absolute;left:50%;top:63.5%;height:58%;aspect-ratio:1;transform:translate(-50%,-50%)}
 .oB canvas{position:absolute;inset:0;width:100%;height:100%}
-.win{position:absolute;top:9%;width:min(27%,300px);padding:20px 22px;border-radius:26px;color:#fff;background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.22);-webkit-backdrop-filter:blur(22px) saturate(1.5);backdrop-filter:blur(22px) saturate(1.5);box-shadow:0 24px 60px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.3)}
-.win.l{left:4%;transform:perspective(900px) rotateY(14deg)}
-.win.r{right:4%;transform:perspective(900px) rotateY(-14deg)}
-.win .wl{font:600 11px 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase;opacity:.65;margin-bottom:12px}
-.win .wi{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.4;padding:7px 0;border-top:1px solid rgba(255,255,255,.1)}
-.win .wi:first-of-type{border-top:0}
-.win .wi i{width:8px;height:8px;border-radius:50%;flex:none;margin-top:6px}
-.cap{position:absolute;left:50%;top:7%;transform:translateX(-50%);width:min(60%,640px);text-align:center;font-size:22px;font-weight:300;color:rgba(255,255,255,.9);min-height:60px;line-height:1.35;pointer-events:none}
-.cap b{font-weight:500;color:#fff}
-.dock{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);width:min(92%,640px);display:flex;gap:10px;align-items:center;padding:8px 8px 8px 22px;border-radius:99px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
-.dock input{flex:1;min-width:0;background:transparent;border:0;color:#fff;font:inherit;font-size:15px}
-.dock input::placeholder{color:rgba(255,255,255,.55)}
-.dock button{border:0;border-radius:99px;background:#fff;color:#14122f;font-weight:600;font-size:14px;padding:11px 20px}
-.st{position:absolute;right:20px;top:18px;display:flex;gap:6px}
-.st button{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:rgba(255,255,255,.75);font-size:12px;font-weight:600;border-radius:99px;padding:7px 13px}
-.st button.on{background:#fff;color:#14122f}
+.sp{position:absolute;left:50%;top:8.5%;transform:translateX(-50%);text-align:center;width:min(86%,860px);z-index:6}
+.lb{font:500 12px 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;display:flex;gap:8px;align-items:center;justify-content:center;color:#9aa4ff}
+.lb i{width:7px;height:7px;border-radius:50%;background:#16b981;display:block}
+.hd{font-size:34px;line-height:1.2;margin-top:12px;letter-spacing:-.035em;font-weight:300;color:#fff}
+.hd.long{font-size:24px}
+.hd b{font-weight:500}
+.cmd{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);width:min(92%,580px);z-index:7;display:flex;align-items:center;gap:14px;padding:10px 10px 10px 26px;border-radius:14px;background:rgba(14,14,28,.75);border:1px solid rgba(255,255,255,.16);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
+.cmd input{flex:1;min-width:0;background:transparent;border:0;color:#fff;font:inherit;font-size:15px}
+.cmd input::placeholder{color:#8a90b8}
+.cmd button{border:0;border-radius:9px;background:#fff;color:#000;font-weight:700;font-size:13px;padding:11px 20px}
+.st{position:absolute;right:28px;bottom:40px;z-index:7;display:flex;gap:8px}
+.st button{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);color:#c4c8ee;font-size:12px;font-weight:600;border-radius:8px;padding:8px 14px}
+.st button.on{background:#fff;color:#000}
 .corps{height:calc(100vh - 118px);min-height:520px;border-radius:30px;overflow:hidden;background:#0a0a0a;border:1px solid rgba(255,255,255,.9)}
 .corps iframe{width:100%;height:100%;border:0;display:block}
 .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 20px;border-radius:99px;font-size:13px;font-weight:600;z-index:100;animation:tt 2.4s ease forwards;pointer-events:none}
@@ -200,13 +216,22 @@ body.night nav.nv button.on,body.night .mnav button.on{background:#fff;color:#14
   <section class="page" id="p-projets" aria-label="Projets"></section>
   <section class="page" id="p-jarvis" aria-label="JARVIS">
     <div class="stage" id="stage">
+      <div class="flr"></div><div class="flr2"></div>
+      <svg class="rib" viewBox="0 0 1360 930" preserveAspectRatio="none" aria-hidden="true"><defs>
+        <linearGradient id="rb" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#2a3cff"/><stop offset=".25" stop-color="#7b6bff"/><stop offset=".5" stop-color="#dfe6ff"/><stop offset=".72" stop-color="#5568ff"/><stop offset="1" stop-color="#2230d8"/></linearGradient>
+        <linearGradient id="rv" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset=".35" stop-color="#fff" stop-opacity="0"/><stop offset=".8" stop-color="#0a0f60" stop-opacity=".45"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient>
+        <filter id="gl"><feGaussianBlur stdDeviation="1.4"/></filter></defs>
+        <path id="rA" fill="url(#rb)"/><path id="rB" fill="url(#rv)"/>
+        <path id="rC" fill="none" stroke="#fff" stroke-width="5" stroke-opacity=".85" filter="url(#gl)"/>
+        <path id="rD" fill="none" stroke="#9fb0ff" stroke-width="3" stroke-opacity=".7" filter="url(#gl)"/></svg>
+      <div class="sc">
+        <aside class="win l" aria-label="À faire"><div class="t"><h3>À faire · aujourd'hui</h3><i class="x"></i></div><div id="wTodo"></div></aside>
+        <aside class="win r" aria-label="Projets"><div class="t"><h3>Projets · prochaine étape</h3><i class="x"></i></div><div id="wProj"></div></aside>
+      </div>
+      <div class="og"><div class="glow"></div><div class="oB"><canvas id="oB" aria-label="Orbe de JARVIS"></canvas></div></div>
+      <div class="sp"><div class="lb"><i></i>JARVIS · en ligne</div><div class="hd" id="hd" aria-live="polite"></div></div>
+      <form class="cmd" id="ask"><input id="askIn" placeholder="Parle à JARVIS ou écris…" aria-label="Message pour JARVIS" autocomplete="off"><button type="submit">Envoyer</button></form>
       <div class="st" role="group" aria-label="État de JARVIS"><button data-m="idle" class="on">Veille</button><button data-m="listen">Écoute</button><button data-m="think">Réfléchit</button><button data-m="speak">Parle</button></div>
-      <div class="cap" id="cap" aria-live="polite"></div>
-      <aside class="win l" aria-label="À faire"><div class="wl">À faire</div><div id="wTodo"></div></aside>
-      <aside class="win r" aria-label="Prochain créneau"><div class="wl">Aujourd'hui</div><div id="wNext"></div></aside>
-      <div class="plat" aria-hidden="true"></div>
-      <div class="oB"><canvas id="oB"></canvas></div>
-      <form class="dock" id="ask"><input id="askIn" placeholder="Parle à JARVIS…" aria-label="Message pour JARVIS" autocomplete="off"><button type="submit">Envoyer</button></form>
     </div>
   </section>
   <section class="page" id="p-corps" aria-label="Corps"><div class="corps"><iframe id="cf" title="Corps 3D" loading="lazy"></iframe></div></section>
@@ -349,8 +374,20 @@ function renderProjets(){var el=$('p-projets');
  [].forEach.call(el.querySelectorAll('[data-p]'),function(b){b.onclick=function(){projSel=b.dataset.p;renderProjets();window.scrollTo(0,0);};});
 }
 /* ═════ JARVIS (fenêtres) ═════ */
-function renderJarvis(){var it=todayItems().slice(0,4);$('wTodo').innerHTML=it.length?it.map(function(i){return '<div class="wi"><i style="background:'+i.color+'"></i><div>'+esc(i.title)+'</div></div>';}).join(''):'<div class="wi">Tout est fait.</div>';
- var ev=eventsFor(todayK()).filter(function(e){return e.end>=hm(new Date());}).slice(0,3);$('wNext').innerHTML=ev.length?ev.map(function(e){return '<div class="wi"><i style="background:'+e.color+'"></i><div><b style="font-weight:600">'+e.start+'</b> '+esc(e.title)+'</div></div>';}).join(''):'<div class="wi">Rien de prévu.</div>';}
+function renderJarvis(){var it=todayItems();var n=it.length;
+ $('wTodo').innerHTML=(it.slice(0,4).map(function(i){return '<div class="r2"><i class="d" style="background:'+i.color+'"></i><span class="n">'+esc(i.title)+'</span><span class="s">'+esc(i.kind==='h'?i.sub:(i.tag||'Mission'))+'</span></div>';}).join('')||'<div class="r2"><span class="n">Tout est fait</span></div>')+'<div class="fin">'+doneToday().length+' fait'+(doneToday().length>1?'es':'')+' aujourd\u2019hui</div>';
+ $('wProj').innerHTML=S.projects.map(function(p){var nx=p.steps.find(function(s){return !s.done;});return '<div class="r2"><i class="d" style="background:'+p.color+'"></i><span class="n">'+esc(p.name)+'<small>'+(nx?esc(nx.t):'Terminé')+'</small></span><span class="s">'+pct(p)+' %</span></div>';}).join('');
+ if(O.mode!=='speak'&&!hdLocked)setHd(n===0?'Tout est fait pour aujourd\u2019hui.':'Il reste <b>'+n+' chose'+(n>1?'s':'')+'</b> aujourd\u2019hui.');}
+var hdLocked=false;
+function setHd(html){var h=$('hd');h.innerHTML=html;h.classList.toggle('long',html.replace(/<[^>]*>/g,'').length>56);}
+/* ruban : ondule doucement, un peu plus fort quand JARVIS parle */
+var rA=$('rA'),rB=$('rB'),rC=$('rC'),rD=$('rD');
+function ribbon(t){var A=14+34*O.lo+10*O.think,w=t*.55;function f(x,k){return Math.round((A*Math.sin(w+x/230+k)+A*.45*Math.sin(w*1.7+x/120+k*2))*10)/10;}
+ var top='M-40 '+(470+f(-40,0))+' C180 '+(320+f(180,0))+' 380 '+(330+f(380,0))+' 560 '+(440+f(560,0))+' S900 '+(570+f(900,0))+' 1100 '+(430+f(1100,0))+' S1300 '+(350+f(1300,0))+' 1400 '+(400+f(1400,0));
+ var bot=' L1400 '+(540+f(1400,.9))+' C1300 '+(500+f(1300,.9))+' 1250 '+(590+f(1250,.9))+' 1100 '+(560+f(1100,.9))+' S880 '+(690+f(880,.9))+' 540 '+(580+f(540,.9))+' S180 '+(470+f(180,.9))+' -40 '+(620+f(-40,.9))+'Z';
+ rA.setAttribute('d',top+bot);rB.setAttribute('d',top+bot);
+ rC.setAttribute('d','M-40 '+(478+f(-40,0))+' C180 '+(332+f(180,0))+' 380 '+(342+f(380,0))+' 560 '+(450+f(560,0))+' S900 '+(580+f(900,0))+' 1100 '+(440+f(1100,0))+' S1300 '+(362+f(1300,0))+' 1400 '+(410+f(1400,0)));
+ rD.setAttribute('d','M-40 '+(612+f(-40,.9))+' C180 '+(462+f(180,.9))+' 380 '+(462+f(380,.9))+' 540 '+(572+f(540,.9))+' S880 '+(682+f(880,.9))+' 1100 '+(552+f(1100,.9))+' S1300 '+(492+f(1300,.9))+' 1400 '+(532+f(1400,.9)));}
 function renderAll(){renderAccueil();if(cur==='calendrier')renderCalendrier();if(cur==='projets')renderProjets();if(cur==='jarvis')renderJarvis();}
 /* ═════ Navigation ═════ */
 var cur='accueil';
@@ -418,26 +455,26 @@ function env(t){var syl=Math.max(0,Math.sin(t*TAU*3.2+Math.sin(t*1.7)*2));var w=
 function ostep(t,dt){var lo,hi;if(O.mode==='speak'){O.speakT+=dt;lo=Math.max(env(O.speakT),O.pulse*.9);hi=cl(lo*(.5+.7*hs(Math.floor(t*22)))+.1*hs(Math.floor(t*40)),0,1);}else if(O.mode==='listen'){lo=.2+.1*Math.sin(t*2.3);hi=.12;}else if(O.mode==='think'){lo=.1;hi=.18+.1*Math.sin(t*6);}else{lo=.04;hi=.03;}
  O.pulse*=.9;O.lo+=(lo-O.lo)*(lo>O.lo?.35:.12);O.hi+=(hi-O.hi)*(hi>O.hi?.45:.15);function ap(k,on){O[k]+=((on?1:0)-O[k])*.06;}ap('listen',O.mode==='listen');ap('think',O.mode==='think');ap('speak',O.mode==='speak');O.yaw+=dt*(.14+1.1*O.think);}
 var t0=performance.now(),last=0;
-function frame(now){var t=(now-t0)/1000,dt=Math.min(.05,t-last);last=t;ostep(t,dt);
+function frame(now){var t=(now-t0)/1000,dt=Math.min(.05,t-last);last=t;ostep(t,dt);if(cur==='jarvis')ribbon(t);
  orbs.forEach(function(o){if(!o.vis||o.cv.offsetParent===null)return;var gl=o.gl,cv=o.cv,r=cv.getBoundingClientRect();var dpr=Math.min(window.devicePixelRatio||1,1.5);var w=Math.max(2,Math.round(r.width*dpr)),h=Math.max(2,Math.round(r.height*dpr));if(cv.width!==w||cv.height!==h){cv.width=w;cv.height=h;}
   gl.viewport(0,0,w,h);gl.useProgram(o.pr);gl.clear(gl.COLOR_BUFFER_BIT);var U=o.U;gl.uniform2f(U.uRes,w,h);gl.uniform1f(U.uTime,t);gl.uniform1f(U.uLo,O.lo);gl.uniform1f(U.uHi,O.hi);gl.uniform1f(U.uListen,O.listen);gl.uniform1f(U.uThink,O.think);gl.uniform1f(U.uSpeak,O.speak);gl.uniform1f(U.uYaw,O.yaw);gl.uniform1f(U.uPitch,O.pitch);gl.uniform3fv(U.uC1,PAL.c1);gl.uniform3fv(U.uC2,PAL.c2);gl.uniform3fv(U.uC3,PAL.c3);gl.uniform1f(U.uS,o.scale);gl.drawArrays(gl.TRIANGLES,0,3);});
  requestAnimationFrame(frame);}
 /* états et voix */
-var st=[].slice.call(document.querySelectorAll('.st button')),cap=$('cap'),vt=null;
+var st=[].slice.call(document.querySelectorAll('.st button')),vt=null;
 function setMode(m){O.mode=m;if(m==='speak')O.speakT=0;st.forEach(function(b){b.classList.toggle('on',b.dataset.m===m);});}
-st.forEach(function(b){b.onclick=function(){cancelV();setMode(b.dataset.m);if(b.dataset.m!=='speak')cap.innerHTML='';};});
+st.forEach(function(b){b.onclick=function(){cancelV();setMode(b.dataset.m);if(b.dataset.m!=='speak'){hdLocked=false;renderJarvis();}};});
 function cancelV(){try{window.speechSynthesis&&window.speechSynthesis.cancel();}catch(e){}clearTimeout(vt);}
-function speak(text){cancelV();setMode('speak');var words=text.split(' ');var T0=performance.now();cap.innerHTML='';
- function tick(){if(O.mode!=='speak')return;var wi=Math.min(words.length,Math.floor((performance.now()-T0)/320));cap.innerHTML=words.map(function(w,i){return i<wi?'<b>'+esc(w)+'</b>':esc(w);}).join(' ');if(wi<words.length)setTimeout(tick,120);}tick();
- var done=function(){clearTimeout(vt);if(O.mode==='speak')setMode('idle');};vt=setTimeout(done,Math.max(3000,words.length*340+800));
+function speak(text){cancelV();setMode('speak');hdLocked=true;var words=text.split(' ');var T0=performance.now();setHd('');
+ function tick(){if(O.mode!=='speak')return;var wi=Math.min(words.length,Math.floor((performance.now()-T0)/320));setHd(words.map(function(w,i){return i<wi?'<b>'+esc(w)+'</b>':esc(w);}).join(' '));if(wi<words.length)setTimeout(tick,120);}tick();
+ var done=function(){clearTimeout(vt);if(O.mode==='speak')setMode('idle');hdLocked=false;};vt=setTimeout(done,Math.max(3000,words.length*340+800));
  try{var u=new SpeechSynthesisUtterance(text);u.lang='fr-FR';u.onboundary=function(){O.pulse=1;};u.onend=done;u.onerror=function(){};window.speechSynthesis.speak(u);}catch(e){}}
 var COACH=COACH_SYS;
 var hist=[];
-$('ask').onsubmit=async function(e){e.preventDefault();var inp=$('askIn');var q=inp.value.trim();if(!q)return;inp.value='';cancelV();setMode('think');cap.textContent='…';
+$('ask').onsubmit=async function(e){e.preventDefault();var inp=$('askIn');var q=inp.value.trim();if(!q)return;inp.value='';cancelV();setMode('think');hdLocked=true;setHd('…');
  var ctx='Contexte : '+todayItems().length+' choses à faire aujourd’hui, série '+streak()+' jours, '+S.totalXP+' XP.';hist.push({role:'user',content:q+'\n\n'+ctx});
  try{var r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,system:COACH,messages:hist.slice(-8)})});var d=await r.json();var rep=d&&d.content&&d.content[0]&&d.content[0].text;if(!rep)throw new Error('vide');hist.push({role:'assistant',content:rep});speak(rep);}
- catch(err){hist.pop();setMode('idle');cap.textContent='Je ne peux pas répondre : la connexion à l’IA n’est pas configurée dans cette version.';}};
-mkOrb('oH',.9);mkOrb('oM',.76);mkOrb('oB',.74);
+ catch(err){hist.pop();setMode('idle');setHd('Je ne peux pas répondre : la connexion à l\u2019IA n\u2019est pas configurée.');}};
+mkOrb('oH',.9);mkOrb('oM',.76);mkOrb('oB',.58);
 requestAnimationFrame(frame);
 renderAccueil();
 var h0=(location.hash||'#accueil').slice(1);go(['accueil','calendrier','projets','jarvis','corps'].indexOf(h0)>=0?h0:'accueil');
