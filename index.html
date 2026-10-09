@@ -304,6 +304,16 @@ body.pj .mnav{transform:translateY(160%);transition:transform .3s ease}body.pj.t
 body.pj .old{display:none!important}body.pj .tslot{visibility:hidden}
 
 .right{display:flex;justify-content:flex-end}.fondb{display:none;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font:600 12px Inter,system-ui,sans-serif;padding:8px 14px;border-radius:99px;cursor:pointer}body.pj .fondb{display:block}
+
+.top{grid-template-columns:1fr auto;padding:7px 28px;padding-top:max(7px,env(safe-area-inset-top));background:rgba(240,240,250,.72);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid rgba(30,30,60,.07)}
+body.night .top{background:rgba(10,10,24,.6);border-bottom-color:rgba(255,255,255,.08)}
+.tslot{width:40px!important;height:40px!important;margin:-2px 0!important;border-radius:15px!important}
+nav.nv{position:fixed;left:14px;top:50%;transform:translateY(-50%);z-index:45;flex-direction:column;border-radius:26px}
+nav.nv button{width:100%;text-align:left}
+.wrap{padding-left:max(36px,calc(50% - 660px))}
+@media (min-width:1001px){.wrap{max-width:none;padding-left:118px;padding-right:36px}.wrap>*{max-width:1240px;margin-left:auto;margin-right:auto}}
+@media (max-width:1000px){nav.nv{display:none}}
+body.pj nav.nv{opacity:0;pointer-events:none;transition:opacity .3s}body.pj.topopen nav.nv{opacity:1;pointer-events:auto}
 #topzone{display:none;position:fixed;left:0;right:0;top:0;height:16px;z-index:49;cursor:pointer}
 #topzone::after{content:'';position:absolute;left:50%;top:5px;width:46px;height:4px;margin-left:-23px;border-radius:9px;background:rgba(255,255,255,.28)}
 body.pj #topzone{display:block}body.pj .top:hover~#topzone,body.pj.topopen #topzone{display:none}
@@ -322,11 +332,11 @@ body.pj #topzone{display:block}body.pj .top:hover~#topzone,body.pj.topopen #topz
 <div class="bgf" aria-hidden="true"><i style="left:-8%;top:-16%;width:60%;height:64%;background:radial-gradient(closest-side,rgba(139,124,246,.34),transparent)"></i><i style="right:-10%;top:-6%;width:46%;height:46%;background:radial-gradient(closest-side,rgba(74,154,245,.2),transparent)"></i><i style="right:-6%;bottom:-20%;width:60%;height:60%;background:radial-gradient(closest-side,rgba(251,176,64,.3),transparent)"></i></div>
 <header class="top">
   <div class="brand"><div id="tSlot" class="tslot"></div><button class="bn" data-go="accueil" aria-label="JARVIS, retour à l'accueil"><b>JARVIS</b><span><i></i>en ligne</span></button><button id="vcol" class="vcol" title="Changer la couleur de l'orbe" aria-label="Changer la couleur de l'orbe"><i></i></button></div>
-  <nav class="glass nv" aria-label="Navigation">
-    <button data-go="accueil">Accueil</button><button data-go="calendrier">Calendrier</button><button data-go="projets">Projets</button><button data-go="jarvis">JARVIS</button><button data-go="corps">Corps</button>
-  </nav>
+  
   <div class="right"><button id="jfond" class="fondb" title="Fond de JARVIS">Fond : noir</button></div>
-</header><div id="topzone"></div>
+</header><nav class="glass nv" aria-label="Navigation">
+    <button data-go="accueil">Accueil</button><button data-go="calendrier">Calendrier</button><button data-go="projets">Projets</button><button data-go="jarvis">JARVIS</button><button data-go="corps">Corps</button>
+  </nav><div id="topzone"></div>
 
 <main class="wrap">
   <section class="page" id="p-accueil" aria-label="Accueil">
@@ -604,7 +614,7 @@ function initVoiceOrb(){var src=document.getElementById('hudsrc');
  var f=document.createElement('iframe');f.id='vf';f.title='JARVIS : clique pour lui parler';f.setAttribute('allow','microphone *; autoplay *');f.srcdoc=h;document.body.appendChild(f);VF=f;document.body.classList.add('hudorb');
  f.onload=function(){setTimeout(function(){try{f.contentWindow.dispatchEvent(new Event('resize'));}catch(e){}},200);};
  $('vcol').onclick=function(){try{f.contentDocument.getElementById('jcol').click();}catch(e){}};}
-function tickClk(){var e=document.getElementById('clk');if(e){var d=new Date();e.textContent=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);}}setInterval(tickClk,5000);var dockLast='';(function(){var b=document.getElementById('jfond');function ap(){var on=0;try{on=localStorage.getItem('jfond')==='1';}catch(e){}document.body.classList.toggle('jbg',on);if(b)b.textContent='Fond : '+(on?'bannière':'noir');}ap();if(b)b.onclick=function(){var on=document.body.classList.contains('jbg');try{localStorage.setItem('jfond',on?'0':'1');}catch(e){}document.body.classList.toggle('jbg',!on);b.textContent='Fond : '+(!on?'bannière':'noir');};})();(function(){var z=document.getElementById('topzone');if(z)z.onclick=function(){document.body.classList.add('topopen');};document.addEventListener('pointerdown',function(e){if(document.body.classList.contains('topopen')&&!e.target.closest('.top'))document.body.classList.remove('topopen');},true);})();
+function tickClk(){var e=document.getElementById('clk');if(e){var d=new Date();e.textContent=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);}}setInterval(tickClk,5000);var dockLast='';(function(){var z=document.getElementById('topzone');if(z)z.addEventListener('mouseenter',function(){document.body.classList.add('topopen');});function lv(e){var t=e.relatedTarget;if(t&&t.closest&&t.closest('.top,.nv'))return;document.body.classList.remove('topopen');}[].forEach.call(document.querySelectorAll('.top,nav.nv'),function(el){el.addEventListener('mouseleave',lv);});})();(function(){var b=document.getElementById('jfond');function ap(){var on=0;try{on=localStorage.getItem('jfond')==='1';}catch(e){}document.body.classList.toggle('jbg',on);if(b)b.textContent='Fond : '+(on?'bannière':'noir');}ap();if(b)b.onclick=function(){var on=document.body.classList.contains('jbg');try{localStorage.setItem('jfond',on?'0':'1');}catch(e){}document.body.classList.toggle('jbg',!on);b.textContent='Fond : '+(!on?'bannière':'noir');};})();(function(){var z=document.getElementById('topzone');if(z)z.onclick=function(){document.body.classList.add('topopen');};document.addEventListener('pointerdown',function(e){if(document.body.classList.contains('topopen')&&!e.target.closest('.top'))document.body.classList.remove('topopen');},true);})();
 function dockOrb(){if(!VF)return;var full=cur==='jarvis',d=null;try{d=VF.contentDocument;}catch(e){}
  if(d&&d.documentElement){var cl2=d.documentElement.classList,has=cl2.contains('oo');if(full&&has){cl2.remove('oo');}else if(!full&&!has){cl2.add('oo');}}
  VF.classList.toggle('full',full);if(d&&d.documentElement)d.documentElement.classList.toggle('bgb',document.body.classList.contains('jbg'));var L,T,W,H;
