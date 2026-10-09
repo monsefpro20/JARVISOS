@@ -298,6 +298,14 @@ body.night .brand .bn{color:#fff}body.night .brand .bn span{color:rgba(255,255,2
 .hslot{width:72px;height:72px;border-radius:24px;flex:none;background:radial-gradient(120% 120% at 30% 20%,#1b1a42,#05050f);box-shadow:0 8px 22px rgba(60,50,160,.3),inset 0 0 0 1px rgba(255,255,255,.12)}
 .tslot{width:62px;height:62px;border-radius:22px;flex:none;background:radial-gradient(120% 120% at 30% 20%,#1b1a42,#05050f);box-shadow:0 8px 22px rgba(60,50,160,.3),inset 0 0 0 1px rgba(255,255,255,.12)}
 body.nj .tslot,body.orbhero .tslot{visibility:hidden}
+body.pj .top{position:fixed;left:0;right:0;top:0;z-index:50;transform:translateY(-115%);transition:transform .3s ease;background:linear-gradient(180deg,rgba(8,8,20,.92),rgba(8,8,20,.6));-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+body.pj .top:hover,body.pj.topopen .top{transform:none}
+body.pj .mnav{transform:translateY(160%);transition:transform .3s ease}body.pj.topopen .mnav{transform:none}
+body.pj .old{display:none!important}body.pj .tslot{visibility:hidden}
+#topzone{display:none;position:fixed;left:0;right:0;top:0;height:16px;z-index:49;cursor:pointer}
+#topzone::after{content:'';position:absolute;left:50%;top:5px;width:46px;height:4px;margin-left:-23px;border-radius:9px;background:rgba(255,255,255,.28)}
+body.pj #topzone{display:block}body.pj .top:hover~#topzone,body.pj.topopen #topzone{display:none}
+
 .hudorb #p-jarvis .stage{display:none}
 #vf{transition:left .35s ease,top .35s ease,width .35s ease,height .35s ease}
 #vf.full{transition:none}
@@ -316,7 +324,7 @@ body.nj .tslot,body.orbhero .tslot{visibility:hidden}
     <button data-go="accueil">Accueil</button><button data-go="calendrier">Calendrier</button><button data-go="projets">Projets</button><button data-go="jarvis">JARVIS</button><button data-go="corps">Corps</button>
   </nav>
   <div class="right"><div id="tSlot" class="tslot"></div><a class="old glass" href="#" onclick="return useHud()" style="border-radius:99px">Version classique</a></div>
-</header>
+</header><div id="topzone"></div>
 
 <main class="wrap">
   <section class="page" id="p-accueil" aria-label="Accueil">
@@ -585,7 +593,7 @@ function renderMind(){var el=$('p-mind');
  $('msF').onsubmit=function(e){e.preventDefault();var q=$('msT').value.trim();if(!q)return;fetch('/api/brain/search',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({requete:q})}).then(function(r){return r.json();}).then(function(d){var r=d.resultats||[];$('msR').innerHTML=r.length?r.map(function(h){return '<div class="hit"><small>'+esc(h.fichier)+'</small>'+esc(h.ligne)+'</div>';}).join(''):'<div class="empty">Rien trouvé.</div>';}).catch(function(){$('msR').innerHTML='<div class="err">Serveur injoignable.</div>';});};}
 function renderAll(){renderAccueil();if(cur==='calendrier')renderCalendrier();if(cur==='projets')renderProjets();if(cur==='jarvis')renderJarvis();}
 /* ═════ Orbe de la V1 (HUD) : un clic dessus et JARVIS parle ; le bouton rond change sa couleur ═════ */
-var VF=null,ORBCSS='html.oo:root{color-scheme:light!important}html.oo:root,html.oo:root body{background:transparent!important;overflow:hidden!important;height:100%!important}html.oo body::before,html.oo body::after{display:none!important}html.oo body>*{display:none!important}html.oo body>#stage{display:block!important;position:fixed!important;inset:0!important;margin:0!important}html.oo #stage>*{display:none!important}html.oo #stage>#orb{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;filter:none!important;cursor:pointer!important}'
+var VF=null,ORBCSS='html:root body #jjbtn,html:root body #jcorps,html:root body #jcol{display:none!important}html.oo:root{color-scheme:light!important}html.oo:root,html.oo:root body{background:transparent!important;overflow:hidden!important;height:100%!important}html.oo body::before,html.oo body::after{display:none!important}html.oo body>*{display:none!important}html.oo body>#stage{display:block!important;position:fixed!important;inset:0!important;margin:0!important}html.oo #stage>*{display:none!important}html.oo #stage>#orb{display:block!important;position:absolute!important;inset:0!important;width:100%!important;height:100%!important;filter:none!important;cursor:pointer!important}'
  +"html body .winin{background:linear-gradient(180deg,rgba(20,22,40,.72),rgba(8,8,16,.82))!important;border:1px solid rgba(255,255,255,.12)!important;border-radius:16px!important;-webkit-backdrop-filter:blur(26px) saturate(1.4)!important;backdrop-filter:blur(26px) saturate(1.4)!important;box-shadow:0 30px 60px rgba(0,0,0,.6)!important;animation:none!important}html body .winin .wh{background:transparent!important;height:auto!important;padding:16px 20px 10px!important}html body .winin .wh::after{display:none!important}html body .winin .wt{font:500 11px ui-monospace,Menlo,monospace!important;letter-spacing:.12em!important;text-transform:uppercase!important;color:#9aa4ff!important;text-shadow:none!important}html body .winin .wb{color:#f2f4ff!important;padding:6px 20px 14px!important}html body .winin .wf{background:transparent!important;border-top:1px solid rgba(255,255,255,.08)!important;color:#7c82a8!important;height:auto!important;padding:8px 20px!important}html body .winin .x{color:#7c82a8!important}html body .winin .x:hover{color:#ff5470!important}";
 function initVoiceOrb(){var src=document.getElementById('hudsrc');
  if(!src){$('tSlot').innerHTML='<span class="orb" style="--s:34px;margin:14px"></span>';$('hSlot').innerHTML='<span class="orb" style="--s:104px;margin:23px"></span>';$('vcol').style.display='none';return;}
@@ -594,16 +602,16 @@ function initVoiceOrb(){var src=document.getElementById('hudsrc');
  var f=document.createElement('iframe');f.id='vf';f.title='JARVIS : clique pour lui parler';f.setAttribute('allow','microphone *; autoplay *');f.srcdoc=h;document.body.appendChild(f);VF=f;document.body.classList.add('hudorb');
  f.onload=function(){setTimeout(function(){try{f.contentWindow.dispatchEvent(new Event('resize'));}catch(e){}},200);};
  $('vcol').onclick=function(){try{f.contentDocument.getElementById('jcol').click();}catch(e){}};}
-var dockLast='';
+var dockLast='';(function(){var z=document.getElementById('topzone');if(z)z.onclick=function(){document.body.classList.add('topopen');};document.addEventListener('pointerdown',function(e){if(document.body.classList.contains('topopen')&&!e.target.closest('.top'))document.body.classList.remove('topopen');},true);})();
 function dockOrb(){if(!VF)return;var full=cur==='jarvis',d=null;try{d=VF.contentDocument;}catch(e){}
  if(d&&d.documentElement){var cl2=d.documentElement.classList,has=cl2.contains('oo');if(full&&has){cl2.remove('oo');}else if(!full&&!has){cl2.add('oo');}}
  VF.classList.toggle('full',full);var L,T,W,H;
- if(full){document.body.classList.remove('orbhero');var hh=document.querySelector('.top').offsetHeight;L=0;T=hh;W=innerWidth;H=innerHeight-hh;}
+ if(full){document.body.classList.remove('orbhero');L=0;T=0;W=innerWidth;H=innerHeight;}
  else{var hs=$('hSlot'),box=null;if(cur==='accueil'&&hs){var r=hs.getBoundingClientRect();if(r.bottom>110&&r.top<innerHeight)box=r;}var inh=!!box;if(!box)box=$('tSlot').getBoundingClientRect();document.body.classList.toggle('orbhero',inh);L=box.left;T=box.top;W=box.width;H=box.height;}
  var k=[L,T,W,H,full].map(function(v){return Math.round(v);}).join(',');if(k===dockLast)return;dockLast=k;var st=VF.style;st.left=Math.round(L)+'px';st.top=Math.round(T)+'px';st.width=Math.round(W)+'px';st.height=Math.round(H)+'px';setTimeout(function(){try{VF.contentWindow.dispatchEvent(new Event('resize'));}catch(e){}},full?50:380);}
 /* ═════ Navigation ═════ */
 var cur='accueil',PAGES=['accueil','calendrier','projets','jarvis','corps'];
-function go(p){if(PAGES.indexOf(p)<0)p='accueil';cur=p;[].forEach.call(document.querySelectorAll('.page'),function(x){x.classList.toggle('on',x.id==='p-'+p);});
+function go(p){if(PAGES.indexOf(p)<0)p='accueil';cur=p;document.body.classList.toggle('pj',p==='jarvis');document.body.classList.remove('topopen');[].forEach.call(document.querySelectorAll('.page'),function(x){x.classList.toggle('on',x.id==='p-'+p);});
  [].forEach.call(document.querySelectorAll('[data-go]'),function(b){if(b.closest('.nv')||b.closest('.mnav'))b.classList.toggle('on',b.dataset.go===p);});
  document.body.classList.toggle('night',p==='jarvis');document.body.classList.toggle('nj',p==='jarvis');
  if(history.replaceState)history.replaceState(null,'','#'+p);
