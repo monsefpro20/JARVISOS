@@ -296,7 +296,7 @@ body.nj .tab{display:none}
 .brand .bn span i{width:6px;height:6px;border-radius:50%;background:var(--green);display:block}
 body.night .brand .bn{color:#fff}body.night .brand .bn span{color:rgba(255,255,255,.6)}
 .hslot{width:72px;height:72px;border-radius:24px;flex:none;background:radial-gradient(120% 120% at 30% 20%,#1b1a42,#05050f);box-shadow:0 8px 22px rgba(60,50,160,.3),inset 0 0 0 1px rgba(255,255,255,.12)}
-.tslot{width:62px;height:62px;border-radius:22px;flex:none;background:radial-gradient(120% 120% at 30% 20%,#1b1a42,#05050f);box-shadow:0 8px 22px rgba(60,50,160,.3),inset 0 0 0 1px rgba(255,255,255,.12)}
+.tslot{width:56px;height:56px;margin:-6px 0;border-radius:22px;flex:none;background:radial-gradient(120% 120% at 30% 20%,#1b1a42,#05050f);box-shadow:0 8px 22px rgba(60,50,160,.3),inset 0 0 0 1px rgba(255,255,255,.12)}
 body.nj .tslot,body.orbhero .tslot{visibility:hidden}
 body.pj .top{position:fixed;left:0;right:0;top:0;z-index:50;transform:translateY(-115%);transition:transform .3s ease;background:linear-gradient(180deg,rgba(8,8,20,.92),rgba(8,8,20,.6));-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
 body.pj .top:hover,body.pj.topopen .top{transform:none}
@@ -319,11 +319,11 @@ body.pj #topzone{display:block}body.pj .top:hover~#topzone,body.pj.topopen #topz
 <body>
 <div class="bgf" aria-hidden="true"><i style="left:-8%;top:-16%;width:60%;height:64%;background:radial-gradient(closest-side,rgba(139,124,246,.34),transparent)"></i><i style="right:-10%;top:-6%;width:46%;height:46%;background:radial-gradient(closest-side,rgba(74,154,245,.2),transparent)"></i><i style="right:-6%;bottom:-20%;width:60%;height:60%;background:radial-gradient(closest-side,rgba(251,176,64,.3),transparent)"></i></div>
 <header class="top">
-  <div class="brand"><button class="bn" data-go="accueil" aria-label="JARVIS, retour à l'accueil"><b>JARVIS</b><span><i></i>en ligne</span></button><button id="vcol" class="vcol" title="Changer la couleur de l'orbe" aria-label="Changer la couleur de l'orbe"><i></i></button></div>
+  <div class="brand"><div id="tSlot" class="tslot"></div><button class="bn" data-go="accueil" aria-label="JARVIS, retour à l'accueil"><b>JARVIS</b><span><i></i>en ligne</span></button><button id="vcol" class="vcol" title="Changer la couleur de l'orbe" aria-label="Changer la couleur de l'orbe"><i></i></button></div>
   <nav class="glass nv" aria-label="Navigation">
     <button data-go="accueil">Accueil</button><button data-go="calendrier">Calendrier</button><button data-go="projets">Projets</button><button data-go="jarvis">JARVIS</button><button data-go="corps">Corps</button>
   </nav>
-  <div class="right"><div id="tSlot" class="tslot"></div></div>
+  <div class="right"></div>
 </header><div id="topzone"></div>
 
 <main class="wrap">
@@ -607,7 +607,7 @@ function dockOrb(){if(!VF)return;var full=cur==='jarvis',d=null;try{d=VF.content
  if(d&&d.documentElement){var cl2=d.documentElement.classList,has=cl2.contains('oo');if(full&&has){cl2.remove('oo');}else if(!full&&!has){cl2.add('oo');}}
  VF.classList.toggle('full',full);var L,T,W,H;
  if(full){document.body.classList.remove('orbhero');L=0;T=0;W=innerWidth;H=innerHeight;}
- else{var hs=$('hSlot'),box=null;if(cur==='accueil'&&hs){var r=hs.getBoundingClientRect();if(r.bottom>110&&r.top<innerHeight)box=r;}var inh=!!box;if(!box)box=$('tSlot').getBoundingClientRect();document.body.classList.toggle('orbhero',inh);L=box.left;T=box.top;W=box.width;H=box.height;}
+ else{var hs=$('hSlot'),box=null;if(cur==='accueil'&&hs){var r=hs.getBoundingClientRect();if(r.top+r.height/2>100&&r.top<innerHeight)box=r;}var inh=!!box;if(!box)box=$('tSlot').getBoundingClientRect();document.body.classList.toggle('orbhero',inh);L=box.left;T=box.top;W=box.width;H=box.height;}
  var k=[L,T,W,H,full].map(function(v){return Math.round(v);}).join(',');if(k===dockLast)return;dockLast=k;var st=VF.style;st.left=Math.round(L)+'px';st.top=Math.round(T)+'px';st.width=Math.round(W)+'px';st.height=Math.round(H)+'px';setTimeout(function(){try{VF.contentWindow.dispatchEvent(new Event('resize'));}catch(e){}},full?50:380);}
 /* ═════ Navigation ═════ */
 var cur='accueil',PAGES=['accueil','calendrier','projets','jarvis','corps'];
