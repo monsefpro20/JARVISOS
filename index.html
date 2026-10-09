@@ -270,6 +270,16 @@ body.nj .tab{display:none}
 .tmb .adj button{border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:99px;font-size:11px;font-weight:600;padding:5px 10px}
 @media (max-width:1000px){.msg.msg2{grid-template-columns:1fr;padding:24px}.tmb{margin:0 auto}}
 .corpsf{height:calc(100vh - 108px);min-height:520px;border-radius:30px;overflow:hidden;background:#07070d;border:1px solid rgba(255,255,255,.9);box-shadow:0 14px 44px rgba(50,50,100,.16)}.corpsf iframe{width:100%;height:100%;border:0;display:block}
+.cpg{display:grid;grid-template-columns:minmax(0,1fr) clamp(300px,32%,420px);gap:20px;align-items:start}
+.cpg .corpsf{height:calc(100vh - 108px)}
+.kvr{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:13px 0;border-top:1px solid var(--line)}
+.kvr:first-child{border-top:0}
+.kl{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink2)}
+.ks{font-size:13px;color:var(--mut);margin-top:3px}
+.kv2{font-size:15px;font-weight:500}
+.kv2.big2{font-size:30px;font-weight:200;letter-spacing:-.03em}
+.kt{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;margin-top:4px}
+@media (max-width:1000px){.cpg{grid-template-columns:1fr}.cpg .corpsf{height:70vh}}
 </style>
 </head>
 <body>
@@ -532,11 +542,16 @@ function ribbon(t){var A=14+34*O.lo+10*O.think,w=t*.55;function f(x,k){return Ma
  rA.setAttribute('d',top+bot);rB.setAttribute('d',top+bot);
  rC.setAttribute('d','M-40 '+(478+f(-40,0))+' C180 '+(332+f(180,0))+' 380 '+(342+f(380,0))+' 560 '+(450+f(560,0))+' S900 '+(580+f(900,0))+' 1100 '+(440+f(1100,0))+' S1300 '+(362+f(1300,0))+' 1400 '+(410+f(1400,0)));
  rD.setAttribute('d','M-40 '+(612+f(-40,.9))+' C180 '+(462+f(180,.9))+' 380 '+(462+f(380,.9))+' 540 '+(572+f(540,.9))+' S880 '+(682+f(880,.9))+' 1100 '+(552+f(1100,.9))+' S1300 '+(492+f(1300,.9))+' 1400 '+(532+f(1400,.9)));}
-/* ═════ Corps : scan 3D + Composition et Analyse posturale (infos de la première version) ═════ */
-var CSSC='html,body{background:transparent!important}body{max-width:none!important;padding:8px 10px!important}header .back,header h1,header .arc{display:none!important}#hl,#row2,footer{display:none!important}.lc{display:contents!important}#layout .grid,.grid{display:grid!important;grid-template-columns:minmax(0,1fr) clamp(280px,30%,400px)!important;grid-template-rows:auto 1fr!important;gap:12px!important;align-items:start}.mid{grid-column:1!important;grid-row:1/span 2!important}#c_comp{grid-column:2!important;grid-row:1!important}#c_po{grid-column:2!important;grid-row:2!important}#stage{height:calc(100vh - 230px)!important;min-height:440px!important}';
+/* ═════ Corps : scan 3D (fond sombre seulement derrière lui) + cartes en verre ═════ */
+var CSSC='html,body{background:transparent!important;overflow:hidden}body{max-width:none!important;padding:0!important;min-height:0!important}header,.lc,#c_po,#row2,footer{display:none!important}#layout,.grid{display:block!important}.mid{border:0!important;border-radius:0!important;margin:0!important}#stage{height:calc(100vh - 66px)!important;min-height:360px!important}';
+function kvRows(doc,sel){return [].map.call(doc.querySelectorAll(sel+' .kv'),function(k){var g=function(q){var e=k.querySelector(q);return e?e.textContent.trim():'';};var em=k.querySelector('em');return {l:g('span'),v:g('b'),s:g('small'),t:em?em.textContent.trim():'',c:em?em.className:''};});}
+function kvHtml(rows,big){return rows.map(function(r){var col=r.c==='n'?'#16a37a':(r.c?'#e0702a':'var(--mut)');var bg=r.c==='n'?'rgba(31,185,129,.14)':'rgba(240,120,40,.14)';return '<div class="kvr"><div><div class="kl">'+esc(r.l)+'</div>'+(r.s?'<div class="ks">'+esc(r.s)+'</div>':'')+'</div><div style="text-align:right">'+(r.v?'<div class="kv2'+(big?' big2':'')+'">'+esc(r.v)+'</div>':'')+(r.t?'<span class="kt" style="color:'+col+';background:'+bg+'">'+esc(r.t.toLowerCase())+'</span>':'')+'</div></div>';}).join('')||'<div class="empty">Chargement…</div>';}
+var corpsTimer=null;
 function renderCorps(){var el=$('p-corps');if(el.dataset.ok)return;el.dataset.ok='1';
- el.innerHTML='<div class="corpsf"><iframe id="cf" src="/corps" title="Scan 3D du corps"></iframe></div>';
- $('cf').onload=function(){try{var d=$('cf').contentDocument;var st=d.createElement('style');st.textContent=CSSC;d.head.appendChild(st);setTimeout(function(){try{$('cf').contentWindow.dispatchEvent(new Event('resize'));}catch(e){}},150);}catch(e){}};}
+ el.innerHTML='<div class="cpg"><div class="corpsf"><iframe id="cf" src="/corps" title="Scan 3D du corps"></iframe></div><div class="col"><section class="glass card"><h2>Composition <small id="cInfo"></small></h2><div id="kComp"></div></section><section class="glass card"><h2>Analyse posturale</h2><div id="kPost"></div></section></div></div>';
+ function fill(){try{var d=$('cf').contentDocument;if(!d)return false;var c=kvRows(d,'#comp'),p=kvRows(d,'#post');if(c.length||p.length){$('kComp').innerHTML=kvHtml(c,true);$('kPost').innerHTML=kvHtml(p,false);var ch=[].map.call(d.querySelectorAll('header .chip'),function(x){return x.textContent.trim();});$('cInfo').textContent=ch[ch.length-1]||'';}return c.length>0&&p.length>0;}catch(e){return false;}}
+ $('cf').onload=function(){try{var d=$('cf').contentDocument;var st=d.createElement('style');st.textContent=CSSC;d.head.appendChild(st);setTimeout(function(){try{$('cf').contentWindow.dispatchEvent(new Event('resize'));}catch(e){}},150);}catch(e){}
+  var n=0;clearInterval(corpsTimer);corpsTimer=setInterval(function(){if(fill()||++n>40)clearInterval(corpsTimer);},500);};}
 function loadCorps(){}
 /* ═════ Mind : le cerveau de JARVIS ═════ */
 function renderMind(){var el=$('p-mind');
