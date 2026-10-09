@@ -256,6 +256,19 @@ body.nj .tab{display:none}
 .hit small{display:block;font-size:11px;color:var(--mut);margin-bottom:3px;font-weight:600}
 @media (max-width:1000px){.g3,.mi{grid-template-columns:1fr}.cp{grid-template-columns:1fr}.cp .cr{padding:20px 22px 30px}.dock{max-width:60%}}
 @media (max-width:1000px){.win{display:none!important}.dock{display:none}}
+.msg2{grid-template-columns:auto minmax(0,1fr) auto;gap:34px;padding:30px 40px}
+.msg2 .orbbox{width:150px;height:150px}
+.msg2 .txt{font-size:30px}
+.msg2 .chips{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.msg2 .acts{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+.msg .btn.dk{background:#fff;color:#14122f}
+.msg .btn.lt{background:rgba(255,255,255,.14);color:#fff}
+.msg .chip{background:rgba(255,255,255,.14);color:#fff}
+.tmb{position:relative;width:230px;height:230px}
+.tmb .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.tmb .adj{display:flex;gap:8px;margin-top:6px}
+.tmb .adj button{border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:99px;font-size:11px;font-weight:600;padding:5px 10px}
+@media (max-width:1000px){.msg.msg2{grid-template-columns:1fr;padding:24px}.tmb{margin:0 auto}}
 </style>
 </head>
 <body>
@@ -271,10 +284,10 @@ body.nj .tab{display:none}
 <main class="wrap">
   <section class="page" id="p-accueil" aria-label="Accueil">
     <div class="hello" id="hello"></div>
-    <section class="glass hero" id="hero" style="margin-top:18px"></section>
+    <section class="glass msg msg2" id="hero" style="margin-top:18px"><div class="orbbox"><canvas id="oM" aria-label="JARVIS"></canvas></div><div id="heroMid"></div><div id="heroTm" class="tmb"></div></section>
     <div class="g3">
+      <section class="glass card" id="prog"></section>
       <section class="glass card"><h2>Ensuite <small>agenda du jour</small></h2><div id="nextUp"></div></section>
-      <section class="glass card"><h2>Équilibre du jour</h2><div class="rings" id="rings"></div></section>
       <section class="glass card"><h2>Projets <small>prochaine étape</small></h2><div id="projSum"></div></section>
     </div>
   </section>
@@ -405,20 +418,33 @@ function allDay(e){return !/^\d/.test(e.debut);}
 function gpost(body,okMsg){return fetch('/api/gcal/event',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json();}).then(function(d){if(d&&d.ok){toast(okMsg);loadCal(true);return true;}throw new Error((d&&d.error)||'refusé');});}
 function hm(d){return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');}
 /* ═════ Accueil ═════ */
-function renderAccueil(){var items=todayItems();var t=new Date();var late=items.filter(function(i){return i.late;}).length;var n=items.length;var sk=skipped();
- var pc=S.pillars.map(function(p){var hs=p.habits.filter(function(h){return h.freq==='daily'&&!sk[h.id];});var d=hs.filter(function(h){return dayData().checked[h.id];}).length;return {p:p,d:d,n:hs.length};});
- var tot=pc.reduce(function(s,x){return s+x.n;},0),dn=pc.reduce(function(s,x){return s+x.d;},0),dpct=tot?dn/tot:0;
+function tKey(i){return i.kind+':'+i.id;}
+function tState(i){var T=S.timer;if(!T||T.key!==tKey(i)){var d=(S.timerDur||45)*60;T=S.timer={key:tKey(i),dur:d,left:d,run:false,endsAt:0};}return T;}
+function tLeft(T){return T.run?Math.max(0,Math.round((T.endsAt-Date.now())/1000)):T.left;}
+function mmss(x){return String(Math.floor(x/60)).padStart(2,'0')+':'+String(x%60).padStart(2,'0');}
+var heroFirst=null;
+function renderTimer(){var f=heroFirst,el=$('heroTm');if(!f){el.innerHTML='<div class="c"><div class="big" style="font-size:50px;color:#fff">—</div></div>';return;}
+ var T=tState(f),left=tLeft(T);if(T.run&&left<=0){T.run=false;T.left=0;save();toast('Temps écoulé');}
+ var p=T.dur?left/T.dur:0;
+ el.innerHTML=ring(p,'#a597fa',230,12,104,'rgba(255,255,255,.14)')+'<div class="c"><div class="big" style="font-size:56px;color:#fff">'+mmss(left)+'</div><div class="lbl" style="color:rgba(255,255,255,.65)">'+(T.run?'en cours':(left<=0?'terminé':(left<T.dur?'en pause':'prêt à démarrer')))+'</div>'+(T.run||left<T.dur?'':'<div class="adj"><button id="tMin">− 5 min</button><button id="tPlus">+ 5 min</button></div>')+'</div>';
+ var m=$('tMin'),pl=$('tPlus');if(m)m.onclick=function(){T.dur=Math.max(300,T.dur-300);T.left=T.dur;S.timerDur=T.dur/60;save();renderTimer();};if(pl)pl.onclick=function(){T.dur+=300;T.left=T.dur;S.timerDur=T.dur/60;save();renderTimer();};
+ var tb=$('heroT');if(tb)tb.textContent=T.run?'Pause':(left<T.dur?'Reprendre':'Démarrer');}
+function renderAccueil(){var items=todayItems(),dn=doneItems(),t=new Date();var late=items.filter(function(i){return i.late;}).length;var n=items.length;
  var dN=DAYS[t.getDay()];dN=dN.charAt(0).toUpperCase()+dN.slice(1);
- $('hello').textContent=dN+' '+t.getDate()+' '+MON[t.getMonth()]+' · '+(n===0?'tout est fait pour aujourd’hui':n+' chose'+(n>1?'s':'')+' à faire'+(late?', dont '+late+' en retard':''));
- var first=items[0];
- $('hero').innerHTML=first?('<div><div class="k"><i></i>Maintenant · choisi par JARVIS</div><h3>'+esc(first.title)+'</h3><div class="chips"><span class="chip"><i style="background:'+first.color+'"></i>'+esc(first.sub)+'</span>'+(first.tag?'<span class="chip">'+esc(first.tag)+'</span>':'')+'</div><div class="acts"><button class="btn dk" id="heroDo">Fait ✓</button>'+(first.kind==='m'?'<button class="btn lt" id="heroLater">Décaler à demain</button>':'<button class="btn lt" id="heroSkip">Pas aujourd’hui</button>')+'</div></div><div class="ringbox">'+ring(dpct,'#8b7cf6',200,12,92,'rgba(255,255,255,.6)')+'<div class="c"><div class="big" style="font-size:54px">'+Math.round(dpct*100)+'<span style="font-size:20px">%</span></div><div class="lbl" style="color:#4a4a5a">du jour fait</div></div></div>'):('<div><div class="k"><i></i>Maintenant</div><h3>Rien d’urgent. Bien joué.</h3><div class="acts"><button class="btn lt" data-go="projets">Voir mes projets</button></div></div><div class="ringbox">'+ring(1,'#8b7cf6',200,12,92,'rgba(255,255,255,.6)')+'<div class="c"><div class="big" style="font-size:54px">100<span style="font-size:20px">%</span></div><div class="lbl" style="color:#4a4a5a">du jour fait</div></div></div>');
- if(first){$('heroDo').onclick=function(){toggle(first.kind,first.id);};var hl=$('heroLater');if(hl)hl.onclick=function(){var m=findM(first.id);var d=new Date();d.setDate(d.getDate()+1);m.deadline=dk(d);save();renderAll();toast('Décalée à demain');};var hk=$('heroSkip');if(hk)hk.onclick=function(){removeItem('h',first.id);};}
- var gl=$('hero').querySelector('[data-go]');if(gl)gl.onclick=function(){go('projets');};
- $('rings').innerHTML=pc.map(function(x){return '<div class="rg"><div class="r">'+ring(x.n?x.d/x.n:0,x.p.color,64,6,26)+'<span>'+x.d+'/'+x.n+'</span></div>'+esc(x.p.name)+'</div>';}).join('');
+ $('hello').textContent=dN+' '+t.getDate()+' '+MON[t.getMonth()];
+ var first=items[0];heroFirst=first||null;var hr=t.getHours(),hi=hr<5?'Encore debout':(hr<18?'Bonjour':'Bonsoir');
+ $('heroMid').innerHTML='<div class="who">JARVIS</div><div class="txt">'+hi+' Monsef. '+(first?'Voici ta prochaine tâche : <b>'+esc(first.title)+'</b>.':'<b>Tout est fait pour aujourd’hui.</b>')+'</div>'+(first?'<div class="chips"><span class="chip"><i style="background:'+first.color+'"></i>'+esc(first.sub)+'</span>'+(first.tag?'<span class="chip">'+esc(first.tag)+'</span>':'')+'<span class="chip">'+n+' restante'+(n>1?'s':'')+(late?' · '+late+' en retard':'')+'</span></div><div class="acts"><button class="btn dk" id="heroT">Démarrer</button><button class="btn lt" id="heroDo">Fait ✓</button>'+(first.kind==='m'?'<button class="btn lt" id="heroLater">Décaler à demain</button>':'<button class="btn lt" id="heroSkip">Pas aujourd’hui</button>')+'</div>':'');
+ if(first){var T=tState(first);$('heroT').onclick=function(){var l=tLeft(T);if(T.run){T.left=l;T.run=false;}else{if(l<=0){T.left=T.dur;l=T.dur;}T.endsAt=Date.now()+l*1000;T.run=true;}save();renderAccueil();};
+  $('heroDo').onclick=function(){S.timer=null;toggle(first.kind,first.id);};var hl=$('heroLater');if(hl)hl.onclick=function(){var m=findM(first.id);var d=new Date();d.setDate(d.getDate()+1);m.deadline=dk(d);S.timer=null;save();renderAll();toast('Décalée à demain');};var hk=$('heroSkip');if(hk)hk.onclick=function(){S.timer=null;removeItem('h',first.id);};}
+ renderTimer();
+ var tot=items.length+dn.length,pc=tot?dn.length/tot:1;
+ $('prog').innerHTML='<h2>Aujourd’hui <small>'+dn.length+' faite'+(dn.length>1?'s':'')+' sur '+tot+'</small></h2><div style="display:flex;align-items:center;gap:26px;margin-top:10px"><div style="position:relative;width:150px;height:150px;flex:none">'+ring(pc,'#7c6cf0',150,11,66,'rgba(30,30,60,.08)')+'<div style="position:absolute;inset:0;display:grid;place-items:center"><div class="big" style="font-size:44px">'+Math.round(pc*100)+'<span style="font-size:18px">%</span></div></div></div><div><div style="font-size:15px;font-weight:600">'+(n===0?'Tout est fait':n+' à faire')+'</div><div class="lbl" style="margin-top:6px">du jour fait · '+dn.length+' sur '+tot+'</div><button class="btn lt sm" id="progOpen" style="margin-top:14px;background:rgba(30,30,60,.07)">Voir la liste</button></div></div>';
+ $('progOpen').onclick=function(){openDrawer(true);};
  var ev=eventsFor(todayK()).filter(function(e){return allDay(e)||!e.fin||e.fin>=hm(t);});
  $('nextUp').innerHTML=G.ok===false?'<div class="empty">Google Agenda : '+esc(G.err)+'</div>':(G.ok===null?'<div class="empty">Chargement de l’agenda…</div>':(ev.length?ev.slice(0,4).map(function(e){return '<div class="slot" style="grid-template-columns:74px 10px minmax(0,1fr)"><time>'+(allDay(e)?'Journée':e.debut)+'</time><i style="background:#7c6cf0"></i><div><b>'+esc(e.titre)+'</b><span>'+(allDay(e)?'toute la journée':(e.fin?'jusqu’à '+e.fin:''))+'</span></div></div>';}).join(''):'<div class="empty">Plus rien de prévu aujourd’hui.</div>'));
- $('projSum').innerHTML=S.projects.length?S.projects.slice(0,4).map(function(p){var nx=p.steps.find(function(s){return !s.done;});return '<div class="nx2" style="display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--line)"><i style="width:9px;height:9px;border-radius:50%;background:'+p.color+';display:block"></i><div><b style="font-size:14px;font-weight:600">'+esc(p.name)+'</b><div class="lbl">'+(nx?esc(nx.t):'Terminé')+'</div></div><span class="lbl" style="font-weight:700;color:var(--ink)">'+pct(p)+' %</span></div>';}).join(''):'<div class="empty">Aucun projet. Crée-en un depuis l’onglet Projets.</div>';
+ $('projSum').innerHTML=S.projects.length?S.projects.slice(0,4).map(function(p){var nx=p.steps.find(function(s){return !s.done;});return '<div style="display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--line)"><i style="width:9px;height:9px;border-radius:50%;background:'+p.color+';display:block"></i><div><b style="font-size:14px;font-weight:600">'+esc(p.name)+'</b><div class="lbl">'+(nx?esc(nx.t):'Terminé')+'</div></div><span class="lbl" style="font-weight:700;color:var(--ink)">'+pct(p)+' %</span></div>';}).join(''):'<div class="empty">Aucun projet. Crée-en un depuis l’onglet Projets.</div>';
  renderDrawer();}
+setInterval(function(){if(cur==='accueil'&&heroFirst)renderTimer();},1000);
 /* ═════ Calendrier ═════ */
 var calSel=todayK(),calOff=0;
 function monday(off){var d=new Date();var w=d.getDay();d.setDate(d.getDate()-(w===0?6:w-1)+off*7);d.setHours(12,0,0,0);return d;}
@@ -611,7 +637,7 @@ $('ask').onsubmit=async function(e){e.preventDefault();var inp=$('askIn');var q=
  hist.push({role:'user',parts:[{text:q}]});
  try{var r=await fetch('/api/gemini',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:hist.slice(-10)})});if(!r.ok)throw new Error('http '+r.status);var d=await r.json();var ps=(d.candidates&&d.candidates[0]&&d.candidates[0].content&&d.candidates[0].content.parts)||[];var rep=ps.filter(function(p){return p.text;}).map(function(p){return p.text;}).join(' ').trim();if(!rep)throw new Error('vide');hist.push({role:'model',parts:[{text:rep}]});speak(rep);}
  catch(err){hist.pop();setMode('idle');hdLocked=false;setHd('JARVIS ne répond pas pour l’instant. Vérifie que ton serveur local tourne.');}};
-mkOrb('oH',.9);mkOrb('oB',.58);
+mkOrb('oH',.9);mkOrb('oM',.76);mkOrb('oB',.58);
 initWins();
 requestAnimationFrame(frame);
 renderAccueil();loadCal(true);
