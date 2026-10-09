@@ -184,7 +184,7 @@ body.night nav.nv button.on,body.night .mnav button.on{background:#fff;color:#14
 .mnav button.on{background:var(--ink);color:#fff}
 @media (prefers-reduced-motion:reduce){.page.on{animation:none}.toast{animation:none}}
 /* ── v3 : tiroir latéral, fenêtres libres, modales ── */
-.hello{font-size:14px;color:var(--mut);font-weight:500;padding:6px 6px 0}
+.hello{font-size:14px;color:var(--mut);font-weight:500;padding:6px 6px 0;display:flex;align-items:center;gap:10px}#clk{font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink,#1a1a2e);background:rgba(255,255,255,.7);border:1px solid rgba(30,30,60,.1);padding:2px 10px;border-radius:99px;font-size:13px}
 .g3{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr) minmax(0,1fr);gap:20px;margin-top:20px}
 .row{grid-template-columns:30px minmax(0,1fr) auto auto}
 .row .x:hover,.slot .x:hover,.step .x:hover{color:#d9453d}
@@ -323,7 +323,7 @@ body.pj #topzone{display:block}body.pj .top:hover~#topzone,body.pj.topopen #topz
   <nav class="glass nv" aria-label="Navigation">
     <button data-go="accueil">Accueil</button><button data-go="calendrier">Calendrier</button><button data-go="projets">Projets</button><button data-go="jarvis">JARVIS</button><button data-go="corps">Corps</button>
   </nav>
-  <div class="right"><div id="tSlot" class="tslot"></div><a class="old glass" href="#" onclick="return useHud()" style="border-radius:99px">Version classique</a></div>
+  <div class="right"><div id="tSlot" class="tslot"></div></div>
 </header><div id="topzone"></div>
 
 <main class="wrap">
@@ -476,7 +476,7 @@ function renderTimer(){var f=heroFirst,el=$('heroTm');if(!f){el.innerHTML='<div 
  var tb=$('heroT');if(tb)tb.textContent=T.run?'Pause':(left<T.dur?'Reprendre':'Démarrer');}
 function renderAccueil(){var items=todayItems(),dn=doneItems(),t=new Date();var late=items.filter(function(i){return i.late;}).length;var n=items.length;
  var dN=DAYS[t.getDay()];dN=dN.charAt(0).toUpperCase()+dN.slice(1);
- $('hello').textContent=dN+' '+t.getDate()+' '+MON[t.getMonth()];
+ $('hello').innerHTML='<span>'+dN+' '+t.getDate()+' '+MON[t.getMonth()]+'</span><span id="clk"></span>';tickClk();
  var first=items[0];heroFirst=first||null;var hr=t.getHours(),hi=hr<5?'Encore debout':(hr<18?'Bonjour':'Bonsoir');
  $('heroMid').innerHTML='<div class="who">JARVIS</div><div class="txt">'+hi+' Monsef. '+(first?'Voici ta prochaine tâche : <b>'+esc(first.title)+'</b>.':'<b>Tout est fait pour aujourd’hui.</b>')+'</div>'+(first?'<div class="chips"><span class="chip"><i style="background:'+first.color+'"></i>'+esc(first.sub)+'</span>'+(first.tag?'<span class="chip">'+esc(first.tag)+'</span>':'')+'<span class="chip">'+n+' restante'+(n>1?'s':'')+(late?' · '+late+' en retard':'')+'</span></div><div class="acts"><button class="btn dk" id="heroT">Démarrer</button><button class="btn lt" id="heroDo">Fait ✓</button>'+(first.kind==='m'?'<button class="btn lt" id="heroLater">Décaler à demain</button>':'<button class="btn lt" id="heroSkip">Pas aujourd’hui</button>')+'</div>':'');
  if(first){var T=tState(first);$('heroT').onclick=function(){var l=tLeft(T);if(T.run){T.left=l;T.run=false;}else{if(l<=0){T.left=T.dur;l=T.dur;}T.endsAt=Date.now()+l*1000;T.run=true;}save();renderAccueil();};
@@ -602,7 +602,7 @@ function initVoiceOrb(){var src=document.getElementById('hudsrc');
  var f=document.createElement('iframe');f.id='vf';f.title='JARVIS : clique pour lui parler';f.setAttribute('allow','microphone *; autoplay *');f.srcdoc=h;document.body.appendChild(f);VF=f;document.body.classList.add('hudorb');
  f.onload=function(){setTimeout(function(){try{f.contentWindow.dispatchEvent(new Event('resize'));}catch(e){}},200);};
  $('vcol').onclick=function(){try{f.contentDocument.getElementById('jcol').click();}catch(e){}};}
-var dockLast='';(function(){var z=document.getElementById('topzone');if(z)z.onclick=function(){document.body.classList.add('topopen');};document.addEventListener('pointerdown',function(e){if(document.body.classList.contains('topopen')&&!e.target.closest('.top'))document.body.classList.remove('topopen');},true);})();
+function tickClk(){var e=document.getElementById('clk');if(e){var d=new Date();e.textContent=('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);}}setInterval(tickClk,5000);var dockLast='';(function(){var z=document.getElementById('topzone');if(z)z.onclick=function(){document.body.classList.add('topopen');};document.addEventListener('pointerdown',function(e){if(document.body.classList.contains('topopen')&&!e.target.closest('.top'))document.body.classList.remove('topopen');},true);})();
 function dockOrb(){if(!VF)return;var full=cur==='jarvis',d=null;try{d=VF.contentDocument;}catch(e){}
  if(d&&d.documentElement){var cl2=d.documentElement.classList,has=cl2.contains('oo');if(full&&has){cl2.remove('oo');}else if(!full&&!has){cl2.add('oo');}}
  VF.classList.toggle('full',full);var L,T,W,H;
